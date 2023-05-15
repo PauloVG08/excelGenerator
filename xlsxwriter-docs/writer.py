@@ -10,7 +10,7 @@ def crearTablaDatos():
 
     #------------------- fecha actual para nombrar archivos ---------------
     # Crear un nombre de archivo único utilizando la fecha y hora actual
-    #nombre_archivo = f"ventas_{fecha_hora_actual}.xlsx"
+    nombre_archivo = f"ventas_{fecha_hora_actual}.xlsx"
     # ---------------------------------------------------------------------
 
     # Creamos nuestro nuevo archivo de excel, aqui mismo se le asigna el nombre que tendrá.
