@@ -6,10 +6,10 @@ from itertools import zip_longest
 #Usaremos un solo método llamado crearTablaDatos
 def crearTablaDatos():
     #Obtenemos la fecha actual para nombrar de diferente manera todos los archivos que generemos
-    fecha_hora_actual = datetime.now().strftime("%Y_%m_%d_%H_%M")
+    fecha_hora_actual = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
 
     #Esto se descomenta cuando queramos que genere un archivo cada que corramos el programa
-    #nombreArchivo = f"ventas{fecha_hora_actual}.xlsx"
+    nombreArchivo = f"ventas{fecha_hora_actual}.xlsx"
     #Creamos el libro de excel que vamos a utilizar y le asignamos el nombre
     libro = xlsxwriter.Workbook("ventas.xlsx")
 
@@ -39,7 +39,7 @@ def crearTablaDatos():
 
     #------------------------------- Asignación de datos -------------------------------------------------------
     nombres_productos = ["Blusa azul", "Zapatos negros", "Sombrero claro", "Lentes oscuros", "Gorra"]
-    precios_productos = [255, 378, 499.90, 768, 80.36]
+    precios_productos = [255, 378, 499.90, 768, 127.35]
     codigos_productos = [1, 2, 3, 4]
     codigos_sku = ["ABC-123", "DEF-456", "GHI-789", "JKL-012"]
 
@@ -60,6 +60,14 @@ def crearTablaDatos():
     hoja1.write(3, 3, "Código del producto", formato1)
     hoja1.write(3, 4, "SKU del producto", formato1)
     hoja1.write(3, 5, "Precio del producto", formato1)
+
+    fecha_documento = datetime.now().strftime("%Y/%m/%d")
+    hora_documento = datetime.now().strftime(" %H:%M")
+
+    hoja1.write(1, 9, "Fecha en que se generó el reporte: ")
+    hoja1.write(1, 10, fecha_documento)
+    hoja1.write(2, 9, "Hora en que se generó el reporte: ")
+    hoja1.write(2, 10, hora_documento)
     #------------------------------------------------------------------------------------------------------------
 
     #----------Creación de la tabla asignando los datos según se tengan -----------------------------------------
@@ -72,7 +80,7 @@ def crearTablaDatos():
             nombres_productos.extend([''] * (valorMaximo - len(nombres_productos)))
         
         if len(precios_productos) < valorMaximo:
-            precios_productos.extend([''] * (valorMaximo - len(precios_productos)))
+            precios_productos.extend([0] * (valorMaximo - len(precios_productos)))
 
         if len(codigos_productos) < valorMaximo:
             codigos_productos.extend([''] * (valorMaximo - len(codigos_productos)))
