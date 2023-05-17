@@ -9,5 +9,3 @@ La lista de librerías probadas al momento son:
 * xlswriter
 
 Al momento teniendo un mejor rendimiento xlswriter
-
-# RAMA openpyxl
