@@ -61,6 +61,7 @@ def crearDocumento():
     #Se comienzan a recorrer los datos y a asignar en la tabla, además se les aplica un poco más de diseño ----------------
     contador = 1
     suma = 0.0
+    posicionGrafica = 0
 
     for i in range(valor_maximo):
         
@@ -119,8 +120,7 @@ def crearDocumento():
             hoja.cell(row = i + 6, column=4).border = estilo_borde
             hoja.cell(row = i + 6, column=4).alignment = Alignment(horizontal='center')
             hoja.cell(row = i + 6, column=4).font = font_bold
-
-
+            posicionGrafica = i + 9
 
     #Ajustar el tamaño de las celdas ----------------------------------------------------------------
     for columna in hoja.columns:
@@ -137,7 +137,7 @@ def crearDocumento():
         adjusted_width = (longitud_maxima + 2) * 1.2  
         hoja.column_dimensions[column].width = adjusted_width
 
-    #Se crea la gráfica de barras con lo siguiente
+    #Se crea la gráfica de barras con lo siguiente--------------------------------------------------------------------
     valores = Reference(hoja, min_col=4, min_row=5, max_row=len(productos) + 4)
     categorias = Reference(hoja, min_col=3, min_row=5, max_row=len(productos) + 4)
 
@@ -147,7 +147,7 @@ def crearDocumento():
     grafica.set_categories(categorias)
 
     # Agregar el gráfico a la hoja de cálculo
-    hoja.add_chart(grafica, "E15")
+    hoja.add_chart(grafica, f"D{ posicionGrafica }")
 
     # Guardar el libro
     libro.save('prueba.xlsx')
