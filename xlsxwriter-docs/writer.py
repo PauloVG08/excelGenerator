@@ -1,7 +1,6 @@
 #Instanciamos la librería que vamos a ocupar
 import xlsxwriter
 from datetime import datetime
-from itertools import zip_longest
 
 #Usaremos un solo método llamado crearTablaDatos
 def crearTablaDatos():
