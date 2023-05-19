@@ -32,7 +32,7 @@ def crearTablaDatos():
     formato2 = libro.add_format({'bg_color': "#FBB917", 'border': 1, 'align' : 'center'})
     formato3 = libro.add_format({'color' : 'black', 'align' : 'center', 'bold' : True, 'bg_color': "#FBB917", 'border': 1})
     #hoja1.set_tab_color('#FFFFFF')
-    hoja1.set_column(0, 70, None, formatoBlanco)
+    hoja1.set_column(0, 100, None, formatoBlanco)
     hoja1.set_row(0, None, formatoBlanco)
     #-----------------------------------------------------------------------------------------------------------
 
@@ -43,7 +43,6 @@ def crearTablaDatos():
     codigos_sku = ["ABC-123", "DEF-456", "GHI-789", "JKL-012"]
 
     valorMaximo = max(len(nombres_productos), len(precios_productos), len(codigos_productos), len(codigos_sku))
-    print(valorMaximo)
 
     #------------------------------------------------------------------------------------------------------------
 
@@ -92,7 +91,6 @@ def crearTablaDatos():
         sku = codigos_sku[i]
         precio = precios_productos[i]
         suma_total += precios_productos[i]
-        print(f"El producto {nombre} es el número {codigo} y tiene código SKU {sku}")
         
         hoja1.write(fila, 2, nombre, formato2)
         hoja1.write(fila, 3, codigo, formato2)
@@ -105,8 +103,6 @@ def crearTablaDatos():
             hoja1.write(fila, 4, "Total",formato3)
             hoja1.write(fila, 5, suma_total, formato3)
 
-    print("El precio total de los gastos es de: $" + str(suma_total))
-    print("Valor de la fila: " + str(fila))
     #------------------------------------------------------------------------------------------------------------
 
     #-----------Con los datos de la tabla, creamos una gráfica de barras-----------------------------------------
