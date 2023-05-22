@@ -1,98 +1,59 @@
 import xlsxwriter
 from datetime import datetime
 from estilos_documentoPM import ClaseEstilos
+from controller_documentopm import ControllerDocumento
 
 ce = ClaseEstilos()
 libro = ce.crearLibro()
 hoja = ce.crearHoja(libro)
+cd = ControllerDocumento()
 
-#--------------------------------Funciones de procesamiento de datos----------------------------------------------
+#--------------------------------Datos y llamado para llenar encabezado----------------------------------------------
 datos_encabezado = {
-    "otorgante": [1,2],
-    "otorgante_anterior": [1, 3],
-    "nombre_otorgante": ['Nombre otorgante 1'],
-    "institucion": ['Institucion 1'],
-    "formato": [1.3],
+    "otorgante": [1234, 4232, 3],
+    "otorgante_anterior": [1324, 3],
+    "nombre_otorgante": ['Nombre otorgante 1',''],
+    "institucion": ['Institucion 1', ''],
+    "formato": [1,3],
     "fecha": ['24/05/2023'],
-    "periodo_reporta": [1],
-    "version": []
+    "periodo_reporta": ['10/04/2022'],
+    "version": [12, 13]
 }
 
-valorMaximo = len(datos_encabezado["otorgante"])
+cd.almacenarDatosEncabezado(datos_encabezado, libro, hoja)
 
-# Ejemplo de función para almacenar los datos en las listas correspondientes
-def almacenarDatosEncabezado(datos_encabezado, hoja):
-    # Obtener los valores opcionales del diccionario
-    otorgante = datos_encabezado.get("otorgante")
-    otorgante_anterior = datos_encabezado.get("otorgante_anterior")
-    nombre_otorgante = datos_encabezado.get("nombre_otorgante")
-    institucion = datos_encabezado.get("institucion")
-    formato = datos_encabezado.get("formato")
-    fecha = datos_encabezado.get("fecha")
-    periodo_reporta = datos_encabezado.get("periodo_reporta")
-    version = datos_encabezado.get("version")
-    
+#-----------------------Datos y llamado para llenar Empresa----------------------------------------------------------------
+datos_empresa = {
+    "rfc_empresa": [],
+    "curp_empresa": [],
+    "compania_empresa": [],
+    "nombre1_empresa": [],
+    "nombre2_empresa": [],
+    "apellido_paterno_empresa": [],
+    "apellido_materno_empresa": [],
+    "nacionalidad_empresa": [],
+    "cal_cartera_empresa": [],
+    "clave_banxico1": [],
+    "clave_banxico2": [],
+    "clave_banxico3": [],
+    "direccion1_empresa": [],
+    "direccion2_empresa": [],
+    "colonia_empresa": [], 
+    "deleg_mun_empresa": [],
+    "ciudad_empresa": [],
+    "estado_empresa": [],
+    "cp_empresa": [],
+    "telefono_empresa": [],
+    "extension_empresa": [],
+    "fax_empresa": [],
+    "tipo_cliente_empresa": [],
+    "edo_extranjero_empresa": [],
+    "pais_empresa": [],
+    "tel_movil_empresa": [],
+    "correo_empresa": []
+}
 
-    # # Verificar si los valores son None y asignar valores por defecto si es necesario
-    # if otorgante == []:
-    #     otorgante = ['']  # Valor por defecto si no se proporciona
-
-    # if otorgante_anterior is None:
-    #     otorgante_anterior = ['']
-
-    # if nombre_otorgante is None:
-    #     nombre_otorgante = ['']
-
-    # if institucion is None:
-    #     institucion = ['']
-
-    # if formato is None:
-    #     formato = ['']
-
-    # if fecha is None:
-    #     fecha = ['']
-
-    # if periodo_reporta is None:
-    #     periodo_reporta = ['']
-
-    # if version is None:
-    #     version = ['']
-
-    # fila = 2
-
-    # Escribir los datos en las celdas correspondientes
-    for valor in otorgante:
-        hoja.write(fila, 0, valor, ce.agregarEstiloAmarilloInfo(libro))
-
-    for valor in otorgante_anterior:
-        hoja.write(fila, 1, valor, ce.agregarEstiloAzulClaroInfo(libro))
-
-    for valor in nombre_otorgante:
-        hoja.write(fila, 2, valor, ce.agregarEstiloAmarilloInfo(libro))
-
-    for valor in institucion:
-        hoja.write(fila, 3, valor, ce.agregarEstiloAzulFuerteInfo(libro))
-
-    for valor in formato:
-        hoja.write(fila, 4, valor, ce.agregarEstiloAzulFuerteInfo(libro))
-
-    for valor in fecha:
-        hoja.write(fila, 5, valor, ce.agregarEstiloAzulFuerteInfo(libro))
-
-    for valor in periodo_reporta:
-        hoja.write(fila, 6, valor, ce.agregarEstiloAzulFuerteInfo(libro))
-
-    for valor in version:
-        hoja.write(fila, 7, valor, ce.agregarEstiloAzulFuerteInfo(libro))
-
-    fila += 1
-
-
-# Ejemplo de uso
-almacenarDatosEncabezado(datos_encabezado, hoja)
-print(datos_encabezado)
-
-#---------------------------------------LLAMADA DE FUNCIONES------------------------------------------------------
+#---------------------------------------LLAMADA DE FUNCIONES DE ESTILO------------------------------------------------------
 ce.agregarEstiloFondo(libro, hoja)
 ce.agregarEncabezadoEncabezado(libro, hoja)
 ce.agregarEncabezadoEmpresa(libro, hoja)
