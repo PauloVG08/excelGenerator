@@ -8,14 +8,14 @@ hoja = ce.crearHoja(libro)
 
 #--------------------------------Funciones de procesamiento de datos----------------------------------------------
 datos_encabezado = {
-    "otorgante": [],
+    "otorgante": [1,2],
     "otorgante_anterior": [1, 3],
     "nombre_otorgante": ['Nombre otorgante 1'],
     "institucion": ['Institucion 1'],
-    "formato": [1],
+    "formato": [1.3],
     "fecha": ['24/05/2023'],
     "periodo_reporta": [1],
-    "version": [0]
+    "version": []
 }
 
 valorMaximo = len(datos_encabezado["otorgante"])
@@ -31,33 +31,34 @@ def almacenarDatosEncabezado(datos_encabezado, hoja):
     fecha = datos_encabezado.get("fecha")
     periodo_reporta = datos_encabezado.get("periodo_reporta")
     version = datos_encabezado.get("version")
+    
 
-    # Verificar si los valores son None y asignar valores por defecto si es necesario
-    if otorgante == []:
-        otorgante = ['']  # Valor por defecto si no se proporciona
+    # # Verificar si los valores son None y asignar valores por defecto si es necesario
+    # if otorgante == []:
+    #     otorgante = ['']  # Valor por defecto si no se proporciona
 
-    if otorgante_anterior is None:
-        otorgante_anterior = ['']
+    # if otorgante_anterior is None:
+    #     otorgante_anterior = ['']
 
-    if nombre_otorgante is None:
-        nombre_otorgante = ['']
+    # if nombre_otorgante is None:
+    #     nombre_otorgante = ['']
 
-    if institucion is None:
-        institucion = ['']
+    # if institucion is None:
+    #     institucion = ['']
 
-    if formato is None:
-        formato = ['']
+    # if formato is None:
+    #     formato = ['']
 
-    if fecha is None:
-        fecha = ['']
+    # if fecha is None:
+    #     fecha = ['']
 
-    if periodo_reporta is None:
-        periodo_reporta = ['']
+    # if periodo_reporta is None:
+    #     periodo_reporta = ['']
 
-    if version is None:
-        version = ['']
+    # if version is None:
+    #     version = ['']
 
-    fila = 2
+    # fila = 2
 
     # Escribir los datos en las celdas correspondientes
     for valor in otorgante:
