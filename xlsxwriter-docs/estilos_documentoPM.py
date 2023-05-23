@@ -261,9 +261,9 @@ class ClaseEstilos:
         hoja.write(1, 79, "Crédito máximo utilizado", self.agregarEstiloVerde(libro))
 
         #Agregar color a celdas grises
-        hoja.write(1, 33, "Telefono movil", self.agregarEstiloVerde(libro))
-        hoja.write(1, 34, "Correo electronico", self.agregarEstiloVerde(libro))
-        hoja.write(1, 80, "Fecha Ingreso Cartera Vencida", self.agregarEstiloVerde(libro))
+        hoja.write(1, 33, "Telefono movil", self.agregarEstiloGris(libro))
+        hoja.write(1, 34, "Correo electronico", self.agregarEstiloGris(libro))
+        hoja.write(1, 80, "Fecha Ingreso Cartera Vencida", self.agregarEstiloGris(libro))
 
         return hoja
 
