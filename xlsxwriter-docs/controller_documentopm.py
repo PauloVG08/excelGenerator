@@ -2,8 +2,8 @@ import xlsxwriter
 from estilos_documentoPM import ClaseEstilos
 
 class ControllerDocumento:
-#------------------------------------Funcion de encabezado---------------------------------------------------
-    def almacenarDatosEncabezado(self, datos_encabezado, libro, hoja):
+#------------------------------------Funcion de Encabezado---------------------------------------------------
+    def llenarDatosEncabezado(self, datos_encabezado, libro, hoja):
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_encabezado.values()])
 
@@ -54,43 +54,46 @@ class ControllerDocumento:
             
             fecha_convertida = ' '
 
-            if len(str(datos_encabezado["otorgante"][i])) != 4:
-                print("El otorgante en la posición", i + 1, " no tiene la cantidad de digitos necesarios (4).")
+            # if i < len(datos_encabezado["otorgante"]) and  len(str(otorgante)) < 4:
+            #     print("El otorgante en la posición", i + 1, " no tiene la cantidad de digitos necesarios (4).")
+            
+            if i < len(datos_encabezado["otorgante"]) and len(str(datos_encabezado["otorgante"][i])) > 4:
+                otorgante = int(str(datos_encabezado["otorgante"][i])[:4])
 
-            if i < len(datos_encabezado["otorgante_anterior"]) and len(str(datos_encabezado["otorgante_anterior"][i])) > 4:
-                print("El otorgante anterior en la posición", i + 1, "no tiene la cantidad de dígitos necesarios (4).")
+            if i < len(datos_encabezado["otorgante_anterior"]) and len(str(otorgante_anterior)) > 4:
+                otorgante_anterior = int(str(datos_encabezado["otorgante_anterior"][i])[:4])
 
-            if i < len(datos_encabezado["nombre_otorgante"]) and len(str(datos_encabezado["nombre_otorgante"][i])) > 75:
-                print("El nombre otorgante en la posición", i + 1, " debe tener maximo 75 caracteres.")
+            if i < len(datos_encabezado["nombre_otorgante"]) and len(str(nombre_otorgante)) > 75:
+                nombre_otorgante = str(nombre_otorgante[:75])
 
-            if i < len(datos_encabezado["institucion"]) and len(str(datos_encabezado["institucion"][i])) != 3:
-                print("La institucion en la posición", i + 1, " debe tener 3 caracteres.")
+            # if i < len(datos_encabezado["institucion"]) and len(str(institucion)) < 3:
+            #     print("La institucion en la posición", i + 1, " debe tener 3 caracteres.")
 
-            if i < len(datos_encabezado["formato"]) and len(str(datos_encabezado["formato"][i])) != 1:
-                print("El nombre otorgante en la posición", i + 1, " debe tener maximo 75 caracteres.")
+            if i < len(datos_encabezado["institucion"]) and len(str(institucion)) > 3:
+                institucion = str(institucion[:3])
 
-            if "fecha" in datos_encabezado and i < len(datos_encabezado["fecha"]):
-                fecha = str(datos_encabezado["fecha"][i])
-                if len(fecha) == 10:
-                    fecha_convertida = fecha[:2] + fecha[3:5] + fecha[6:]
-                else:
-                    print("Formato de fecha incorrecto.")
+            if i < len(datos_encabezado["formato"]) and len(str(formato)) > 1:
+                formato = str(formato[:1])
+
+
+            if i < len(datos_encabezado["fecha"]) and len(str(fecha)) > 1:
+                 fecha = str(datos_encabezado["fecha"][i])
+                 fecha_convertida = fecha[:2] + fecha[3:5] + fecha[6:10]
+            else:
+                fecha = ''
+                fecha_convertida = ''
+
+
+            if i < len(datos_encabezado["periodo_reporta"]) and len(str(periodo_reporta)) > 1:
+                 periodo_reporta = str(datos_encabezado["periodo_reporta"][i])
+                 periodo_reporta_convertido = periodo_reporta[3:5] + periodo_reporta[6:10]
             else:
                 periodo_reporta = ''
                 periodo_reporta_convertido = ''
 
-            if "periodo_reporta" in datos_encabezado and i < len(datos_encabezado["periodo_reporta"]):
-                periodo_reporta = str(datos_encabezado["periodo_reporta"][i])
-                if len(periodo_reporta) == 10:
-                    periodo_reporta_convertido = periodo_reporta[3:5] + periodo_reporta[6:]
-                else:
-                    print("Formato de período incorrecto.")
-            else:
-                periodo_reporta = ''
-                periodo_reporta_convertido = ''
 
-            if i < len(datos_encabezado["version"]) and len(str(datos_encabezado["version"][i])) != 2:
-                print("El nombre otorgante en la posición", i + 1, " debe tener maximo 75 caracteres.") 
+            if i < len(datos_encabezado["version"]) and len(str(version)) > 2:
+                version = int(str(datos_encabezado["version"][i])[:2]) 
 
             fecha = fecha_convertida
             periodo_reporta = periodo_reporta_convertido
@@ -106,8 +109,8 @@ class ControllerDocumento:
             fila += 1
         return hoja
     
-#--------------------------Funcion empresa--------------------------------------------------------------------------
-    def almacenarDatosEmpresa(self, datos_empresa, libro, hoja):
+#--------------------------Funcion Empresa--------------------------------------------------------------------------
+    def llenarDatosEmpresa(self, datos_empresa, libro, hoja):
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_empresa.values()])
 
@@ -249,87 +252,97 @@ class ControllerDocumento:
                 correo_empresa = str(datos_empresa.get("correo_empresa", [''])[i])
             except IndexError:
                 correo_empresa = ' '
+
             #Comparación de alertas--------------------------------------------------------------
-            if i < len(datos_empresa["rfc_empresa"]) and len(rfc_empresa) < 12 or len(rfc_empresa) > 13:
-                print("El RFC en la posición", i + 1, " debe tener 12 o 13 caracteres.")
+            # if i < len(datos_empresa["rfc_empresa"]) and len(rfc_empresa) < 12:
+            #     print("El RFC empresa en la posición", i + 1, " debe tener 12 o 13 caracteres.")
+
+            if i < len(datos_empresa["rfc_empresa"]) and len(rfc_empresa) > 13:
+                rfc_empresa = str(rfc_empresa[:13])
             
-            if i < len(datos_empresa["curp_empresa"]) and len(curp_empresa) != 18:
-                print("La CURP en la posición", i + 1, " debe tener 18 caracteres.")    
+            # if i < len(datos_empresa["curp_empresa"]) and len(curp_empresa) < 18:
+            #     print("La CURP empresa en la posición", i + 1, " debe tener 18 caracteres.")  
+
+            if i < len(datos_empresa["curp_empresa"]) and len(curp_empresa) > 18:  
+                curp_empresa = str(curp_empresa[:18])
 
             if i < len(datos_empresa["compania_empresa"]) and len(compania_empresa) > 150:
-                print("La compañia en la posición", i + 1, " debe tener maximo 150 caracteres.")
+                compania_empresa = str(compania_empresa[:150])
 
             if i < len(datos_empresa["nombre1_empresa"]) and len(nombre1_empresa) > 30:
-                print("El nombre 1 de la empresa en la posición", i + 1, " debe tener maximo 30 caracteres.")
+                nombre1_empresa = str(nombre1_empresa[:30])
 
             if i < len(datos_empresa["nombre2_empresa"]) and len(nombre2_empresa) > 30:
-                print("El nombre 2 de la empresa en la posición", i + 1, " debe tener maximo 30 caracteres.")
+                nombre2_empresa = str(nombre2_empresa[:30])
 
-            if i < len(datos_empresa["apellido_paterno_empresa"]) and (len(apellido_paterno_empresa) < 2 or len(apellido_paterno_empresa) > 25):
-                print("El apellido paterno debe tener minimo 2 caracteres y máximo 25")
+            # if i < len(datos_empresa["apellido_paterno_empresa"]) and (len(apellido_paterno_empresa) < 2):
+            #     print("El apellido paterno empresa debe tener minimo 2 caracteres y máximo 25")
 
-            if i < len(datos_empresa["apellido_materno_empresa"]) and (len(apellido_materno_empresa) < 2 or len(apellido_materno_empresa) > 25):
-                print("El apellido materno debe tener minimo 2 caracteres y máximo 25")
+            if i < len(datos_empresa["apellido_paterno_empresa"]) and len(apellido_paterno_empresa) > 25:
+                apellido_paterno_empresa = str(apellido_paterno_empresa[:25])
 
-            if i < len(datos_empresa["nacionalidad_empresa"]) and len(nacionalidad_empresa) != 2:
-                print("La nacionalidad en la posición", i + 1, " debe tener 2 caracteres.")
+            # if i < len(datos_empresa["apellido_materno_empresa"]) and (len(apellido_materno_empresa) < 2):
+            #     print("El apellido materno empresa debe tener minimo 2 caracteres y máximo 25")
 
-            if i < len(datos_empresa["cal_cartera_empresa"]) and len(cal_cartera_empresa) != 2:
-                print("La cartera en la posición", i + 1, " debe tener 2 caracteres.")
+            if i < len(datos_empresa["apellido_materno_empresa"]) and len(apellido_materno_empresa) > 25:
+                apellido_materno_empresa = str(apellido_materno_empresa[:25])
 
-            if i < len(datos_empresa["clave_banxico1"]) and len(str(clave_banxico1)) != 11:
-                print("La clave banxico 1 en la posición", i + 1, " debe tener 11 caracteres.")
+            if i < len(datos_empresa["nacionalidad_empresa"]) and len(nacionalidad_empresa) > 2:
+                nacionalidad_empresa = str(nacionalidad_empresa[:2])
 
-            if i < len(datos_empresa["clave_banxico2"]) and len(str(clave_banxico2)) != 11:
-                print("La clave banxico 2 en la posición", i + 1, " debe tener 11 caracteres.")
+            if i < len(datos_empresa["cal_cartera_empresa"]) and len(cal_cartera_empresa) > 2:
+                cal_cartera_empresa = str(cal_cartera_empresa[:2])
 
-            if i < len(datos_empresa["clave_banxico3"]) and len(str(clave_banxico3)) != 11:
-                print("La clave banxico 3 en la posición", i + 1, " debe tener 11 caracteres.")
+            if i < len(datos_empresa["clave_banxico1"]) and len(str(clave_banxico1)) > 11:
+                clave_banxico1 = int(str(datos_empresa["clave_banxico1"][i])[:11])
 
-            comprobarCaracteres = False
+            if i < len(datos_empresa["clave_banxico2"]) and len(str(clave_banxico2)) > 11:
+                clave_banxico2 = int(str(datos_empresa["clave_banxico2"][i])[:11])
+
+            if i < len(datos_empresa["clave_banxico3"]) and len(str(clave_banxico3)) > 11:
+                clave_banxico3 = int(str(clave_banxico3)[:11])
+
             if i < len(datos_empresa["direccion1_empresa"]) and len(str(datos_empresa["direccion1_empresa"][i])) > 40:
-                direccion2_empresa = direccion1_empresa[40:]
-                direccion1_empresa = direccion1_empresa[:40]
-                comprobarCaracteres = True
+                direccion1_empresa = str(direccion1_empresa[:40])
                 
             if i < len(datos_empresa["colonia_empresa"]) and len(str(datos_empresa["colonia_empresa"][i])) > 60:
-                print("La colonia en la posición", i + 1, " debe tener maximo 60 caracteres.")
+                colonia_empresa = str(colonia_empresa[:60])
 
             if i < len(datos_empresa["deleg_mun_empresa"]) and (len(deleg_mun_empresa) > 40):
-                print("La delegación o municipio debe tener máximo 40 caracteres")
+                deleg_mun_empresa = str(deleg_mun_empresa[:40])
 
-            if i < len(datos_empresa["ciudad_empresa"]) and (len(ciudad_empresa) < 40):
-                print("La ciudad debe tener máximo 40 caracteres")
+            if i < len(datos_empresa["ciudad_empresa"]) and (len(ciudad_empresa) > 40):
+                ciudad_empresa = str(ciudad_empresa[:40])
 
-            if i < len(datos_empresa["estado_empresa"]) and (len(estado_empresa) != 4):
-                print("El estado debe tener máximo 4 caracteres")
+            if i < len(datos_empresa["estado_empresa"]) and (len(estado_empresa) > 4):
+                estado_empresa = str(estado_empresa[:4])
 
             if i < len(datos_empresa["cp_empresa"]) and (len(cp_empresa) > 10):
-                print("El CP debe tener máximo 10 caracteres")
+                cp_empresa = str(cp_empresa[:10])
 
-            if i < len(datos_empresa["telefono_empresa"]) and (len(telefono_empresa) != 10):
-                print("El teléfono debe tener 10 caracteres")
+            if i < len(datos_empresa["telefono_empresa"]) and (len(telefono_empresa) > 11):
+                telefono_empresa = str(telefono_empresa[:11])
 
             if i < len(datos_empresa["extension_empresa"]) and (len(extension_empresa) > 8):
-                print("La extensión debe tener máximo 8 caracteres")
+                extension_empresa = str(extension_empresa[:8])
 
             if i < len(datos_empresa["fax_empresa"]) and (len(fax_empresa) > 11):
-                print("El fax debe tener máximo 11 caracteres")
+                fax_empresa = str(fax_empresa[:11])
 
-            if i < len(datos_empresa["tipo_cliente_empresa"]) and (len(str(tipo_cliente_empresa)) != 1):
-                print("El tipo de cliente debe tener solo un caracter")
+            if i < len(datos_empresa["tipo_cliente_empresa"]) and (len(str(tipo_cliente_empresa)) > 1):
+                tipo_cliente_empresa = int(str(datos_empresa["tipo_cliente_empresa"][i])[:1])
 
             if i < len(datos_empresa["edo_extranjero_empresa"]) and (len(edo_extranjero_empresa) > 40):
-                print("El edo extranjero debe tener máximo 40 caracteres")
+                edo_extranjero_empresa = str(edo_extranjero_empresa[:40])
 
-            if i < len(datos_empresa["pais_empresa"]) and (len(pais_empresa) != 2):
-                print("El pais debe tener solo 2 caracteres")
+            if i < len(datos_empresa["pais_empresa"]) and (len(pais_empresa) > 2):
+                pais_empresa = str(pais_empresa[:2])
 
-            if i < len(datos_empresa["tel_movil_empresa"]) and (len(tel_movil_empresa) != 10):
-                print("El telefono movil debe tener 10 caracteres")
+            if i < len(datos_empresa["tel_movil_empresa"]) and (len(tel_movil_empresa) > 10):
+                tel_movil_empresa = str(tel_movil_empresa[:10])
 
             if i < len(datos_empresa["correo_empresa"]) and (len(correo_empresa) > 100):
-                print("El correo debe tener máximo 100 caracteres")
+                correo_empresa = str(correo_empresa[:100])
 
             #Escribir los datos en la hoja-----------------------------
             hoja.write(fila, 8, rfc_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
@@ -362,7 +375,8 @@ class ControllerDocumento:
             fila += 1
         return hoja
 
-    def almacenarDatosAccionista(self, datos_accionista, libro, hoja):
+#--------------------------Funcion Accionista-------------------------------------------------------------------------
+    def llenarDatosAccionista(self, datos_accionista, libro, hoja):
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_accionista.values()])
 
@@ -411,7 +425,7 @@ class ControllerDocumento:
                 porcentaje_accionista = ' '
 
             try:
-                direccion1_accionista = str(datos_accionista.get("direccion1_eaccionista", [''])[i])
+                direccion1_accionista = str(datos_accionista.get("direccion1_accionista", [''])[i])
             except IndexError:
                 direccion1_accionista = ' '
 
@@ -476,68 +490,71 @@ class ControllerDocumento:
                 pais_accionista = ' '
 
             #Comparación de datos---------------------------------------------------------------------------
-            if i < len(datos_accionista["rfc_accionista"]) and len(rfc_accionista) < 12 or len(rfc_accionista) > 13:
-                print("El RFC en la posición", i + 1, " debe tener 12 o 13 caracteres.")
+            # if i < len(datos_accionista["rfc_accionista"]) and len(rfc_accionista) < 12:
+            #     print("El RFC en la posición", i + 1, " debe tener 12 o 13 caracteres.")
+
+            if i < len(datos_accionista["rfc_accionista"]) and len(rfc_accionista) > 13:
+                rfc_accionista = str(rfc_accionista[:13])
             
-            if i < len(datos_accionista["curp_accionista"]) and len(curp_accionista) != 18:
-                print("La CURP en la posición", i + 1, " debe tener 18 caracteres.")    
+            if i < len(datos_accionista["curp_accionista"]) and len(curp_accionista) > 18:  
+                curp_accionista = str(curp_accionista[:18])    
 
             if i < len(datos_accionista["compania_accionista"]) and len(compania_accionista) > 150:
-                print("La compañia en la posición", i + 1, " debe tener maximo 150 caracteres.")
+                compania_accionista = str(compania_accionista[:150])
 
             if i < len(datos_accionista["nombre1_accionista"]) and len(nombre1_accionista) > 30:
-                print("El nombre 1 del accionista en la posición", i + 1, " debe tener maximo 30 caracteres.")
+                nombre1_accionista = str(nombre1_accionista[:30])
 
             if i < len(datos_accionista["nombre2_accionista"]) and len(nombre2_accionista) > 30:
-                print("El nombre 2 del accionista en la posición", i + 1, " debe tener maximo 30 caracteres.")
+                nombre2_accionista = str(nombre2_accionista[:30])
 
-            if i < len(datos_accionista["apellido_paterno_accionista"]) and (len(apellido_paterno_accionista) < 2 or len(apellido_paterno_accionista) > 25):
-                print("El apellido paterno debe tener minimo 2 caracteres y máximo 25")
+            if i < len(datos_accionista["apellido_paterno_accionista"]) and (len(apellido_paterno_accionista) > 25):
+                apellido_paterno_accionista = str(apellido_paterno_accionista[:25])
 
-            if i < len(datos_accionista["apellido_materno_accionista"]) and (len(apellido_materno_accionista) < 2 or len(apellido_materno_accionista) > 25):
-                print("El apellido materno debe tener minimo 2 caracteres y máximo 25")
+            if i < len(datos_accionista["apellido_materno_accionista"]) and (len(apellido_materno_accionista) > 25):
+                apellido_materno_accionista = str(apellido_materno_accionista[:25])
 
             if i < len(datos_accionista["porcentaje_accionista"]) and len(str(porcentaje_accionista)) > 2:
-                print("El porcentaje debe tener 2 caracteres")
+                porcentaje_accionista = int(str(datos_accionista["porcentaje_accionista"][i])[:2])
 
-            comprobarCaracteres = False
-            if i < len(datos_accionista["direccion1_accionista"]) and len(str(datos_accionista["direccion1_accionista"][i])) > 40:
-                direccion2_accionista = direccion1_accionista[40:]
+            if i < len(datos_accionista["direccion1_accionista"]) and len(str(direccion1_accionista)) > 40:
                 direccion1_accionista = direccion1_accionista[:40]
-                comprobarCaracteres = True
                 
-            if i < len(datos_accionista["colonia_accionista"]) and len(str(datos_accionista["colonia_accionista"][i])) > 60:
-                print("La colonia en la posición", i + 1, " debe tener maximo 60 caracteres.")
+            if i < len(datos_accionista["colonia_accionista"]) and len(str(colonia_accionista)) > 60:
+                colonia_accionista = str(colonia_accionista[:60])
 
             if i < len(datos_accionista["deleg_mun_accionista"]) and (len(deleg_mun_accionista) > 40):
-                print("La delegación o municipio debe tener máximo 40 caracteres")
+                deleg_mun_accionista = str(deleg_mun_accionista[:40])
 
-            if i < len(datos_accionista["ciudad_accionista"]) and (len(ciudad_accionista) < 40):
-                print("La ciudad debe tener máximo 40 caracteres")
+            if i < len(datos_accionista["ciudad_accionista"]) and (len(ciudad_accionista) > 40):
+                ciudad_accionista = str(ciudad_accionista[:40])
 
-            if i < len(datos_accionista["estado_accionista"]) and (len(estado_accionista) != 4):
-                print("El estado debe tener máximo 4 caracteres")
+            # if i < len(datos_accionista["estado_accionista"]) and (len(estado_accionista) != 4):
+            #     print("El estado debe tener máximo 4 caracteres")
+
+            if i < len(datos_accionista["estado_accionista"]) and (len(estado_accionista) > 4):
+                estado_accionista = str(estado_accionista[:4])
 
             if i < len(datos_accionista["cp_accionista"]) and (len(cp_accionista) > 10):
-                print("El CP debe tener máximo 10 caracteres")
+                 cp_accionista = str(cp_accionista[:10])
 
-            if i < len(datos_accionista["telefono_accionista"]) and (len(telefono_accionista) != 10):
-                print("El teléfono debe tener 10 caracteres")
+            if i < len(datos_accionista["telefono_accionista"]) and (len(telefono_accionista) > 11):
+                telefono_accionista = str(telefono_accionista[:11])
 
             if i < len(datos_accionista["extension_accionista"]) and (len(extension_accionista) > 8):
-                print("La extensión debe tener máximo 8 caracteres")
+                extension_accionista = str(extension_accionista[:8])
 
             if i < len(datos_accionista["fax_accionista"]) and (len(fax_accionista) > 11):
-                print("El fax debe tener máximo 11 caracteres")
+                fax_accionista = str(fax_accionista[:11])
 
-            if i < len(datos_accionista["tipo_cliente_accionista"]) and (len(str(tipo_cliente_accionista)) != 1):
-                print("El tipo de cliente debe tener solo un caracter")
+            if i < len(datos_accionista["tipo_cliente_accionista"]) and (len(str(tipo_cliente_accionista)) > 1):
+                tipo_cliente_accionista = int(str(datos_accionista["tipo_cliente_accionista"][i])[:1])
 
             if i < len(datos_accionista["edo_extranjero_accionista"]) and (len(edo_extranjero_accionista) > 40):
-                print("El edo extranjero debe tener máximo 40 caracteres")
+                edo_extranjero_accionista = str(edo_extranjero_accionista[:40])
 
-            if i < len(datos_accionista["pais_accionista"]) and (len(pais_accionista) != 2):
-                print("El pais debe tener solo 2 caracteres")
+            if i < len(datos_accionista["pais_accionista"]) and (len(pais_accionista) > 2):
+                pais_accionista = str(pais_accionista[:2])
 
             #Escribir los datos en la hoja-----------------------------
             hoja.write(fila, 35, rfc_accionista, ce.agregarEstiloAzulFuerteInfo(libro))
@@ -564,7 +581,8 @@ class ControllerDocumento:
             fila += 1
         return hoja
 
-    def almacenarDatosCredito(self, datos_credito, libro, hoja):
+#--------------------------Funcion Credito--------------------------------------------------------------------------
+    def llenarDatosCredito(self, datos_credito, libro, hoja):
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_credito.values()])
 
@@ -698,25 +716,22 @@ class ControllerDocumento:
                 fecha_ingreso_cv = ''
 
             #Comparación de datos---------------------------------------------------------------------------
-            if i < len(datos_credito["rfc_credito"]) and len(rfc_credito) < 12 or len(rfc_credito) > 13:
-                print("El RFC en la posición", i + 1, " debe tener 12 o 13 caracteres.")
+            if i < len(datos_credito["rfc_credito"]) and len(rfc_credito) > 13:
+                rfc_credito = str(rfc_credito[:13])
 
             if i < len(datos_credito["experiencias_crediticias"]) and len(str(experiencias_crediticias)) > 6:
-                print("La experiencia crediticia en posición", i + 1, " debe tener un maximo de 6 caracteres.")
+                 experiencias_crediticias = int(str(datos_credito["experiencias_crediticias"][i])[:6])
 
             if i < len(datos_credito["num_contrato"]) and len(str(num_contrato)) > 25:
-                print("El número de contrato en posición", i + 1, " debe tener un maximo de 25 caracteres.")
+                num_contrato = str(num_contrato[:25])
 
             if i < len(datos_credito["num_contrato_anterior"]) and len(str(num_contrato_anterior)) > 25:
-                print("El número de contrato anterior en posición", i + 1, " debe tener un maximo de 25 caracteres.")
+                num_contrato_anterior = str(num_contrato_anterior[:25])
 
 
-            if "fecha_apertura" in datos_credito and i < len(datos_credito["fecha_apertura"]):
+            if i < len(datos_credito["fecha_apertura"]) and len(str(fecha_apertura)) > 1:
                 fecha_apertura = str(datos_credito["fecha_apertura"][i])
-                if len(fecha_apertura) == 10:
-                    fecha_apertura_convertida = fecha_apertura[:2] + fecha_apertura[3:5] + fecha_apertura[6:]
-                else:
-                    print("Formato de fecha incorrecto.")
+                fecha_apertura_convertida = int(fecha_apertura[:2] + fecha_apertura[3:5] + fecha_apertura[6:10])
             else:
                 fecha_apertura = ''
                 fecha_apertura_convertida = ''
@@ -724,45 +739,39 @@ class ControllerDocumento:
 
 
             if i < len(datos_credito["plazo_meses"]) and len(str(plazo_meses)) > 5:
-                print("El plazo de meses a pagar en posición", i + 1, " debe tener un maximo de 5 caracteres.")
+                plazo_meses = int(str(datos_credito["plazo_meses"][i])[:5])
 
             if i < len(datos_credito["tipo_credito"]) and len(str(tipo_credito)) > 4:
-                print("El tipo de crédito en posición", i + 1, " debe tener un maximo de 4 caracteres.")
+                tipo_credito = int(str(datos_credito["tipo_credito"][i])[:4])
 
             if i < len(datos_credito["saldo_inicial"]) and len(str(saldo_inicial)) > 20:
-                print("El saldo inicial en posición", i + 1, " debe tener un maximo de 20 caracteres.")
+                 saldo_inicial = int(str(saldo_inicial["tipo_credito"][i])[:20])
 
             if i < len(datos_credito["moneda"]) and len(str(moneda)) > 3:
-                print("La moneda en posición", i + 1, " debe tener un maximo de 3 caracteres.")
+                moneda = int(str(moneda["moneda"][i])[:3])
 
             if i < len(datos_credito["num_pagos"]) and len(str(num_pagos)) > 4:
-                print("El numero de pagos en posición", i + 1, " debe tener un maximo de 4 caracteres.")
+                num_pagos = int(str(num_pagos["num_pagos"][i])[:4])
 
             if i < len(datos_credito["frecuencia_pagos"]) and len(str(frecuencia_pagos)) > 5:
-                print("La frecuencia de pagos en posición", i + 1, " debe tener un maximo de 5 caracteres.")
+                frecuencia_pagos = int(str(frecuencia_pagos["frecuencia_pagos"][i])[:5])
 
             if i < len(datos_credito["importe_pagos"]) and len(str(importe_pagos)) > 20:
-                print("El importe de pagos en posición", i + 1, " debe tener un maximo de 20 caracteres.")
+                importe_pagos = int(str(importe_pagos["importe_pagos"][i])[:20])
 
 
-            if "fecha_ultimo_pago" in datos_credito and i < len(datos_credito["fecha_ultimo_pago"]):
+            if i < len(datos_credito["fecha_ultimo_pago"]) and len(str(fecha_ultimo_pago)) > 1:
                 fecha_ultimo_pago = str(datos_credito["fecha_ultimo_pago"][i])
-                if len(fecha_ultimo_pago) == 10:
-                    fecha_ultimo_pago_convertida = fecha_ultimo_pago[:2] + fecha_ultimo_pago[3:5] + fecha_ultimo_pago[6:]
-                else:
-                    print("Formato de fecha incorrecto.")
+                fecha_ultimo_pago_convertida = int(fecha_ultimo_pago[:2] + fecha_ultimo_pago[3:5] + fecha_ultimo_pago[6:10])
             else:
                 fecha_ultimo_pago = ''
                 fecha_ultimo_pago_convertida = ''
             fecha_ultimo_pago = fecha_ultimo_pago_convertida
 
 
-            if "fecha_reestructura" in datos_credito and i < len(datos_credito["fecha_reestructura"]):
+            if i < len(datos_credito["fecha_reestructura"]) and len(str(fecha_reestructura)) > 1:
                 fecha_reestructura = str(datos_credito["fecha_reestructura"][i])
-                if len(fecha_reestructura) == 10:
-                    fecha_reestructura_convertida = fecha_reestructura[:2] + fecha_reestructura[3:5] + fecha_reestructura[6:]
-                else:
-                    print("Formato de fecha incorrecto.")
+                fecha_reestructura_convertida = int(fecha_reestructura[:2] + fecha_reestructura[3:5] + fecha_reestructura[6:10])
             else:
                 fecha_reestructura = ''
                 fecha_reestructura_convertida = ''
@@ -770,15 +779,12 @@ class ControllerDocumento:
 
 
             if i < len(datos_credito["pago_efectivo"]) and len(str(pago_efectivo)) > 20:
-                print("El pago efectivo en posición", i + 1, " debe tener un maximo de 20 caracteres.")
+                pago_efectivo = int(str(pago_efectivo["pago_efectivo"][i])[:20])
 
 
-            if "fecha_liquidacion" in datos_credito and i < len(datos_credito["fecha_liquidacion"]):
+            if i < len(datos_credito["fecha_liquidacion"]) and len(str(fecha_liquidacion)) > 1:
                 fecha_liquidacion = str(datos_credito["fecha_liquidacion"][i])
-                if len(fecha_liquidacion) == 10:
-                    fecha_liquidacion_convertida = fecha_liquidacion[:2] + fecha_liquidacion[3:5] + fecha_liquidacion[6:]
-                else:
-                    print("Formato de fecha incorrecto.")
+                fecha_liquidacion_convertida = int(fecha_liquidacion[:2] + fecha_liquidacion[3:5] + fecha_liquidacion[6:10])
             else:
                 fecha_liquidacion = ''
                 fecha_liquidacion_convertida = ''
@@ -786,27 +792,24 @@ class ControllerDocumento:
 
 
             if i < len(datos_credito["quita"]) and len(str(quita)) > 20:
-                print("La Quita en posición", i + 1, " debe tener un maximo de 20 caracteres.")
+                 quita = int(str(quita["quita"][i])[:20])
 
             if i < len(datos_credito["dacion"]) and len(str(dacion)) > 20:
-                print("La dacion en posición", i + 1, " debe tener un maximo de 20 caracteres.")
+                dacion = int(str(dacion["dacion"][i])[:20])
 
             if i < len(datos_credito["quebranto_castigo"]) and len(str(quebranto_castigo)) > 20:
-                print("El quebranto o castigo en posición", i + 1, " debe tener un maximo de 20 caracteres.")
+                quebranto_castigo = int(str(quebranto_castigo["quebranto_castigo"][i])[:20])
 
             if i < len(datos_credito["clave_observacion"]) and len(str(clave_observacion)) > 4:
-                print("La clave de observacion en posición", i + 1, " debe tener un maximo de 4 caracteres.")
+                clave_observacion = str(clave_observacion[:4])
 
             if i < len(datos_credito["especiales"]) and len(str(especiales)) > 1:
-                print("Especiales en posición", i + 1, " debe tener un maximo de 1 caracter.")
+                especiales = str(especiales[:1])
 
 
-            if "fecha_primer_cumplimiento" in datos_credito and i < len(datos_credito["fecha_primer_cumplimiento"]):
+            if i < len(datos_credito["fecha_primer_cumplimiento"]) and len(str(fecha_primer_cumplimiento)) > 1:
                 fecha_primer_cumplimiento = str(datos_credito["fecha_primer_cumplimiento"][i])
-                if len(fecha_primer_cumplimiento) == 10:
-                    fecha_primer_cumplimiento_convertida = fecha_primer_cumplimiento[:2] + fecha_primer_cumplimiento[3:5] + fecha_primer_cumplimiento[6:]
-                else:
-                    print("Formato de fecha incorrecto.")
+                fecha_primer_cumplimiento_convertida = int(fecha_primer_cumplimiento[:2] + fecha_primer_cumplimiento[3:5] + fecha_primer_cumplimiento[6:10])
             else:
                 fecha_primer_cumplimiento = ''
                 fecha_primer_cumplimiento_convertida = ''
@@ -814,22 +817,20 @@ class ControllerDocumento:
 
 
             if i < len(datos_credito["saldo_insoluto"]) and len(str(saldo_insoluto)) > 8:
-                print("Saldo insoluto en posición", i + 1, " debe tener un maximo de 8 caracteres.")
+                saldo_insoluto = int(str(saldo_insoluto["saldo_insoluto"][i])[:8])
 
             if i < len(datos_credito["credito_maximo_utilizado"]) and len(str(credito_maximo_utilizado)) > 20:
-                print("Crédito máximo utilizado en posición", i + 1, " debe tener un maximo de 20 caracteres.")
+                credito_maximo_utilizado = int(str(credito_maximo_utilizado["credito_maximo_utilizado"][i])[:20])
 
 
-            if "fecha_ingreso_cv" in datos_credito and i < len(datos_credito["fecha_ingreso_cv"]):
+            if i < len(datos_credito["fecha_ingreso_cv"]) and len(str(fecha_ingreso_cv)) > 1:
                 fecha_ingreso_cv = str(datos_credito["fecha_ingreso_cv"][i])
-                if len(fecha_ingreso_cv) == 10:
-                    fecha_ingreso_cv_convertida = fecha_ingreso_cv[:2] + fecha_ingreso_cv[3:5] + fecha_ingreso_cv[6:]
-                else:
-                    print("Formato de fecha incorrecto.")
+                fecha_ingreso_cv_convertida = int(fecha_ingreso_cv[:2] + fecha_ingreso_cv[3:5] + fecha_ingreso_cv[6:10])
             else:
                 fecha_ingreso_cv = ''
-                fecha_ingreso_cv = ''
+                fecha_ingreso_cv_convertida = ''
             fecha_ingreso_cv = fecha_ingreso_cv_convertida
+
 
             #Agregar los datos a las celdas de excel
             hoja.write(fila, 56, rfc_credito, ce.agregarEstiloAzulFuerteInfo(libro))
@@ -860,7 +861,8 @@ class ControllerDocumento:
             fila += 1
         return hoja
 
-    def almacenarDatosDetalleCredito(self, datos_detalle_credito, libro, hoja):
+#--------------------------Funcion Detalle de crédito----------------------------------------------------------------
+    def llenarDatosDetalleCredito(self, datos_detalle_credito, libro, hoja):
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_detalle_credito.values()])
 
@@ -895,20 +897,20 @@ class ControllerDocumento:
 
             #Comparación de valores----------------------------------------------------------------------------------------------
 
-            if i < len(datos_detalle_credito["rfc_detalle_credito"]) and len(str(rfc_detalle_credito)) < 12 or len(str(rfc_detalle_credito)) > 13:
-                print("El RFC en la posición", i + 1, " debe tener 12 o 13 caracteres.")
+            if i < len(datos_detalle_credito["rfc_detalle_credito"]) and len(str(rfc_detalle_credito)) > 13:
+                rfc_detalle_credito = str(rfc_detalle_credito[:13])
 
             if i < len(datos_detalle_credito["num_contrato_detalle_credito"]) and len(str(num_contrato_detalle_credito)) > 25:
-                print("El numero de contrato en la posición", i + 1, " debe tener máximo 25 caracteres.")
+                num_contrato_detalle_credito = str(num_contrato_detalle_credito[:25])
 
             if i < len(datos_detalle_credito["dias_vencidos_detalle_credito"]) and len(str(dias_vencidos_detalle_credito)) > 3:
-                print("Los días vencidos en la posición", i + 1, " debe tener máximo 3 caracteres.")
+                dias_vencidos_detalle_credito = int(str(datos_detalle_credito["dias_vencidos_detalle_credito"][i])[:3])
 
             if i < len(datos_detalle_credito["cantidad_detalle_credito"]) and len(str(cantidad_detalle_credito)) > 20:
-                print("La cantidad en la posición", i + 1, " debe tener máximo 20 caracteres.")
+                cantidad_detalle_credito = int(str(datos_detalle_credito["cantidad_detalle_credito"][i])[:20])
 
-            if i < len(datos_detalle_credito["intereses_detalle_credito"]) and len(str(intereses_detalle_credito)) > 8:
-                print("Los intereses en la posición", i + 1, " debe tener máximo 8 caracteres.")
+            if i < len(datos_detalle_credito["intereses_detalle_credito"]) and len(str(intereses_detalle_credito)) > 10:
+                intereses_detalle_credito = int(str(datos_detalle_credito["intereses_detalle_credito"][i])[:10])
 
             hoja.write(fila, 81, rfc_detalle_credito, ce.agregarEstiloAzulFuerteInfo(libro))
             hoja.write(fila, 82, num_contrato_detalle_credito, ce.agregarEstiloAzulFuerteInfo(libro))
@@ -918,4 +920,190 @@ class ControllerDocumento:
             fila += 1
         return hoja
 
+    def llenarDatosAval(self, datos_aval, libro, hoja):
+        ce = ClaseEstilos()
+        valorMaximo = max([len(valor) for valor in datos_aval.values()])
+
+         # Recorrer los valores y escribir en las celdas correspondientes
+        fila = 2
+
+        for i in range(valorMaximo):
+            try:
+                rfc_aval = str(datos_aval.get("rfc_aval", [''])[i])
+            except IndexError:
+                rfc_aval = ''
+    
+            try:
+                curp_aval = str(datos_aval.get("curp_aval", [''])[i])
+            except (IndexError, TypeError):
+                curp_aval = ' '
+
+            try:
+                compania_aval = str(datos_aval.get("compania_aval", [''])[i])
+            except IndexError:
+                compania_aval = ''
+
+            try:
+                nombre1_aval = str(datos_aval.get("nombre1_aval", [''])[i])
+            except IndexError:
+                nombre1_aval = ' '
+
+            try:
+                nombre2_aval = str(datos_aval.get("nombre2_aval", [''])[i])
+            except IndexError:
+                nombre2_aval = ' '
+
+            try:
+                apellido_paterno_aval = str(datos_aval.get("apellido_paterno_aval", [''])[i])
+            except IndexError:
+                apellido_paterno_aval = ' '
+
+            try:
+                apellido_materno_aval = str(datos_aval.get("apellido_materno_aval", [''])[i])
+            except IndexError:
+                apellido_materno_aval = ' '
+
+            try:
+                direccion1_aval = str(datos_aval.get("direccion1_aval", [''])[i])
+            except IndexError:
+                direccion1_aval = ' '
+
+            try:
+                direccion2_aval = str(datos_aval.get("direccion2_aval", [''])[i])
+            except IndexError:
+                direccion2_aval = ' ' 
+
+            try:
+                colonia_aval = str(datos_aval.get("colonia_aval", [''])[i])
+            except IndexError:
+                colonia_aval = ' '
+
+            try:
+                deleg_mun_aval = str(datos_aval.get("deleg_mun_aval", [''])[i])
+            except IndexError:
+                deleg_mun_aval = ' '
+
+            try:
+                ciudad_aval = str(datos_aval.get("ciudad_aval", [''])[i])
+            except IndexError:
+                ciudad_aval = ' '
+
+            try:
+                estado_aval = str(datos_aval.get("estado_aval", [''])[i])
+            except IndexError:
+                estado_aval = ' '
+
+            try:
+                cp_aval = str(datos_aval.get("cp_aval", [''])[i])
+            except IndexError:
+                cp_aval = ' '
+
+            try:
+                telefono_aval = str(datos_aval.get("telefono_aval", [''])[i])
+            except IndexError:
+                telefono_aval = ' '
+
+            try:
+                extension_aval = str(datos_aval.get("extension_aval", [''])[i])
+            except IndexError:
+                extension_aval = ' '
+
+            try:
+                fax_aval = str(datos_aval.get("fax_aval", [''])[i])
+            except IndexError:
+                fax_aval = ' '
+
+            try:
+                tipo_cliente_aval = int(datos_aval.get("tipo_cliente_aval", [''])[i])
+            except IndexError:
+                tipo_cliente_aval = ' '
+
+            try:
+                edo_extranjero_aval = str(datos_aval.get("edo_extranjero_aval", [''])[i])
+            except IndexError:
+                edo_extranjero_aval = ' '
+
+            try:
+                pais_aval = str(datos_aval.get("pais_aval", [''])[i])
+            except IndexError:
+                pais_aval = ' '
+
+            if i < len(datos_aval["rfc_aval"]) and len(rfc_aval) > 13:
+                rfc_aval = str(rfc_aval[:13])
             
+            if i < len(datos_aval["curp_aval"]) and len(curp_aval) > 18:
+                curp_aval = str(curp_aval[:18])    
+
+            if i < len(datos_aval["compania_aval"]) and len(compania_aval) > 150:
+                compania_aval = str(compania_aval[:150])
+
+            if i < len(datos_aval["nombre1_aval"]) and len(nombre1_aval) > 30:
+                nombre1_aval = str(nombre1_aval[:30])
+
+            if i < len(datos_aval["nombre2_aval"]) and len(nombre2_aval) > 30:
+                nombre2_aval = str(nombre2_aval[:30])
+
+            if i < len(datos_aval["apellido_paterno_aval"]) and (len(apellido_paterno_aval) > 25):
+                apellido_paterno_aval = str(apellido_paterno_aval[:25])
+
+            if i < len(datos_aval["apellido_materno_aval"]) and (len(apellido_materno_aval) > 25):
+                apellido_materno_aval = str(apellido_materno_aval[:25])
+
+            if i < len(datos_aval["direccion1_aval"]) and len(str(datos_aval["direccion1_aval"][i])) > 40:
+                direccion1_aval = direccion1_aval[:40]
+                
+            if i < len(datos_aval["colonia_aval"]) and len(str(datos_aval["colonia_aval"][i])) > 60:
+                colonia_aval = colonia_aval[:60]
+
+            if i < len(datos_aval["deleg_mun_aval"]) and (len(deleg_mun_aval) > 40):
+                deleg_mun_aval = deleg_mun_aval[:40]
+
+            if i < len(datos_aval["ciudad_aval"]) and (len(ciudad_aval) > 40):
+                ciudad_aval = ciudad_aval[:40]
+
+            if i < len(datos_aval["estado_aval"]) and (len(estado_aval) > 4):
+                estado_aval = estado_aval[:4]
+
+            if i < len(datos_aval["cp_aval"]) and (len(cp_aval) > 10):
+                cp_aval = cp_aval[:10]
+
+            if i < len(datos_aval["telefono_aval"]) and (len(telefono_aval) > 11):
+                telefono_aval = telefono_aval[:11]
+
+            if i < len(datos_aval["extension_aval"]) and (len(extension_aval) > 8):
+                extension_aval = extension_aval[:8]
+
+            if i < len(datos_aval["fax_aval"]) and (len(fax_aval) > 11):
+                fax_aval = fax_aval[:11]
+
+            if i < len(datos_aval["tipo_cliente_aval"]) and (len(str(tipo_cliente_aval)) > 1):
+                tipo_cliente_aval = int(str(datos_aval["tipo_cliente_aval"][i])[:1])
+
+            if i < len(datos_aval["edo_extranjero_aval"]) and (len(edo_extranjero_aval) > 40):
+                edo_extranjero_aval = edo_extranjero_aval[:40]
+
+            if i < len(datos_aval["pais_aval"]) and (len(pais_aval) > 2):
+                pais_aval = pais_aval[:2]
+
+            hoja.write(fila, 86, rfc_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 87, curp_aval, ce.agregarEstiloAzulClaroInfo(libro))
+            hoja.write(fila, 88, compania_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 89, nombre1_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 90, nombre2_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 91, apellido_paterno_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 92, apellido_materno_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 93, direccion1_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 94, direccion2_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 95, colonia_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 96, deleg_mun_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 97, ciudad_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 98, estado_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 99, cp_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 100, telefono_aval, ce.agregarEstiloAzulClaroInfo(libro))
+            hoja.write(fila, 101, extension_aval, ce.agregarEstiloAzulClaroInfo(libro))
+            hoja.write(fila, 102, fax_aval, ce.agregarEstiloAzulClaroInfo(libro))
+            hoja.write(fila, 103, tipo_cliente_aval, ce.agregarEstiloAzulFuerteInfo(libro))
+            hoja.write(fila, 104, edo_extranjero_aval, ce.agregarEstiloAzulClaroInfo(libro))
+            hoja.write(fila, 105, pais_aval, ce.agregarEstiloAzulClaroInfo(libro))
+            fila += 1
+        return hoja

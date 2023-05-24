@@ -20,33 +20,33 @@ ce.agregarColumnasEncabezado(libro, hoja)
 
 #--------------------------------Datos y llamado para llenar encabezado----------------------------------------------
 datos_encabezado = {
-    "otorgante": [1234, 4232, 3],
-    "otorgante_anterior": [1324, 3],
-    "nombre_otorgante": ['Nombre otorgante 1',''],
-    "institucion": ['Institucion 1', ''],
-    "formato": [1,3],
-    "fecha": ['24/05/2023'],
-    "periodo_reporta": ['10/04/2022'],
-    "version": []
+    "otorgante": [1234, 4232, 123456],
+    "otorgante_anterior": [1324, 3, 12345],
+    "nombre_otorgante": ['Nombre otorgante 1'],
+    "institucion": ['Institucion 1'],
+    "formato": ['A', 'BCD'],
+    "fecha": ['24/05/2023555'],
+    "periodo_reporta": ['10/04/2022555'],
+    "version": [123, 879]
 }
 
-cd.almacenarDatosEncabezado(datos_encabezado, libro, hoja)
+cd.llenarDatosEncabezado(datos_encabezado, libro, hoja)
 
 #-----------------------Datos y llamado para llenar Empresa----------------------------------------------------------------
 datos_empresa = {
-    "rfc_empresa": ['wwwwwwwwwwww'],
-    "curp_empresa": ['saddddddsssssdhsss'],
+    "rfc_empresa": ['wwwwwwwwwwwwjkl'],
+    "curp_empresa": ['saddddddsssssdhssskkk'],
     "compania_empresa": [],
     "nombre1_empresa": ['nombre 1'],
     "nombre2_empresa": ['nombre 2', 'nombre21', 'nombre22'],
-    "apellido_paterno_empresa": ['eg', 'ahs'],
+    "apellido_paterno_empresa": ['eg34567890123456789012345yyyy'],
     "apellido_materno_empresa": ['ff'],
-    "nacionalidad_empresa": ['mx'],
+    "nacionalidad_empresa": ['mexico'],
     "cal_cartera_empresa": ['un'],
-    "clave_banxico1": [],
+    "clave_banxico1": [12345678901222],
     "clave_banxico2": [],
     "clave_banxico3": [],
-    "direccion1_empresa": [],
+    "direccion1_empresa": ['asdfghj'],
     "direccion2_empresa": [],
     "colonia_empresa": [], 
     "deleg_mun_empresa": ['Leon', 'Toluca', 'Tijuana'],
@@ -63,7 +63,7 @@ datos_empresa = {
     "correo_empresa": ['correo@gmail.com']
 }
 
-cd.almacenarDatosEmpresa(datos_empresa, libro, hoja)
+cd.llenarDatosEmpresa(datos_empresa, libro, hoja)
 
 #-----------------------Datos y llamado para llenar Accionista--------------------------------------------------------------
 datos_accionista = {
@@ -74,7 +74,7 @@ datos_accionista = {
     "nombre2_accionista": ['si'],
     "apellido_paterno_accionista": ['ap1', 'ap2', 'ap3'],
     "apellido_materno_accionista": ['ap1', 'ap2'],
-    "porcentaje_accionista": [10, 1],
+    "porcentaje_accionista": [10, 156],
     "direccion1_accionista": [],
     "direccion2_accionista": [],
     "colonia_accionista": [], 
@@ -87,10 +87,10 @@ datos_accionista = {
     "fax_accionista": [],
     "tipo_cliente_accionista": [1],
     "edo_extranjero_accionista": [],
-    "pais_accionista": ['PO']
+    "pais_accionista": ['PO', 'Brasil']
 }
 
-cd.almacenarDatosAccionista(datos_accionista, libro, hoja)
+cd.llenarDatosAccionista(datos_accionista, libro, hoja)
 #-----------------------Datos y llamado para llenar Crédito--------------------------------------------------------------
 datos_credito = {
     "rfc_credito": ['asdfghjklapo2'],
@@ -120,7 +120,7 @@ datos_credito = {
     "fecha_ingreso_cv": ['23/05/2023']
 }
 
-cd.almacenarDatosCredito(datos_credito, libro, hoja)
+cd.llenarDatosCredito(datos_credito, libro, hoja)
 #-----------------------Datos y llamado para llenar Detalle de crédito------------------------------------------------------
 datos_detalle_credito = {
     "rfc_detalle_credito": ['asdf'],
@@ -130,7 +130,33 @@ datos_detalle_credito = {
     "intereses_detalle_credito": []
 }
 
-cd.almacenarDatosDetalleCredito(datos_detalle_credito, libro, hoja)
+cd.llenarDatosDetalleCredito(datos_detalle_credito, libro, hoja)
+
+#-----------------------Datos y llamado para llenar Aval------------------------------------------------------
+datos_aval = {
+    "rfc_aval": ['asv', 'asd', '123'],
+    "curp_aval": ['asdfghjklñzxcvbnml'],
+    "compania_aval": ['uno'],
+    "nombre1_aval": [],
+    "nombre2_aval": ['nombre21'],
+    "apellido_paterno_aval": ['as', 'rea'],
+    "apellido_materno_aval": ['gomez', 'lira'],
+    "direccion1_aval": ['asfghjklñzxcvbnmasdqwertyuiopasdfghjklñzx'],
+    "direccion2_aval": [],
+    "colonia_aval": [],
+    "deleg_mun_aval": ['Leon', 'CDMX', 'Tijuana'],
+    "ciudad_aval": [],
+    "estado_aval": [],
+    "cp_aval": ['37100', '123456'],
+    "telefono_aval": ['4776009669', '4778263456'],
+    "extension_aval": [],
+    "fax_aval": [],
+    "tipo_cliente_aval": [2, 3, 1],
+    "edo_extranjero_aval": [],
+    "pais_aval": ['Brasil']
+}
+
+cd.llenarDatosAval(datos_aval, libro, hoja)
 
 #Se le da un tamaño automático a cada celda con este método
 hoja.autofit()
