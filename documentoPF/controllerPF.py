@@ -1,80 +1,73 @@
 from estilosPF import ClaseEstilos
 
 class ControllerDocumento:
+    #-------------------------------Crear función del encabezado Encabezado-------------------------------------
     def llenarCeldasEncabezado(self, datos_encabezado, libro, hoja):
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_encabezado.values()])
+        variables = ["clave_otorgante", "nombre_otorgante", "identificador_medio", "fecha_extraccion",
+                        "nota_otorgante", "version"]
 
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
         for i in range(valorMaximo):
-            try:
-                clave_otorgante = int(datos_encabezado.get("clave_otorgante", [''])[i])
-            except IndexError:
-                clave_otorgante = ' '
-            
-            try:
-                nombre_otorgante = str(datos_encabezado.get("nombre_otorgante", [''])[i])
-            except IndexError:
-                nombre_otorgante = ''
+            for variable in variables:
+                try:
+                    valor = datos_encabezado.get(variable, [''])[i]
 
-            try:
-                identificador_medio = str(datos_encabezado.get("identificador_medio", [''])[i])
-            except IndexError:
-                identificador_medio = ''
+                    if isinstance(valor, int):
+                        valor = int(valor)
+                    elif isinstance(valor, str):
+                        valor = str(valor)
 
-            try:
-                fecha_extraccion = str(datos_encabezado.get("fecha_extraccion", [''])[i])
-            except IndexError:
-                fecha_extraccion = ''
+                except IndexError:
+                    valor = '' 
 
-            try:
-                nota_otorgante = str(datos_encabezado.get("nota_otorgante", [''])[i])
-            except IndexError:
-                nota_otorgante = ''
+                if variable == "clave_otorgante":
+                    if i < len(datos_encabezado["clave_otorgante"]) and len(str(valor)) > 10:
+                        valor = int(valor[:10])
+                    hoja.write(fila, 0, valor, ce.agregarEstiloNaranjaInfo(libro))
 
-            try:
-                version = str(datos_encabezado.get("version", [''])[i])
-            except IndexError:
-                version = ''
+                elif variable == "nombre_otorgante":
+                    if i < len(datos_encabezado["nombre_otorgante"]) and len(valor) > 40:
+                        valor = valor[:40]
+                    hoja.write(fila, 1, valor, ce.agregarEstiloNaranjaInfo(libro))
 
-            if i < len(datos_encabezado["clave_otorgante"]) and len(str(datos_encabezado["clave_otorgante"][i])) > 10:
-                clave_otorgante = int(str(datos_encabezado["clave_otorgante"][i])[:10])
-
-            if i < len(datos_encabezado["nombre_otorgante"]) and len(str(nombre_otorgante)) > 75:
-                nombre_otorgante = str(nombre_otorgante[:75])
-
-            if i < len(datos_encabezado["identificador_medio"]) and len(str(identificador_medio)) > 10:
-                identificador_medio = str(identificador_medio[:10])
-
-            
-            if i < len(datos_encabezado["fecha_extraccion"]) and len(str(fecha_extraccion)) > 1:
-                 fecha_extraccion = str(datos_encabezado["fecha_extraccion"][i])
-                 fecha_extraccion_convertida = int(fecha_extraccion[:2] + fecha_extraccion[3:5] + fecha_extraccion[6:10])
-            else:
-                fecha_extraccion = ''
-                fecha_extraccion_convertida = ''
-            fecha_extraccion = fecha_extraccion_convertida
+                elif variable == "identificador_medio":
+                    if i < len(datos_encabezado["identificador_medio"]) and len(valor) > 10:
+                        valor = valor[:10]
+                    hoja.write(fila, 2, valor, ce.agregarEstiloAzulCieloInfo(libro))
 
 
-            if i < len(datos_encabezado["nota_otorgante"]) and len(str(nota_otorgante)) > 100:
-                nota_otorgante = str(nota_otorgante[:100])
+                elif variable == "fecha_extraccion":
+                    if i < len(datos_encabezado["fecha_extraccion"]) and len(str(valor)) > 1:
+                        valor = str(datos_encabezado["fecha_extraccion"][i])
+                        fecha_extraccion = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_extraccion = ''
+                    hoja.write(fila, 3, fecha_extraccion, ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_encabezado["version"]) and len(str(datos_encabezado["version"][i])) > 1:
-                version = int(str(datos_encabezado["version"][i])[:1])
 
-            #Escribir los datos recibidos y convertidos en las celdas
-            hoja.write(fila, 0, clave_otorgante, ce.agregarEstiloNaranjaInfo(libro))
-            hoja.write(fila, 1, nombre_otorgante, ce.agregarEstiloNaranjaInfo(libro))
-            hoja.write(fila, 2, identificador_medio, ce.agregarEstiloAzulCieloInfo(libro))
-            hoja.write(fila, 3, fecha_extraccion, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 4, nota_otorgante, ce.agregarEstiloAzulCieloInfo(libro))
-            hoja.write(fila, 5, version, ce.agregarEstiloAzulFuerteInfo(libro))
+                elif variable == "nota_otorgante":
+                    if i < len(datos_encabezado["nota_otorgante"]) and len(valor) > 100:
+                        valor = valor[:100]
+                    hoja.write(fila, 4, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+                if variable == "version":
+                    if i < len(datos_encabezado["version"]) and len(str(valor)) >= 1:
+                        valor_str = str(valor)
+                        primer_digito = valor_str[0]
+                        valor = int(primer_digito)
+                    else:
+                        valor = ''
+                    hoja.write(fila, 5, valor, ce.agregarEstiloAzulFuerteInfo(libro))
             fila += 1
         return hoja
 
     #-------------------------------Crear función del encabezado Datos Personales-------------------------------------
     def llenarCeldasDatosPersonales(self, datos_dp, libro, hoja):
+
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_dp.values()])
 
@@ -203,3 +196,241 @@ class ControllerDocumento:
 
         return hoja
             
+    
+    #-------------------------------Crear función del encabezado Domicilio--------------------------------------------
+    def llenarCeldasDomicilio(self, datos_dom, libro, hoja):
+        ce = ClaseEstilos()
+        valorMaximo = max([len(valor) for valor in datos_dom.values()])
+        variables = ["direccion_dom", "colonia_poblacion_dom", "deleg_muni_dom", "ciudad_dom",
+                        "estado_dom", "cp_dom", "fecha_residencia_dom", "telefono_dom",
+                        "tipo_dom", "tipo_asentamiento", "origen_dom"]
+
+        # Recorrer los valores y escribir en las celdas correspondientes
+        fila = 2
+        for i in range(valorMaximo):
+            for variable in variables:
+                try:
+                    valor = datos_dom.get(variable, [''])[i]
+
+                    if isinstance(valor, int):
+                        valor = int(valor)
+                    elif isinstance(valor, str):
+                        valor = str(valor)
+
+                except IndexError:
+                    valor = '' 
+
+                if variable == "direccion_dom":
+                    if i < len(datos_dom["direccion_dom"]) and len(str(valor)) >= 80:
+                        valor = valor[:80]
+                    hoja.write(fila, 24, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "colonia_poblacion_dom":
+                    if i < len(datos_dom["colonia_poblacion_dom"]) and len(str(valor)) >= 65:
+                        valor = valor[:65]
+                    hoja.write(fila, 25, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "deleg_muni_dom":
+                    if i < len(datos_dom["deleg_muni_dom"]) and len(str(valor)) >= 65:
+                        valor = valor[:65]
+                    hoja.write(fila, 26, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "ciudad_dom":
+                    if i < len(datos_dom["ciudad_dom"]) and len(str(valor)) >= 65:
+                        valor = valor[:65]
+                    hoja.write(fila, 27, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "estado_dom":
+                    if i < len(datos_dom["estado_dom"]) and len(str(valor)) >= 4:
+                        valor = valor[:4]
+                    hoja.write(fila, 28, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "cp_dom":
+                    if i < len(datos_dom["cp_dom"]) and len(str(valor)) >= 5:
+                        valor = str(valor)[:5]
+                        if valor:
+                            hoja.write(fila, 29, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        else:
+                            hoja.write(fila, 29, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 29, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "fecha_residencia_dom":
+                    if i < len(datos_dom["fecha_residencia_dom"]) and len(str(valor)) > 0:
+                        valor = str(datos_dom["fecha_residencia_dom"][i])
+                        fecha_residencia_dom = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_residencia_dom = ''
+                    hoja.write(fila, 30, fecha_residencia_dom, ce.agregarEstiloAzulCieloInfo(libro))
+
+
+                elif variable == "telefono_dom":
+                    if i < len(datos_dom["telefono_dom"]) and len(str(valor)) >= 20:
+                        valor = int(valor[:20])
+                    hoja.write(fila, 31, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+                elif variable == "tipo_dom":
+                    if i < len(datos_dom["tipo_dom"]) and len(str(valor)) >= 1:
+                        valor = valor[:1]
+                    hoja.write(fila, 32, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                
+                elif variable == "tipo_asentamiento":
+                    if i < len(datos_dom["tipo_asentamiento"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:5]
+                        if valor:
+                            hoja.write(fila, 33, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                        else:
+                            hoja.write(fila, 33, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    else:
+                        hoja.write(fila, 33, '', ce.agregarEstiloAzulCieloInfo(libro))
+
+                elif variable == "origen_dom":
+                    if i < len(datos_dom["origen_dom"]) and len(str(valor)) >= 2:
+                        valor = valor[:2]
+                    hoja.write(fila, 34, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+            fila += 1
+        return hoja
+    
+    #-------------------------------Crear función del encabezado Empleo--------------------------------------------
+    def llenarCeldasEmpleo(self, datos_emp, libro, hoja):
+        ce = ClaseEstilos()
+        valorMaximo = max([len(valor) for valor in datos_emp.values()])
+        variables = ["nombre_empresa_emp", "direccion_emp", "colonia_poblacional_emp", "deleg_mun",
+                        "ciudad_emp", "estado_emp", "cp_emp", "num_telefono_emp", "extension_emp",
+                        "fax_emp", "puesto_emp", "fecha_contratacion_emp", "clave_moneda_emp",
+                        "salario_mensual_emp", "fecha_ultimo_dia_emp", "fecha_verificacion_emp", "origen_razon_social_emp"]
+
+        # Recorrer los valores y escribir en las celdas correspondientes
+        fila = 2
+        for i in range(valorMaximo):
+            for variable in variables:
+                try:
+                    valor = datos_emp.get(variable, [''])[i]
+
+                    if isinstance(valor, int):
+                        valor = int(valor)
+                    elif isinstance(valor, str):
+                        valor = str(valor)
+
+                except IndexError:
+                    valor = '' 
+
+
+                if variable == "nombre_empresa_emp":
+                    if i < len(datos_emp["nombre_empresa_emp"]) and len(str(valor)) >= 40:
+                        valor = valor[:40]
+                    hoja.write(fila, 35, valor, ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "direccion_emp":
+                    if i < len(datos_emp["direccion_emp"]) and len(str(valor)) >= 80:
+                        valor = valor[:80]
+                    hoja.write(fila, 36, valor, ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "colonia_poblacional_emp":
+                    if i < len(datos_emp["colonia_poblacional_emp"]) and len(str(valor)) >= 65:
+                        valor = valor[:65]
+                    hoja.write(fila, 37, valor, ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "deleg_mun":
+                    if i < len(datos_emp["deleg_mun"]) and len(str(valor)) >= 65:
+                        valor = valor[:65]
+                    hoja.write(fila, 38, valor, ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "ciudad_emp":
+                    if i < len(datos_emp["ciudad_emp"]) and len(str(valor)) >= 65:
+                        valor = valor[:65]
+                    hoja.write(fila, 39, valor, ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "estado_emp":
+                    if i < len(datos_emp["estado_emp"]) and len(str(valor)) >= 4:
+                        valor = valor[:4]
+                    hoja.write(fila, 40, valor, ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "cp_emp":
+                    if i < len(datos_emp["cp_emp"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:5]
+                        if valor:
+                            hoja.write(fila, 41, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                        else:
+                            hoja.write(fila, 41, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    else:
+                        hoja.write(fila, 41, '', ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "num_telefono_emp":
+                    if i < len(datos_emp["num_telefono_emp"]) and len(str(valor)) > 20:
+                        valor = int(valor[:20])
+                    hoja.write(fila, 42, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+                elif variable == "extension_emp":
+                    if i < len(datos_emp["extension_emp"]) and len(str(valor)) > 8:
+                        valor = int(valor[:8])
+                    hoja.write(fila, 43, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+                elif variable == "fax_emp":
+                    if i < len(datos_emp["fax_emp"]) and len(str(valor)) > 20:
+                        valor = int(valor[:20])
+                    hoja.write(fila, 44, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+
+
+
+                elif variable == "puesto_emp":
+                    if i < len(datos_emp["puesto_emp"]) and len(str(valor)) > 30:
+                        valor = valor[:30]
+                    hoja.write(fila, 45, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+
+                elif variable == "fecha_contratacion_emp":
+                    if i < len(datos_emp["fecha_contratacion_emp"]) and len(str(valor)) > 1:
+                        valor = str(datos_emp["fecha_contratacion_emp"][i])
+                        fecha_contratacion_emp = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_contratacion_emp = ''
+                    hoja.write(fila, 46, fecha_contratacion_emp, ce.agregarEstiloAzulCieloInfo(libro))
+
+
+                elif variable == "clave_moneda_emp":
+                    if i < len(datos_emp["clave_moneda_emp"]) and len(str(valor)) == 2:
+                        valor = valor[:2]
+                    hoja.write(fila, 47, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+                elif variable == "salario_mensual_emp":
+                    if i < len(datos_emp["salario_mensual_emp"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:5]
+                        if valor:
+                            hoja.write(fila, 48, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                        else:
+                            hoja.write(fila, 48, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    else:
+                        hoja.write(fila, 48, '', ce.agregarEstiloAzulCieloInfo(libro))
+
+
+                elif variable == "fecha_ultimo_dia_emp":
+                    if i < len(datos_emp["fecha_ultimo_dia_emp"]) and len(str(valor)) > 1:
+                        valor = str(datos_emp["fecha_ultimo_dia_emp"][i])
+                        fecha_ultimo_dia_emp = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_ultimo_dia_emp = ''
+                    hoja.write(fila, 49, fecha_ultimo_dia_emp, ce.agregarEstiloAzulCieloInfo(libro))
+
+
+                elif variable == "fecha_verificacion_emp":
+                    if i < len(datos_emp["fecha_verificacion_emp"]) and len(str(valor)) > 1:
+                        valor = str(datos_emp["fecha_verificacion_emp"][i])
+                        fecha_verificacion_emp = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_verificacion_emp = ''
+                    hoja.write(fila, 50, fecha_verificacion_emp, ce.agregarEstiloAzulCieloInfo(libro))
+
+
+                elif variable == "origen_razon_social_emp":
+                    if i < len(datos_emp["origen_razon_social_emp"]) and len(str(valor)) == 2:
+                        valor = valor[:2]
+                    hoja.write(fila, 51, valor, ce.agregarEstiloAzulCieloInfo(libro))
+            fila += 1
+        return hoja
