@@ -43,14 +43,12 @@ class ControllerDocumento:
             try:
                 periodo_reporta = str(datos_encabezado.get("periodo_reporta", [''])[i])
             except IndexError:
-                datos_encabezado[i] = ' '
-                periodo_reporta = datos_encabezado[i]
+                periodo_reporta = ' '
 
             try:
                 version = int(datos_encabezado.get("version", [''])[i])
             except IndexError:
-                datos_encabezado[i] = ' '
-                version = datos_encabezado[i]
+                version = ' '
             
             fecha_convertida = ' '
 
