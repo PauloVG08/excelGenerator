@@ -1,6 +1,8 @@
 from estilosPF import ClaseEstilos
+import textwrap
 
 class ControllerDocumento:
+    
     #-------------------------------Crear función del encabezado Encabezado-------------------------------------
     def llenarCeldasEncabezado(self, datos_encabezado, libro, hoja):
         ce = ClaseEstilos()
@@ -280,8 +282,8 @@ class ControllerDocumento:
                         valor = str(valor)[:5]
                         if valor:
                             hoja.write(fila, 33, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        else:
-                            hoja.write(fila, 33, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 33, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 33, '', ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -294,7 +296,7 @@ class ControllerDocumento:
         return hoja
     
     #-------------------------------Crear función del encabezado Empleo--------------------------------------------
-    def llenarCeldasEmpleo(self, datos_emp, libro, hoja):
+    def llenarCeldasEmpleo(self, datos_emp, libro, hoja): 
         ce = ClaseEstilos()
         valorMaximo = max([len(valor) for valor in datos_emp.values()])
         variables = ["nombre_empresa_emp", "direccion_emp", "colonia_poblacional_emp", "deleg_mun",
@@ -353,8 +355,8 @@ class ControllerDocumento:
                         valor = str(valor)[:5]
                         if valor:
                             hoja.write(fila, 41, int(valor), ce.agregarEstiloAmarilloInfo(libro))
-                        else:
-                            hoja.write(fila, 41, valor, ce.agregarEstiloAmarilloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 41, valor, ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 41, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -402,8 +404,8 @@ class ControllerDocumento:
                         valor = str(valor)[:5]
                         if valor:
                             hoja.write(fila, 48, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        else:
-                            hoja.write(fila, 48, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 48, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 48, '', ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -434,3 +436,456 @@ class ControllerDocumento:
                     hoja.write(fila, 51, valor, ce.agregarEstiloAzulCieloInfo(libro))
             fila += 1
         return hoja
+
+    def llenarCeldasDC(self, datos_dc, libro, hoja):
+        ce = ClaseEstilos()
+        valorMaximo = max([len(valor) for valor in datos_dc.values()])
+        variables = ["clave_actual_dc", "nombre_otorgante_dc", "cuenta_actual_dc", "tipo_responsabilidad_dc",
+                     "tipo_cuenta_dc", "tipo_contrato_dc", "clave_uni_monetaria_dc", "valor_activo_dc", 
+                     "num_pagos_dc", "frecuencia_pagos_dc", "monto_pagar_dc", "fecha_apertura_dc",
+                     "fecha_ultimo_pago_dc", "fecha_utlima_compra_dc", "fecha_cierre_cuenta_dc", "fecha_corte_dc",
+                     "garantia_dc", "credito_maximo_dc", "saldo_actual_dc", "limite_credito_dc",
+                     "saldo_vencido_dc", "num_pagos_vencidos_dc", "pago_actual_dc", "historico_pagos_dc",
+                     "clave_prevencion_dc", "total_pagos_rep_dc", "clave_anterior_otor_dc", "nombre_anterior_otor_dc",
+                     "num_cuenta_anterior_dc", "fecha_primer_incump_dc", "saldo_insoluto_dc", "monto_ultimo_pago",
+                     "fecha_ingreso_carterav_dc", "monto_intereses_dc", "forma_pago_ac_int_dc", "dias_vencimiento_dc",
+                     "plazo_meses_dc", "monto_creditoOri_dc", "correo_consumidor_dc"]
+                    
+        # Recorrer los valores y escribir en las celdas correspondientes
+        fila = 2
+        for i in range(valorMaximo):
+            for variable in variables:
+                try:
+                    valor = datos_dc.get(variable, [''])[i]
+
+                    if isinstance(valor, int):
+                        valor = int(valor)
+                    elif isinstance(valor, str):
+                        valor = str(valor)
+                except IndexError:
+                    valor = '' 
+            
+
+                if variable == "clave_actual_dc":
+                    if i < len(datos_dc["clave_actual_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:10]
+                        if valor:
+                            hoja.write(fila, 52, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 52, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    else:
+                        hoja.write(fila, 52, '', ce.agregarEstiloAmarilloInfo(libro))
+                    
+                elif variable == "nombre_otorgante_dc":
+                    if i < len(datos_dc["nombre_otorgante_dc"]) and len(str(valor)) > 40:
+                        valor = valor[:40]
+                    hoja.write(fila, 53, valor, ce.agregarEstiloAmarilloInfo(libro))
+                
+                elif variable == "cuenta_actual_dc":
+                    if i < len(datos_dc["cuenta_actual_dc"]) and len(str(valor)) > 25:
+                        valor = valor[:25]
+                    hoja.write(fila, 54, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                
+                elif variable == "tipo_responsabilidad_dc":
+                    if i < len(datos_dc["tipo_responsabilidad_dc"]) and len(str(valor)) > 1:
+                        valor = valor[:1]
+                    hoja.write(fila, 55, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                
+                elif variable == "tipo_cuenta_dc":
+                    if i < len(datos_dc["tipo_cuenta_dc"]) and len(str(valor)) > 1:
+                        valor = valor[:1]
+                    hoja.write(fila, 56, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                
+                elif variable == "tipo_contrato_dc":
+                    if i < len(datos_dc["tipo_contrato_dc"]) and len(str(valor)) > 2:
+                        valor = valor[:2]
+                    hoja.write(fila, 57, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                
+                elif variable == "clave_uni_monetaria_dc":
+                    if i < len(datos_dc["clave_uni_monetaria_dc"]) and len(str(valor)) > 2:
+                        valor = valor[:2]
+                    hoja.write(fila, 58, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                
+                if variable == "valor_activo_dc":
+                    if i < len(datos_dc["valor_activo_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 59, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 59, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    else:
+                        hoja.write(fila, 59, '', ce.agregarEstiloAzulCieloInfo(libro))
+
+                if variable == "num_pagos_dc":
+                    if i < len(datos_dc["num_pagos_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:4]
+                        if valor:
+                            hoja.write(fila, 60, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 60, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 60, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "frecuencia_pagos_dc":
+                    if i < len(datos_dc["frecuencia_pagos_dc"]) and len(str(valor)) > 1:
+                        valor = valor[:1]
+                    hoja.write(fila, 61, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                if variable == "monto_pagar_dc":
+                    if i < len(datos_dc["monto_pagar_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 62, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 62, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 62, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                
+                elif variable == "fecha_apertura_dc":
+                    if i < len(datos_dc["fecha_apertura_dc"]) and len(str(valor)) > 0:
+                        valor = str(datos_dc["fecha_apertura_dc"][i])
+                        fecha_apertura_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_apertura_dc = ''
+                    hoja.write(fila, 63, fecha_apertura_dc, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                
+                elif variable == "fecha_ultimo_pago_dc":
+                    if i < len(datos_dc["fecha_ultimo_pago_dc"]) and len(str(valor)) > 0:
+                        valor = str(datos_dc["fecha_ultimo_pago_dc"][i])
+                        fecha_ultimo_pago_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_ultimo_pago_dc = ''
+                    hoja.write(fila, 64, fecha_ultimo_pago_dc, ce.agregarEstiloAzulFuerteInfo(libro))
+
+
+                elif variable == "fecha_utlima_compra_dc":
+                    if i < len(datos_dc["fecha_utlima_compra_dc"]) and len(str(valor)) > 0:
+                        valor = str(datos_dc["fecha_utlima_compra_dc"][i])
+                        fecha_utlima_compra_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_utlima_compra_dc = ''
+                    hoja.write(fila, 65, fecha_utlima_compra_dc, ce.agregarEstiloAzulFuerteInfo(libro))
+
+
+                elif variable == "fecha_cierre_cuenta_dc":
+                    if i < len(datos_dc["fecha_cierre_cuenta_dc"]) and len(str(valor)) > 0:
+                        valor = str(datos_dc["fecha_cierre_cuenta_dc"][i])
+                        fecha_cierre_cuenta = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_cierre_cuenta = ''
+                    hoja.write(fila, 66, fecha_cierre_cuenta, ce.agregarEstiloAzulCieloInfo(libro))
+
+
+                elif variable == "fecha_corte_dc":
+                    if i < len(datos_dc["fecha_corte_dc"]) and len(str(valor)) > 0:
+                        valor = str(datos_dc["fecha_corte_dc"][i])
+                        fecha_corte_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_corte_dc = ''
+                    hoja.write(fila, 67, fecha_corte_dc, ce.agregarEstiloAzulFuerteInfo(libro))
+
+
+                elif variable == "garantia_dc":
+                    if i < len(datos_dc["garantia_dc"]) and len(str(valor)) > 200:
+                        valor = valor[:200]
+                    # Dividir el texto en líneas de máximo 30 caracteres
+                    lineas = textwrap.wrap(valor, width=30)
+                    # Escribir las líneas en la misma celda con saltos de línea
+                    hoja.write(fila, 68, "\n".join(lineas), ce.agregarEstiloAzulCieloInfo(libro))
+
+                if variable == "credito_maximo_dc":
+                    if i < len(datos_dc["credito_maximo_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 69, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 69, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 69, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                if variable == "saldo_actual_dc":
+                    if i < len(datos_dc["saldo_actual_dc"]) and len(str(valor)) > 10:
+                        valor = str(valor)[:10]
+                        if valor:
+                            hoja.write(fila, 70, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        else:
+                            hoja.write(fila, 70, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 70, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                if variable == "limite_credito_dc":
+                    if i < len(datos_dc["limite_credito_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 71, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 71, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 71, '', ce.agregarEstiloAzulFuerteInfo(libro))
+                        
+                if variable == "saldo_vencido_dc":
+                    if i < len(datos_dc["saldo_vencido_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 72, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 72, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 72, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                if variable == "num_pagos_vencidos_dc":
+                    if i < len(datos_dc["num_pagos_vencidos_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:4]
+                        if valor:
+                            hoja.write(fila, 73, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 73, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    else:
+                        hoja.write(fila, 73, '', ce.agregarEstiloAzulCieloInfo(libro))
+
+                elif variable == "pago_actual_dc":
+                    if i < len(datos_dc["pago_actual_dc"]) and len(str(valor)) > 2:
+                        valor = valor[:2]
+                    hoja.write(fila, 74, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "historico_pagos_dc":
+                    if i < len(datos_dc["historico_pagos_dc"]) and len(str(valor)) > 168:
+                        valor = valor[:168]
+                    # Dividir el texto en líneas de máximo 30 caracteres
+                    lineas = textwrap.wrap(valor, width=30)
+                    # Escribir las líneas en la misma celda con saltos de línea
+                    hoja.write(fila, 75, "\n".join(lineas), ce.agregarEstiloAzulCieloInfo(libro))
+
+                elif variable == "clave_prevencion_dc":
+                    if i < len(datos_dc["clave_prevencion_dc"]) and len(str(valor)) > 2:
+                        valor = valor[:2]
+                    hoja.write(fila, 76, valor, ce.agregarEstiloAzulCieloInfo(libro))
+
+                if variable == "total_pagos_rep_dc":
+                    if i < len(datos_dc["total_pagos_rep_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:3]
+                        if valor:
+                            hoja.write(fila, 77, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 77, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    else:
+                        hoja.write(fila, 77, '', ce.agregarEstiloAzulCieloInfo(libro))
+
+                if variable == "clave_anterior_otor_dc":
+                    if i < len(datos_dc["clave_anterior_otor_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:10]
+                        if valor:
+                            hoja.write(fila, 78, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 78, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    else:
+                        hoja.write(fila, 78, '', ce.agregarEstiloAzulCieloInfo(libro))
+                #----------------ALERTA DUDA-------------------------------------------
+                elif variable == "nombre_anterior_otor_dc":
+                    if i < len(datos_dc["nombre_anterior_otor_dc"]) and len(str(valor)) > 25:
+                        valor = valor[:25]
+                    hoja.write(fila, 79, valor, ce.agregarEstiloAzulCieloInfo(libro))  
+
+                #----------------ALERTA DUDA-------------------------------------------
+                elif variable == "num_cuenta_anterior_dc":
+                    if i < len(datos_dc["num_cuenta_anterior_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:10]
+                        if valor:
+                            hoja.write(fila, 80, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 80, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    else:
+                        hoja.write(fila, 80, '', ce.agregarEstiloAzulCieloInfo(libro)) 
+
+
+                elif variable == "fecha_primer_incump_dc":
+                    if i < len(datos_dc["fecha_primer_incump_dc"]) and len(str(valor)) > 0:
+                        valor = str(datos_dc["fecha_primer_incump_dc"][i])
+                        fecha_primer_incump_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_primer_incump_dc = ''
+                    hoja.write(fila, 81, fecha_primer_incump_dc, ce.agregarEstiloAmarilloInfo(libro))
+
+
+                elif variable == "saldo_insoluto_dc":
+                    if i < len(datos_dc["saldo_insoluto_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:10]
+                        if valor:
+                            hoja.write(fila, 82, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        else:
+                            hoja.write(fila, 82, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 82, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "monto_ultimo_pago":
+                    if i < len(datos_dc["monto_ultimo_pago"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:10]
+                        if valor:
+                            hoja.write(fila, 83, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 83, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    else:
+                        hoja.write(fila, 83, '', ce.agregarEstiloAmarilloInfo(libro))
+
+
+                elif variable == "fecha_ingreso_carterav_dc":
+                    if i < len(datos_dc["fecha_ingreso_carterav_dc"]) and len(str(valor)) > 0:
+                        valor = str(datos_dc["fecha_ingreso_carterav_dc"][i])
+                        fecha_ingreso_carterav_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                    else:
+                        valor = ''
+                        fecha_ingreso_carterav_dc = ''
+                    hoja.write(fila, 84, fecha_ingreso_carterav_dc, ce.agregarEstiloAmarilloInfo(libro))
+
+
+                elif variable == "monto_intereses_dc":
+                    if i < len(datos_dc["monto_intereses_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 85, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 85, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    else:
+                        hoja.write(fila, 85, '', ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "forma_pago_ac_int_dc":
+                    if i < len(datos_dc["forma_pago_ac_int_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:2]
+                        if valor:
+                            hoja.write(fila, 86, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 86, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    else:
+                        hoja.write(fila, 86, '', ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "dias_vencimiento_dc":
+                    if i < len(datos_dc["dias_vencimiento_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:3]
+                        if valor:
+                            hoja.write(fila, 87, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 87, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    else:
+                        hoja.write(fila, 87, '', ce.agregarEstiloAmarilloInfo(libro))
+
+                elif variable == "plazo_meses_dc":
+                    if i < len(datos_dc["plazo_meses_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:3]
+                        if valor:
+                            hoja.write(fila, 88, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 88, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 88, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "monto_creditoOri_dc":
+                    if i < len(datos_dc["monto_creditoOri_dc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:10]
+                        if valor:
+                            hoja.write(fila, 89, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        # else:
+                        #     hoja.write(fila, 88, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 89, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "correo_consumidor_dc":
+                    if i < len(datos_dc["correo_consumidor_dc"]) and len(str(valor)) > 40:
+                        valor = valor[:40]
+                    hoja.write(fila, 90, valor, ce.agregarEstiloAzulCieloInfo(libro)) 
+
+            fila += 1
+        return hoja
+    
+    def llenarCeldasCifrasControl(self, datos_cc, libro, hoja):
+        ce = ClaseEstilos()
+        valorMaximo = max([len(valor) for valor in datos_cc.values()])
+        variables = ["total_saldos_act_cc", "total_saldos_venc_cc", "total_elementosNR_cc", "total_elementosDR_cc",
+                     "total_elementosER_cc", "total_elementosCR_cc", "nombre_otorgante_cc", "domicilio_devolucion"]
+                    
+        # Recorrer los valores y escribir en las celdas correspondientes
+        fila = 2
+        for i in range(valorMaximo):
+            for variable in variables:
+                try:
+                    valor = datos_cc.get(variable, [''])[i]
+
+                    if isinstance(valor, int):
+                        valor = int(valor)
+                    elif isinstance(valor, str):
+                        valor = str(valor)
+                except IndexError:
+                    valor = ''
+
+                if variable == "total_saldos_act_cc":
+                    if i < len(datos_cc["total_saldos_act_cc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:14]
+                        if valor:
+                            hoja.write(fila, 91, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 91, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "total_saldos_venc_cc":
+                    if i < len(datos_cc["total_saldos_venc_cc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:14]
+                        if valor:
+                            hoja.write(fila, 92, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 92, '', ce.agregarEstiloAzulFuerteInfo(libro))
+               
+                elif variable == "total_elementosNR_cc":
+                    if i < len(datos_cc["total_elementosNR_cc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 93, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 93, '', ce.agregarEstiloAzulFuerteInfo(libro))
+               
+                elif variable == "total_elementosDR_cc":
+                    if i < len(datos_cc["total_elementosDR_cc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 94, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 94, '', ce.agregarEstiloAzulFuerteInfo(libro))
+               
+                elif variable == "total_elementosER_cc":
+                    if i < len(datos_cc["total_elementosER_cc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 95, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 95, '', ce.agregarEstiloAzulFuerteInfo(libro))
+               
+                elif variable == "total_elementosCR_cc":
+                    if i < len(datos_cc["total_elementosCR_cc"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:9]
+                        if valor:
+                            hoja.write(fila, 96, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                    else:
+                        hoja.write(fila, 96, '', ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "nombre_otorgante_cc":
+                    if i < len(datos_cc["nombre_otorgante_cc"]) and len(str(valor)) > 40:
+                        valor = valor[:40]
+                    hoja.write(fila, 97, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "domicilio_devolucion":
+                    if i < len(datos_cc["domicilio_devolucion"]) and len(str(valor)) > 160:
+                        valor = valor[:160]
+                    # Dividir el texto en líneas de máximo 30 caracteres
+                    lineas = textwrap.wrap(valor, width=30)
+                    # Escribir las líneas en la misma celda con saltos de línea
+                    hoja.write(fila, 98, "\n".join(lineas), ce.agregarEstiloAzulCieloInfo(libro))    
+
+            fila += 1
+        return hoja
+
+                

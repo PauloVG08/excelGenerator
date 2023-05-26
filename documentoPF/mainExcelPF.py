@@ -49,6 +49,7 @@ datos_dp = {
     "indicador_defuncion_dp": ['F'],
     "tipo_person_dp": ['ME', 'MX', 'LA'],
 }
+
 cd.llenarCeldasDatosPersonales(datos_dp, libro, hoja)
 
 #-------------------------Recibiendo datos y llamando función Domicilio------------------------------------------------
@@ -91,6 +92,64 @@ datos_emp = {
 
 cd.llenarCeldasEmpleo(datos_emp, libro, hoja)
 
+#-------------------------Recibiendo datos y llamando función Datos cuenta---------------------------------------------
+datos_dc = {
+    "clave_actual_dc": [12345678901111, 123],
+    "nombre_otorgante_dc": ['name1', 'name2', "name3"],
+    "cuenta_actual_dc": ['abc123', 'cde456'],
+    "tipo_responsabilidad_dc": ['ab'],
+    "tipo_cuenta_dc": ['jkl'],
+    "tipo_contrato_dc": ['zxy'],
+    "clave_uni_monetaria_dc": ['jkl', 'frt'],
+    "valor_activo_dc": [123456789000, 1234],
+    "num_pagos_dc": [12345, 123],
+    "frecuencia_pagos_dc": ['ABC', "DEF"],
+    "monto_pagar_dc": [1234, 567, 8910],
+    "fecha_apertura_dc": ["05/11/2023"],
+    "fecha_ultimo_pago_dc": ["18/03/2024"],
+    "fecha_utlima_compra_dc": ["29/09/2022", "22/11/2022"],
+    "fecha_cierre_cuenta_dc": ["07/08/2023", "03/07/2023"],
+    "fecha_corte_dc": ["05/11/2023"],
+    "garantia_dc": ["ABCDEFG12345kkkkkkkkkkkkkkkkkkkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaa"],
+    "credito_maximo_dc": [1234, 5678, 123456789000],
+    "saldo_actual_dc": [1234567890111],
+    "limite_credito_dc": [123456789000],
+    "saldo_vencido_dc": [123456789000],
+    "num_pagos_vencidos_dc": [12345555, 98765444],
+    "pago_actual_dc": ["ABC", "DEF"],
+    "historico_pagos_dc": ["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],
+    "clave_prevencion_dc": ["AMA", "TKM"],
+    "total_pagos_rep_dc": [123, 4],
+    "clave_anterior_otor_dc": [1234567890111],
+    "nombre_anterior_otor_dc": ["nombre1", "nombre2", "nombre3"],
+    "num_cuenta_anterior_dc": [1234567890111],
+    "fecha_primer_incump_dc": ['27/04/2006'],
+    "saldo_insoluto_dc": [1234567890111, 123],
+    "monto_ultimo_pago": [123456789011, 12345],
+    "fecha_ingreso_carterav_dc": ['20/12/2009', '16/01/2025'],
+    "monto_intereses_dc": [123456789000],
+    "forma_pago_ac_int_dc": [987],
+    "dias_vencimiento_dc": [123, 456, 8],
+    "plazo_meses_dc": [12345666, ''],
+    "monto_creditoOri_dc": [12345678990111],
+    "correo_consumidor_dc": ["correo@gmail.com"],
+}
+
+cd.llenarCeldasDC(datos_dc, libro, hoja)
+
+#-------------------------Recibiendo datos y llamando función Cifras Control---------------------------------------------
+datos_cc = {
+    "total_saldos_act_cc": [8465498615, 6545254312065120],
+    "total_saldos_venc_cc": [123456789123456666],
+    "total_elementosNR_cc": [12345678900],
+    "total_elementosDR_cc": [987654321000],
+    "total_elementosER_cc": [123456789000],
+    "total_elementosCR_cc": [1234567890000],
+    "nombre_otorgante_cc": ["Arturo", "Arturito"],
+    "domicilio_devolucion": ["Mi domicilio muy largo para comprobar el salto de linea"],
+}
+cd.llenarCeldasCifrasControl(datos_cc, libro, hoja)
+#-----------------------------------------------------------------------------------------------------------------------
 #Se le da un tamaño automático a cada celda con este método
 hoja.autofit()
 #Se cierra el libro
