@@ -1,375 +1,349 @@
-import xlsxwriter
+import textwrap
 from estilos_documentoPM import ClaseEstilos
 
 class ControllerDocumento:
+#-----------------------------------Función  para obtener el valor maximo--------------------------------------
+    def obtenerValorMaximo(self, datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval):
+            maximo_datos_encabezado = 0
+            maximo_datos_empresa = 0
+            maximo_datos_accionista = 0
+            maximo_datos_credito = 0
+            maximo_datos_detalle_credito = 0
+            maximo_datos_aval = 0
+
+            for valores in datos_encabezado.values():
+                cantidad_actual = len(valores)
+                if cantidad_actual > maximo_datos_encabezado:
+                    maximo_datos_encabezado = cantidad_actual
+
+            for valores in datos_empresa.values():
+                cantidad_actual = len(valores)
+                if cantidad_actual > maximo_datos_empresa:
+                    maximo_datos_empresa = cantidad_actual
+
+            for valores in datos_accionista.values():
+                cantidad_actual = len(valores)
+                if cantidad_actual > maximo_datos_accionista:
+                    maximo_datos_accionista = cantidad_actual
+
+            for valores in datos_credito.values():
+                cantidad_actual = len(valores)
+                if cantidad_actual > maximo_datos_credito:
+                    maximo_datos_credito = cantidad_actual
+
+            for valores in datos_detalle_credito.values():
+                cantidad_actual = len(valores)
+                if cantidad_actual > maximo_datos_detalle_credito:
+                    maximo_datos_detalle_credito = cantidad_actual
+
+            for valores in datos_aval.values():
+                cantidad_actual = len(valores)
+                if cantidad_actual > maximo_datos_aval:
+                    maximo_datos_aval = cantidad_actual
+
+            valorMaximo = max(maximo_datos_encabezado, maximo_datos_empresa, maximo_datos_accionista, maximo_datos_credito, 
+                              maximo_datos_detalle_credito, maximo_datos_aval)
+            return valorMaximo
+
 #------------------------------------Funcion de Encabezado---------------------------------------------------
-    def llenarDatosEncabezado(self, datos_encabezado, libro, hoja):
+    def llenarDatosEncabezado(self, datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja):
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_encabezado.values()])
+        #valorMaximo = max([len(valor) for valor in datos_encabezado.values()])
+        variables = ["otorgante", "otorgante_anterior", "nombre_otorgante", "institucion",
+                     "formato", "fecha", "periodo_reporta", "version"]
+
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval)
+        for variable, valores in datos_encabezado.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
 
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
         for i in range(valorMaximo):
-            try:
-                otorgante = int(datos_encabezado.get("otorgante", [''])[i])
-            except IndexError:
-                otorgante = ' '
+            for variable in variables:
+                try:
+                    valor = datos_encabezado.get(variable, [''])[i]
 
-            try:
-                otorgante_anterior = int(datos_encabezado.get("otorgante_anterior", [''])[i])
-            except IndexError:
-                otorgante_anterior = ' '
+                    if isinstance(valor, int):
+                        valor = int(valor)
+                    elif isinstance(valor, str):
+                        valor = str(valor)
+
+                except IndexError:
+                    valor = '' 
             
-            try:
-                nombre_otorgante = str(datos_encabezado.get("nombre_otorgante", [''])[i])
-            except IndexError:
-                nombre_otorgante = ' '
-                
-            try:
-                institucion = str(datos_encabezado.get("institucion", [''])[i])
-            except IndexError:
-                institucion = ' '
-
-            try:
-                formato = str(datos_encabezado.get("formato", [''])[i])
-            except IndexError:
-                formato = ' '
-
-            try:
-                fecha = str(datos_encabezado.get("fecha", [''])[i])
-            except IndexError:
-                fecha = ' '
             
-            try:
-                periodo_reporta = str(datos_encabezado.get("periodo_reporta", [''])[i])
-            except IndexError:
-                periodo_reporta = ' '
+                if variable == "otorgante":
+                        if i < len(datos_encabezado["otorgante"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:4]
+                            if valor:
+                                hoja.write(fila, 0, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                        else:
+                            hoja.write(fila, 0, '', ce.agregarEstiloAmarilloInfo(libro))
 
-            try:
-                version = int(datos_encabezado.get("version", [''])[i])
-            except IndexError:
-                version = ' '
-            
-            fecha_convertida = ' '
+                if variable == "otorgante_anterior":
+                        if i < len(datos_encabezado["otorgante_anterior"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:4]
+                            if valor:
+                                hoja.write(fila, 1, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                        else:
+                            hoja.write(fila, 1, '', ce.agregarEstiloAzulClaroInfo(libro))
 
-            # if i < len(datos_encabezado["otorgante"]) and  len(str(otorgante)) < 4:
-            #     print("El otorgante en la posición", i + 1, " no tiene la cantidad de digitos necesarios (4).")
-            
-            if i < len(datos_encabezado["otorgante"]) and len(str(datos_encabezado["otorgante"][i])) > 4:
-                otorgante = int(str(datos_encabezado["otorgante"][i])[:4])
+                elif variable == "nombre_otorgante":
+                        if i < len(datos_encabezado["nombre_otorgante"]) and len(str(valor)) > 75:
+                            valor = valor[:75]
+                        # Dividir el texto en líneas de máximo 30 caracteres
+                        lineas = textwrap.wrap(valor, width = 20)
+                        # Escribir las líneas en la misma celda con saltos de línea
+                        hoja.write(fila, 2, "\n".join(lineas), ce.agregarEstiloAmarilloInfo(libro))
 
-            if i < len(datos_encabezado["otorgante_anterior"]) and len(str(otorgante_anterior)) > 4:
-                otorgante_anterior = int(str(datos_encabezado["otorgante_anterior"][i])[:4])
+                elif variable == "institucion":
+                        if i < len(datos_encabezado["institucion"]) and len(str(valor)) > 3:
+                            valor = valor[:3]
+                        hoja.write(fila, 3, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_encabezado["nombre_otorgante"]) and len(str(nombre_otorgante)) > 75:
-                nombre_otorgante = str(nombre_otorgante[:75])
-
-            # if i < len(datos_encabezado["institucion"]) and len(str(institucion)) < 3:
-            #     print("La institucion en la posición", i + 1, " debe tener 3 caracteres.")
-
-            if i < len(datos_encabezado["institucion"]) and len(str(institucion)) > 3:
-                institucion = str(institucion[:3])
-
-            if i < len(datos_encabezado["formato"]) and len(str(formato)) > 1:
-                formato = str(formato[:1])
-
-
-            if i < len(datos_encabezado["fecha"]) and len(str(fecha)) > 1:
-                 fecha = str(datos_encabezado["fecha"][i])
-                 fecha_convertida = fecha[:2] + fecha[3:5] + fecha[6:10]
-            else:
-                fecha = ''
-                fecha_convertida = ''
+                elif variable == "formato":
+                        if i < len(datos_encabezado["formato"]) and len(str(valor)) > 1:
+                            valor = valor[:1]
+                        hoja.write(fila, 4, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
 
-            if i < len(datos_encabezado["periodo_reporta"]) and len(str(periodo_reporta)) > 1:
-                 periodo_reporta = str(datos_encabezado["periodo_reporta"][i])
-                 periodo_reporta_convertido = periodo_reporta[3:5] + periodo_reporta[6:10]
-            else:
-                periodo_reporta = ''
-                periodo_reporta_convertido = ''
+                elif variable == "fecha":
+                        if i < len(datos_encabezado["fecha"]) and len(str(valor)) > 0:
+                            valor = str(datos_encabezado["fecha"][i])
+                            fecha = str(valor[:2] + valor[3:5] + valor[6:10])
+                        else:
+                            valor = ''
+                            fecha = ''
+                        hoja.write(fila, 5, fecha, ce.agregarEstiloAzulFuerteInfo(libro))
 
 
-            if i < len(datos_encabezado["version"]) and len(str(version)) > 2:
-                version = int(str(datos_encabezado["version"][i])[:2]) 
+                elif variable == "periodo_reporta":
+                        if i < len(datos_encabezado["periodo_reporta"]) and len(str(valor)) > 0:
+                            valor = str(datos_encabezado["periodo_reporta"][i])
+                            periodo_reporta = str(valor[:2] + valor[3:5] + valor[6:10])
+                        else:
+                            valor = ''
+                            periodo_reporta = ''
+                        hoja.write(fila, 6, periodo_reporta, ce.agregarEstiloAzulFuerteInfo(libro))
 
-            fecha = fecha_convertida
-            periodo_reporta = periodo_reporta_convertido
 
-            hoja.write(fila, 0, otorgante, ce.agregarEstiloAmarilloInfo(libro))
-            hoja.write(fila, 1, otorgante_anterior, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 2, nombre_otorgante, ce.agregarEstiloAmarilloInfo(libro))
-            hoja.write(fila, 3, institucion, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 4, formato, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 5, fecha, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 6, periodo_reporta, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 7, version, ce.agregarEstiloAzulFuerteInfo(libro))
+                if variable == "version":
+                        if i < len(datos_encabezado["version"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:2]
+                            if valor:
+                                hoja.write(fila, 7, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        else:
+                            hoja.write(fila, 7, '', ce.agregarEstiloAzulFuerteInfo(libro)) 
             fila += 1
         return hoja
     
 #--------------------------Funcion Empresa--------------------------------------------------------------------------
-    def llenarDatosEmpresa(self, datos_empresa, libro, hoja):
+    def llenarDatosEmpresa(self, datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja):
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_empresa.values()])
+        
+        variables = ["rfc_empresa", "curp_empresa", "compania_empresa", "nombre1_empresa",
+                     "nombre2_empresa", "apellido_paterno_empresa", "apellido_materno_empresa", "nacionalidad_empresa",
+                     "cal_cartera_empresa", "clave_banxico1", "clave_banxico2", "clave_banxico3",
+                     "direccion1_empresa", "direccion2_empresa", "colonia_empresa", "deleg_mun_empresa",
+                     "ciudad_empresa", "estado_empresa", "cp_empresa", "telefono_empresa",
+                     "extension_empresa", "fax_empresa", "tipo_cliente_empresa", "edo_extranjero_empresa",
+                     "pais_empresa", "tel_movil_empresa", "correo_empresa"]
+
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval)
+        for variable, valores in datos_empresa.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
 
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
-
         for i in range(valorMaximo):
-            try:
-                rfc_empresa = str(datos_empresa.get("rfc_empresa", [''])[i])
-            except IndexError:
-                rfc_empresa = ''
-    
-            try:
-                curp_empresa = str(datos_empresa.get("curp_empresa", [''])[i])
-            except (IndexError, TypeError):
-                curp_empresa = ' '
+            for variable in variables:
+                try:
+                    valor = datos_empresa.get(variable, [''])[i]
 
-            try:
-                compania_empresa = str(datos_empresa.get("compania_empresa", [''])[i])
-            except IndexError:
-                compania_empresa = ''
+                    if isinstance(valor, int):
+                        valor = int(valor)
+                    elif isinstance(valor, str):
+                        valor = str(valor)
 
-            try:
-                nombre1_empresa = str(datos_empresa.get("nombre1_empresa", [''])[i])
-            except IndexError:
-                nombre1_empresa = ' '
+                except IndexError:
+                    valor = ''
 
-            try:
-                nombre2_empresa = str(datos_empresa.get("nombre2_empresa", [''])[i])
-            except IndexError:
-                nombre2_empresa = ' '
-
-            try:
-                apellido_paterno_empresa = str(datos_empresa.get("apellido_paterno_empresa", [''])[i])
-            except IndexError:
-                apellido_paterno_empresa = ' '
-
-            try:
-                apellido_materno_empresa = str(datos_empresa.get("apellido_materno_empresa", [''])[i])
-            except IndexError:
-                apellido_materno_empresa = ' '
-
-            try:
-                nacionalidad_empresa = str(datos_empresa.get("nacionalidad_empresa", [''])[i])
-            except IndexError:
-                nacionalidad_empresa = ' '
-
-            try:
-                cal_cartera_empresa = str(datos_empresa.get("cal_cartera_empresa", [''])[i])
-            except IndexError:
-                cal_cartera_empresa = ' '
-
-            try:
-                clave_banxico1 = int(datos_empresa.get("clave_banxico1", [''])[i])
-            except IndexError:
-                clave_banxico1 = ' '
-
-            try:
-                clave_banxico2 = int(datos_empresa.get("clave_banxico2", [''])[i])
-            except IndexError:
-                clave_banxico2 = ' '
-
-            try:
-                clave_banxico3 = int(datos_empresa.get("clave_banxico3", [''])[i])
-            except IndexError:
-                clave_banxico3 = ' '
-
-            try:
-                direccion1_empresa = str(datos_empresa.get("direccion1_empresa", [''])[i])
-            except IndexError:
-                direccion1_empresa = ' '
-
-            try:
-                direccion2_empresa = str(datos_empresa.get("direccion2_empresa", [''])[i])
-            except IndexError:
-                direccion2_empresa = ' ' 
-
-            try:
-                colonia_empresa = str(datos_empresa.get("colonia_empresa", [''])[i])
-            except IndexError:
-                colonia_empresa = ' '
-
-            try:
-                deleg_mun_empresa = str(datos_empresa.get("deleg_mun_empresa", [''])[i])
-            except IndexError:
-                deleg_mun_empresa = ' '
-
-            try:
-                ciudad_empresa = str(datos_empresa.get("ciudad_empresa", [''])[i])
-            except IndexError:
-                ciudad_empresa = ' '
-
-            try:
-                estado_empresa = str(datos_empresa.get("estado_empresa", [''])[i])
-            except IndexError:
-                estado_empresa = ' '
-
-            try:
-                cp_empresa = str(datos_empresa.get("cp_empresa", [''])[i])
-            except IndexError:
-                cp_empresa = ' '
-
-            try:
-                telefono_empresa = str(datos_empresa.get("telefono_empresa", [''])[i])
-            except IndexError:
-                telefono_empresa = ' '
-
-            try:
-                extension_empresa = str(datos_empresa.get("extension_empresa", [''])[i])
-            except IndexError:
-                extension_empresa = ' '
-
-            try:
-                fax_empresa = str(datos_empresa.get("fax_empresa", [''])[i])
-            except IndexError:
-                fax_empresa = ' '
-
-            try:
-                tipo_cliente_empresa = int(datos_empresa.get("tipo_cliente_empresa", [''])[i])
-            except IndexError:
-                tipo_cliente_empresa = ' '
-
-            try:
-                edo_extranjero_empresa = str(datos_empresa.get("edo_extranjero_empresa", [''])[i])
-            except IndexError:
-                edo_extranjero_empresa = ' '
-
-            try:
-                pais_empresa = str(datos_empresa.get("pais_empresa", [''])[i])
-            except IndexError:
-                pais_empresa = ' '
-
-            try:
-                tel_movil_empresa = str(datos_empresa.get("tel_movil_empresa", [''])[i])
-            except IndexError:
-                tel_movil_empresa = ' '
-
-            try:
-                correo_empresa = str(datos_empresa.get("correo_empresa", [''])[i])
-            except IndexError:
-                correo_empresa = ' '
-
-            #Comparación de alertas--------------------------------------------------------------
-            # if i < len(datos_empresa["rfc_empresa"]) and len(rfc_empresa) < 12:
-            #     print("El RFC empresa en la posición", i + 1, " debe tener 12 o 13 caracteres.")
-
-            if i < len(datos_empresa["rfc_empresa"]) and len(rfc_empresa) > 13:
-                rfc_empresa = str(rfc_empresa[:13])
-            
-            # if i < len(datos_empresa["curp_empresa"]) and len(curp_empresa) < 18:
-            #     print("La CURP empresa en la posición", i + 1, " debe tener 18 caracteres.")  
-
-            if i < len(datos_empresa["curp_empresa"]) and len(curp_empresa) > 18:  
-                curp_empresa = str(curp_empresa[:18])
-
-            if i < len(datos_empresa["compania_empresa"]) and len(compania_empresa) > 150:
-                compania_empresa = str(compania_empresa[:150])
-
-            if i < len(datos_empresa["nombre1_empresa"]) and len(nombre1_empresa) > 30:
-                nombre1_empresa = str(nombre1_empresa[:30])
-
-            if i < len(datos_empresa["nombre2_empresa"]) and len(nombre2_empresa) > 30:
-                nombre2_empresa = str(nombre2_empresa[:30])
-
-            # if i < len(datos_empresa["apellido_paterno_empresa"]) and (len(apellido_paterno_empresa) < 2):
-            #     print("El apellido paterno empresa debe tener minimo 2 caracteres y máximo 25")
-
-            if i < len(datos_empresa["apellido_paterno_empresa"]) and len(apellido_paterno_empresa) > 25:
-                apellido_paterno_empresa = str(apellido_paterno_empresa[:25])
-
-            # if i < len(datos_empresa["apellido_materno_empresa"]) and (len(apellido_materno_empresa) < 2):
-            #     print("El apellido materno empresa debe tener minimo 2 caracteres y máximo 25")
-
-            if i < len(datos_empresa["apellido_materno_empresa"]) and len(apellido_materno_empresa) > 25:
-                apellido_materno_empresa = str(apellido_materno_empresa[:25])
-
-            if i < len(datos_empresa["nacionalidad_empresa"]) and len(nacionalidad_empresa) > 2:
-                nacionalidad_empresa = str(nacionalidad_empresa[:2])
-
-            if i < len(datos_empresa["cal_cartera_empresa"]) and len(cal_cartera_empresa) > 2:
-                cal_cartera_empresa = str(cal_cartera_empresa[:2])
-
-            if i < len(datos_empresa["clave_banxico1"]) and len(str(clave_banxico1)) > 11:
-                clave_banxico1 = int(str(datos_empresa["clave_banxico1"][i])[:11])
-
-            if i < len(datos_empresa["clave_banxico2"]) and len(str(clave_banxico2)) > 11:
-                clave_banxico2 = int(str(datos_empresa["clave_banxico2"][i])[:11])
-
-            if i < len(datos_empresa["clave_banxico3"]) and len(str(clave_banxico3)) > 11:
-                clave_banxico3 = int(str(clave_banxico3)[:11])
-
-            if i < len(datos_empresa["direccion1_empresa"]) and len(str(datos_empresa["direccion1_empresa"][i])) > 40:
-                direccion1_empresa = str(direccion1_empresa[:40])
+                if variable == "rfc_empresa":
+                            if i < len(datos_empresa["rfc_empresa"]) and len(str(valor)) > 13:
+                                valor = valor[:13]
+                            hoja.write(fila, 8, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                 
-            if i < len(datos_empresa["colonia_empresa"]) and len(str(datos_empresa["colonia_empresa"][i])) > 60:
-                colonia_empresa = str(colonia_empresa[:60])
+                if variable == "curp_empresa":
+                            if i < len(datos_empresa["curp_empresa"]) and len(str(valor)) > 18:
+                                valor = valor[:18]
+                            hoja.write(fila, 9, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
-            if i < len(datos_empresa["deleg_mun_empresa"]) and (len(deleg_mun_empresa) > 40):
-                deleg_mun_empresa = str(deleg_mun_empresa[:40])
+                elif variable == "compania_empresa":
+                        if i < len(datos_empresa["compania_empresa"]) and len(str(valor)) > 150:
+                            valor = valor[:150]
+                        # Dividir el texto en líneas de máximo 30 caracteres
+                        lineas = textwrap.wrap(valor, width = 30)
+                        # Escribir las líneas en la misma celda con saltos de línea
+                        hoja.write(fila, 10, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_empresa["ciudad_empresa"]) and (len(ciudad_empresa) > 40):
-                ciudad_empresa = str(ciudad_empresa[:40])
+                if variable == "nombre1_empresa":
+                            if i < len(datos_empresa["nombre1_empresa"]) and len(str(valor)) > 30:
+                                valor = valor[:30]
+                            hoja.write(fila, 11, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_empresa["estado_empresa"]) and (len(estado_empresa) > 4):
-                estado_empresa = str(estado_empresa[:4])
+                if variable == "nombre2_empresa":
+                            if i < len(datos_empresa["nombre2_empresa"]) and len(str(valor)) > 30:
+                                valor = valor[:30]
+                            hoja.write(fila, 12, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_empresa["cp_empresa"]) and (len(cp_empresa) > 10):
-                cp_empresa = str(cp_empresa[:10])
+                if variable == "apellido_paterno_empresa":
+                            if i < len(datos_empresa["apellido_paterno_empresa"]) and len(str(valor)) > 25:
+                                valor = valor[:25]
+                            hoja.write(fila, 13, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
-            if i < len(datos_empresa["telefono_empresa"]) and (len(telefono_empresa) > 11):
-                telefono_empresa = str(telefono_empresa[:11])
+                if variable == "apellido_materno_empresa":
+                            if i < len(datos_empresa["apellido_materno_empresa"]) and len(str(valor)) > 25:
+                                valor = valor[:25]
+                            hoja.write(fila, 14, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
-            if i < len(datos_empresa["extension_empresa"]) and (len(extension_empresa) > 8):
-                extension_empresa = str(extension_empresa[:8])
+                if variable == "nacionalidad_empresa":
+                            if i < len(datos_empresa["nacionalidad_empresa"]) and len(str(valor)) > 2:
+                                valor = valor[:2]
+                            hoja.write(fila, 15, valor, ce.agregarEstiloVerdeInfo(libro))
 
-            if i < len(datos_empresa["fax_empresa"]) and (len(fax_empresa) > 11):
-                fax_empresa = str(fax_empresa[:11])
+                if variable == "cal_cartera_empresa":
+                            if i < len(datos_empresa["cal_cartera_empresa"]) and len(str(valor)) > 2:
+                                valor = valor[:2]
+                            hoja.write(fila, 16, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_empresa["tipo_cliente_empresa"]) and (len(str(tipo_cliente_empresa)) > 1):
-                tipo_cliente_empresa = int(str(datos_empresa["tipo_cliente_empresa"][i])[:1])
+                if variable == "clave_banxico1":
+                        if i < len(datos_empresa["clave_banxico1"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:11]
+                            if valor:
+                                hoja.write(fila, 17, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        else:
+                            hoja.write(fila, 17, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_empresa["edo_extranjero_empresa"]) and (len(edo_extranjero_empresa) > 40):
-                edo_extranjero_empresa = str(edo_extranjero_empresa[:40])
+                if variable == "clave_banxico2":
+                        if i < len(datos_empresa["clave_banxico2"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:11]
+                            if valor:
+                                hoja.write(fila, 18, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                        else:
+                            hoja.write(fila, 18, '', ce.agregarEstiloAzulClaroInfo(libro))
 
-            if i < len(datos_empresa["pais_empresa"]) and (len(pais_empresa) > 2):
-                pais_empresa = str(pais_empresa[:2])
+                if variable == "clave_banxico3":
+                        if i < len(datos_empresa["clave_banxico3"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:11]
+                            if valor:
+                                hoja.write(fila, 19, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                        else:
+                            hoja.write(fila, 19, '', ce.agregarEstiloAzulClaroInfo(libro))
 
-            if i < len(datos_empresa["tel_movil_empresa"]) and (len(tel_movil_empresa) > 10):
-                tel_movil_empresa = str(tel_movil_empresa[:10])
+                elif variable == "direccion1_empresa":
+                        if i < len(datos_empresa["direccion1_empresa"]) and len(str(valor)) > 40:
+                            valor = valor[:40]
+                        # Dividir el texto en líneas de máximo 30 caracteres
+                        lineas = textwrap.wrap(valor, width = 20)
+                        # Escribir las líneas en la misma celda con saltos de línea
+                        hoja.write(fila, 20, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 
-            if i < len(datos_empresa["correo_empresa"]) and (len(correo_empresa) > 100):
-                correo_empresa = str(correo_empresa[:100])
+                elif variable == "direccion2_empresa":
+                        if i < len(datos_empresa["direccion2_empresa"]) and len(str(valor)) > 40:
+                            valor = valor[:40]
+                        # Dividir el texto en líneas de máximo 30 caracteres
+                        lineas = textwrap.wrap(valor, width = 20)
+                        # Escribir las líneas en la misma celda con saltos de línea
+                        hoja.write(fila, 21, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "colonia_empresa":
+                        if i < len(datos_empresa["colonia_empresa"]) and len(str(valor)) > 60:
+                            valor = valor[:60]
+                        # Dividir el texto en líneas de máximo 30 caracteres
+                        lineas = textwrap.wrap(valor, width = 30)
+                        # Escribir las líneas en la misma celda con saltos de línea
+                        hoja.write(fila, 22, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "deleg_mun_empresa":
+                        if i < len(datos_empresa["deleg_mun_empresa"]) and len(str(valor)) > 40:
+                            valor = valor[:40]
+                        # Dividir el texto en líneas de máximo 30 caracteres
+                        lineas = textwrap.wrap(valor, width = 20)
+                        # Escribir las líneas en la misma celda con saltos de línea
+                        hoja.write(fila, 23, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
+
+                elif variable == "ciudad_empresa":
+                        if i < len(datos_empresa["ciudad_empresa"]) and len(str(valor)) > 40:
+                            valor = valor[:40]
+                        # Dividir el texto en líneas de máximo 30 caracteres
+                        lineas = textwrap.wrap(valor, width = 20)
+                        # Escribir las líneas en la misma celda con saltos de línea
+                        hoja.write(fila, 24, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
+
+
+                #AQUI SE DEBE CONTINUAR CON ESTADO DE EMPRESA
+
+                # if i < len(datos_empresa["estado_empresa"]) and (len(estado_empresa) > 4):
+                #     estado_empresa = str(estado_empresa[:4])
+
+                # if i < len(datos_empresa["cp_empresa"]) and (len(cp_empresa) > 10):
+                #     cp_empresa = str(cp_empresa[:10])
+
+                # if i < len(datos_empresa["telefono_empresa"]) and (len(telefono_empresa) > 11):
+                #     telefono_empresa = str(telefono_empresa[:11])
+
+                # if i < len(datos_empresa["extension_empresa"]) and (len(extension_empresa) > 8):
+                #     extension_empresa = str(extension_empresa[:8])
+
+                # if i < len(datos_empresa["fax_empresa"]) and (len(fax_empresa) > 11):
+                #     fax_empresa = str(fax_empresa[:11])
+
+                # if i < len(datos_empresa["tipo_cliente_empresa"]) and (len(str(tipo_cliente_empresa)) > 1):
+                #     tipo_cliente_empresa = int(str(datos_empresa["tipo_cliente_empresa"][i])[:1])
+
+                # if i < len(datos_empresa["edo_extranjero_empresa"]) and (len(edo_extranjero_empresa) > 40):
+                #     edo_extranjero_empresa = str(edo_extranjero_empresa[:40])
+
+                # if i < len(datos_empresa["pais_empresa"]) and (len(pais_empresa) > 2):
+                #     pais_empresa = str(pais_empresa[:2])
+
+                # if i < len(datos_empresa["tel_movil_empresa"]) and (len(tel_movil_empresa) > 10):
+
+                # if i < len(datos_empresa["correo_empresa"]) and (len(correo_empresa) > 100):
+                #     correo_empresa = str(correo_empresa[:100])
 
             #Escribir los datos en la hoja-----------------------------
-            hoja.write(fila, 8, rfc_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 9, curp_empresa, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 10, compania_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 11, nombre1_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 12, nombre2_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 13, apellido_paterno_empresa, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 14, apellido_materno_empresa, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 15, nacionalidad_empresa, ce.agregarEstiloVerdeInfo(libro))
-            hoja.write(fila, 16, cal_cartera_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 17, clave_banxico1, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 18, clave_banxico2, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 19, clave_banxico3, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 20, direccion1_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 21, direccion2_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 22, colonia_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 23, deleg_mun_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 24, ciudad_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 25, estado_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 26, cp_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 27, telefono_empresa, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 28, extension_empresa, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 29, fax_empresa, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 30, tipo_cliente_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 31, edo_extranjero_empresa, ce.agregarEstiloAzulClaroInfo(libro))
-            hoja.write(fila, 32, pais_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
-            hoja.write(fila, 33, tel_movil_empresa, ce.agregarEstiloGrisInfo(libro))
-            hoja.write(fila, 34, correo_empresa, ce.agregarEstiloGrisInfo(libro))
+            # hoja.write(fila, 8, rfc_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 9, curp_empresa, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 10, compania_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 11, nombre1_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 12, nombre2_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 13, apellido_paterno_empresa, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 14, apellido_materno_empresa, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 15, nacionalidad_empresa, ce.agregarEstiloVerdeInfo(libro))
+            # hoja.write(fila, 16, cal_cartera_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 17, clave_banxico1, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 18, clave_banxico2, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 19, clave_banxico3, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 20, direccion1_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 21, direccion2_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 22, colonia_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 23, deleg_mun_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 24, ciudad_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 25, estado_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 26, cp_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 27, telefono_empresa, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 28, extension_empresa, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 29, fax_empresa, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 30, tipo_cliente_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 31, edo_extranjero_empresa, ce.agregarEstiloAzulClaroInfo(libro))
+            # hoja.write(fila, 32, pais_empresa, ce.agregarEstiloAzulFuerteInfo(libro))
+            # hoja.write(fila, 33, tel_movil_empresa, ce.agregarEstiloGrisInfo(libro))
+            # hoja.write(fila, 34, correo_empresa, ce.agregarEstiloGrisInfo(libro))
             fila += 1
         return hoja
 

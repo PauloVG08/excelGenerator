@@ -18,7 +18,7 @@ ce.agregarColumnasEncabezado(libro, hoja)
 
 #----------------------------Recibiendo datos-------------------------------------------
 datos_encabezado = {
-    "clave_otorgante": [13,2,3],
+    "clave_otorgante": [13,2,3, 4],
     "nombre_otorgante": ['hola', 'si'],
     "identificador_medio": ['1qds'],
     "fecha_extraccion": ['28/04/200366'],

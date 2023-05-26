@@ -188,7 +188,7 @@ class ControllerDocumento:
                     hoja.write(fila, 12, valor, ce.agregarEstiloAzulCieloInfo(libro))
 
                 elif variable == "numero_seguridad_social_dp":
-                    if i < len(datos_dp["numero_seguridad_social_dp"]) and len(str(valor)) > 11:
+                    if i < len(datos_dp["numero_seguridad_social_dp"]) and len(str(valor)) > 0:
                         valor = int(valor[:11])
                     hoja.write(fila, 13, valor, ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -223,7 +223,7 @@ class ControllerDocumento:
                     hoja.write(fila, 19, valor, ce.agregarEstiloAzulCieloInfo(libro))
 
                 elif variable == "numero_dependientes_dp":
-                    if i < len(datos_dp["numero_dependientes_dp"]) and len(str(valor)) > 2:
+                    if i < len(datos_dp["numero_dependientes_dp"]) and len(str(valor)) > 0:
                         valor = int(valor[:2])
                     hoja.write(fila, 20, valor, ce.agregarEstiloAzulCieloInfo(libro))
 

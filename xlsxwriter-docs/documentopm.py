@@ -18,9 +18,9 @@ ce.agregarEncabezadoDetalleCredito(libro, hoja)
 ce.agregarEncabezadoAval(libro, hoja)
 ce.agregarColumnasEncabezado(libro, hoja)
 
-#--------------------------------Datos y llamado para llenar encabezado----------------------------------------------
+#--------------------------------Datos y para llenar celdas----------------------------------------------
 datos_encabezado = {
-    "otorgante": [1234, 4232, 123456],
+    "otorgante": [1234, 4232, 123456, 4],
     "otorgante_anterior": [1324, 3, 12345],
     "nombre_otorgante": ['Nombre otorgante 1'],
     "institucion": ['Institucion 1'],
@@ -30,9 +30,6 @@ datos_encabezado = {
     "version": [123, 879]
 }
 
-cd.llenarDatosEncabezado(datos_encabezado, libro, hoja)
-
-#-----------------------Datos y llamado para llenar Empresa----------------------------------------------------------------
 datos_empresa = {
     "rfc_empresa": ['wwwwwwwwwwwwjkl'],
     "curp_empresa": ['saddddddsssssdhssskkk'],
@@ -63,9 +60,6 @@ datos_empresa = {
     "correo_empresa": ['correo@gmail.com']
 }
 
-cd.llenarDatosEmpresa(datos_empresa, libro, hoja)
-
-#-----------------------Datos y llamado para llenar Accionista--------------------------------------------------------------
 datos_accionista = {
     "rfc_accionista": ['123456789098'],
     "curp_accionista": ['123456789098765432'],
@@ -90,8 +84,6 @@ datos_accionista = {
     "pais_accionista": ['PO', 'Brasil']
 }
 
-cd.llenarDatosAccionista(datos_accionista, libro, hoja)
-#-----------------------Datos y llamado para llenar Crédito--------------------------------------------------------------
 datos_credito = {
     "rfc_credito": ['asdfghjklapo2'],
     "experiencias_crediticias": [1, 2, 3],
@@ -120,8 +112,6 @@ datos_credito = {
     "fecha_ingreso_cv": ['23/05/2023']
 }
 
-cd.llenarDatosCredito(datos_credito, libro, hoja)
-#-----------------------Datos y llamado para llenar Detalle de crédito------------------------------------------------------
 datos_detalle_credito = {
     "rfc_detalle_credito": ['asdf'],
     "num_contrato_detalle_credito": [2, 3, 4],
@@ -130,9 +120,6 @@ datos_detalle_credito = {
     "intereses_detalle_credito": []
 }
 
-cd.llenarDatosDetalleCredito(datos_detalle_credito, libro, hoja)
-
-#-----------------------Datos y llamado para llenar Aval------------------------------------------------------
 datos_aval = {
     "rfc_aval": ['asv', 'asd', '123'],
     "curp_aval": ['asdfghjklñzxcvbnml'],
@@ -155,6 +142,17 @@ datos_aval = {
     "edo_extranjero_aval": [],
     "pais_aval": ['Brasil']
 }
+
+#-----------------------Llamado de funciones----------------------------------------------------------------
+cd.llenarDatosEncabezado(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja)
+
+cd.llenarDatosEmpresa(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja)
+
+cd.llenarDatosAccionista(datos_accionista, libro, hoja)
+
+cd.llenarDatosCredito(datos_credito, libro, hoja)
+
+cd.llenarDatosDetalleCredito(datos_detalle_credito, libro, hoja)
 
 cd.llenarDatosAval(datos_aval, libro, hoja)
 
