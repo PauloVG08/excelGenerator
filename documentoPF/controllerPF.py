@@ -2,13 +2,59 @@ from estilosPF import ClaseEstilos
 import textwrap
 
 class ControllerDocumento:
-    
+    #-------------------------------Crear función para obtener valor maximo--------------------------------------
+    def obtenerValorMaximo(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc):
+        maximo_datos_encabezado = 0
+        maximo_datos_dp = 0
+        maximo_datos_dom = 0
+        maximo_datos_emp = 0
+        maximo_datos_dc = 0
+        maximo_datos_cc = 0
+
+        for valores in datos_encabezado.values():
+            cantidad_actual = len(valores)
+            if cantidad_actual > maximo_datos_encabezado:
+                maximo_datos_encabezado = cantidad_actual
+
+        for valores in datos_dp.values():
+            cantidad_actual = len(valores)
+            if cantidad_actual > maximo_datos_dp:
+                maximo_datos_dp = cantidad_actual
+
+        for valores in datos_dom.values():
+            cantidad_actual = len(valores)
+            if cantidad_actual > maximo_datos_dom:
+                maximo_datos_dom = cantidad_actual
+
+        for valores in datos_emp.values():
+            cantidad_actual = len(valores)
+            if cantidad_actual > maximo_datos_emp:
+                maximo_datos_emp = cantidad_actual
+
+        for valores in datos_dc.values():
+            cantidad_actual = len(valores)
+            if cantidad_actual > maximo_datos_dc:
+                maximo_datos_dc = cantidad_actual
+
+        for valores in datos_cc.values():
+            cantidad_actual = len(valores)
+            if cantidad_actual > maximo_datos_cc:
+                maximo_datos_cc = cantidad_actual
+        
+        valorMaximo = max(maximo_datos_encabezado, maximo_datos_emp, maximo_datos_dp, maximo_datos_dc, maximo_datos_dom, maximo_datos_cc)
+        return valorMaximo
+
     #-------------------------------Crear función del encabezado Encabezado-------------------------------------
-    def llenarCeldasEncabezado(self, datos_encabezado, libro, hoja):
+    def llenarCeldasEncabezado(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja):
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_encabezado.values()])
         variables = ["clave_otorgante", "nombre_otorgante", "identificador_medio", "fecha_extraccion",
                         "nota_otorgante", "version"]
+        
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc)
+        for variable, valores in datos_encabezado.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
 
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
@@ -44,7 +90,7 @@ class ControllerDocumento:
                 elif variable == "fecha_extraccion":
                     if i < len(datos_encabezado["fecha_extraccion"]) and len(str(valor)) > 1:
                         valor = str(datos_encabezado["fecha_extraccion"][i])
-                        fecha_extraccion = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_extraccion = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_extraccion = ''
@@ -68,16 +114,23 @@ class ControllerDocumento:
         return hoja
 
     #-------------------------------Crear función del encabezado Datos Personales-------------------------------------
-    def llenarCeldasDatosPersonales(self, datos_dp, libro, hoja):
+    def llenarCeldasDatosPersonales(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja):
 
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_dp.values()])
 
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
         variables = ["apellido_paterno_dp", "apellido_materno_dp", "apellido_adicional_dp", "nombres_dp", "fecha_nacimiento_dp", "rfc_dp",
                      "curp_dp", "numero_seguridad_social_dp", "nacionalidad", "residencia", "numero_licencia_conducir_dp", "estado_civil_dp",
                      "sexo_dp", "clave_elector_ife_dp", "numero_dependientes_dp", "fecha_defuncion_dp", "indicador_defuncion_dp", "tipo_person_dp"]
+
+
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc)
+        for variable, valores in datos_dp.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
+
 
         # Agregar el bucle externo para iterar sobre el rango de valorMaximo
         for i in range(valorMaximo): 
@@ -117,7 +170,7 @@ class ControllerDocumento:
                 elif variable == "fecha_nacimiento_dp":
                     if i < len(datos_dp["fecha_nacimiento_dp"]) and len(str(valor)) > 1:
                         valor = str(datos_dp["fecha_nacimiento_dp"][i])
-                        fecha_nacimiento_dp = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_nacimiento_dp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_nacimiento_dp = ''
@@ -178,7 +231,7 @@ class ControllerDocumento:
                 elif variable == "fecha_defuncion_dp":
                     if i < len(datos_dp["fecha_defuncion_dp"]) and len(str(valor)) > 1:
                         valor = str(datos_dp["fecha_defuncion_dp"][i])
-                        fecha_defuncion_dp = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_defuncion_dp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_defuncion_dp = ''
@@ -198,14 +251,20 @@ class ControllerDocumento:
 
         return hoja
             
-    
     #-------------------------------Crear función del encabezado Domicilio--------------------------------------------
-    def llenarCeldasDomicilio(self, datos_dom, libro, hoja):
+    def llenarCeldasDomicilio(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja):
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_dom.values()])
         variables = ["direccion_dom", "colonia_poblacion_dom", "deleg_muni_dom", "ciudad_dom",
                         "estado_dom", "cp_dom", "fecha_residencia_dom", "telefono_dom",
                         "tipo_dom", "tipo_asentamiento", "origen_dom"]
+        
+
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc)
+        for variable, valores in datos_dom.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
+
 
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
@@ -260,7 +319,7 @@ class ControllerDocumento:
                 elif variable == "fecha_residencia_dom":
                     if i < len(datos_dom["fecha_residencia_dom"]) and len(str(valor)) > 0:
                         valor = str(datos_dom["fecha_residencia_dom"][i])
-                        fecha_residencia_dom = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_residencia_dom = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_residencia_dom = ''
@@ -282,8 +341,6 @@ class ControllerDocumento:
                         valor = str(valor)[:5]
                         if valor:
                             hoja.write(fila, 33, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 33, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 33, '', ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -296,13 +353,18 @@ class ControllerDocumento:
         return hoja
     
     #-------------------------------Crear función del encabezado Empleo--------------------------------------------
-    def llenarCeldasEmpleo(self, datos_emp, libro, hoja): 
+    def llenarCeldasEmpleo(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja): 
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_emp.values()])
         variables = ["nombre_empresa_emp", "direccion_emp", "colonia_poblacional_emp", "deleg_mun",
                         "ciudad_emp", "estado_emp", "cp_emp", "num_telefono_emp", "extension_emp",
                         "fax_emp", "puesto_emp", "fecha_contratacion_emp", "clave_moneda_emp",
                         "salario_mensual_emp", "fecha_ultimo_dia_emp", "fecha_verificacion_emp", "origen_razon_social_emp"]
+        
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc)
+        for variable, valores in datos_emp.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
 
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
@@ -355,8 +417,6 @@ class ControllerDocumento:
                         valor = str(valor)[:5]
                         if valor:
                             hoja.write(fila, 41, int(valor), ce.agregarEstiloAmarilloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 41, valor, ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 41, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -387,7 +447,7 @@ class ControllerDocumento:
                 elif variable == "fecha_contratacion_emp":
                     if i < len(datos_emp["fecha_contratacion_emp"]) and len(str(valor)) > 1:
                         valor = str(datos_emp["fecha_contratacion_emp"][i])
-                        fecha_contratacion_emp = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_contratacion_emp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_contratacion_emp = ''
@@ -404,8 +464,6 @@ class ControllerDocumento:
                         valor = str(valor)[:5]
                         if valor:
                             hoja.write(fila, 48, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 48, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 48, '', ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -413,7 +471,7 @@ class ControllerDocumento:
                 elif variable == "fecha_ultimo_dia_emp":
                     if i < len(datos_emp["fecha_ultimo_dia_emp"]) and len(str(valor)) > 1:
                         valor = str(datos_emp["fecha_ultimo_dia_emp"][i])
-                        fecha_ultimo_dia_emp = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_ultimo_dia_emp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_ultimo_dia_emp = ''
@@ -423,7 +481,7 @@ class ControllerDocumento:
                 elif variable == "fecha_verificacion_emp":
                     if i < len(datos_emp["fecha_verificacion_emp"]) and len(str(valor)) > 1:
                         valor = str(datos_emp["fecha_verificacion_emp"][i])
-                        fecha_verificacion_emp = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_verificacion_emp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_verificacion_emp = ''
@@ -437,9 +495,9 @@ class ControllerDocumento:
             fila += 1
         return hoja
 
-    def llenarCeldasDC(self, datos_dc, libro, hoja):
+    #-------------------------------Crear función del encabezado Detalles crédito--------------------------------------------
+    def llenarCeldasDC(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja):
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_dc.values()])
         variables = ["clave_actual_dc", "nombre_otorgante_dc", "cuenta_actual_dc", "tipo_responsabilidad_dc",
                      "tipo_cuenta_dc", "tipo_contrato_dc", "clave_uni_monetaria_dc", "valor_activo_dc", 
                      "num_pagos_dc", "frecuencia_pagos_dc", "monto_pagar_dc", "fecha_apertura_dc",
@@ -450,6 +508,12 @@ class ControllerDocumento:
                      "num_cuenta_anterior_dc", "fecha_primer_incump_dc", "saldo_insoluto_dc", "monto_ultimo_pago",
                      "fecha_ingreso_carterav_dc", "monto_intereses_dc", "forma_pago_ac_int_dc", "dias_vencimiento_dc",
                      "plazo_meses_dc", "monto_creditoOri_dc", "correo_consumidor_dc"]
+        
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc)
+        for variable, valores in datos_dc.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
                     
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
@@ -471,8 +535,6 @@ class ControllerDocumento:
                         valor = str(valor)[:10]
                         if valor:
                             hoja.write(fila, 52, int(valor), ce.agregarEstiloAmarilloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 52, valor, ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 52, '', ce.agregarEstiloAmarilloInfo(libro))
                     
@@ -511,8 +573,6 @@ class ControllerDocumento:
                         valor = str(valor)[:9]
                         if valor:
                             hoja.write(fila, 59, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 59, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 59, '', ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -521,8 +581,6 @@ class ControllerDocumento:
                         valor = str(valor)[:4]
                         if valor:
                             hoja.write(fila, 60, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 60, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 60, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -536,8 +594,6 @@ class ControllerDocumento:
                         valor = str(valor)[:9]
                         if valor:
                             hoja.write(fila, 62, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 62, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 62, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -545,7 +601,7 @@ class ControllerDocumento:
                 elif variable == "fecha_apertura_dc":
                     if i < len(datos_dc["fecha_apertura_dc"]) and len(str(valor)) > 0:
                         valor = str(datos_dc["fecha_apertura_dc"][i])
-                        fecha_apertura_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_apertura_dc = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_apertura_dc = ''
@@ -555,7 +611,7 @@ class ControllerDocumento:
                 elif variable == "fecha_ultimo_pago_dc":
                     if i < len(datos_dc["fecha_ultimo_pago_dc"]) and len(str(valor)) > 0:
                         valor = str(datos_dc["fecha_ultimo_pago_dc"][i])
-                        fecha_ultimo_pago_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_ultimo_pago_dc = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_ultimo_pago_dc = ''
@@ -565,7 +621,7 @@ class ControllerDocumento:
                 elif variable == "fecha_utlima_compra_dc":
                     if i < len(datos_dc["fecha_utlima_compra_dc"]) and len(str(valor)) > 0:
                         valor = str(datos_dc["fecha_utlima_compra_dc"][i])
-                        fecha_utlima_compra_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_utlima_compra_dc = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_utlima_compra_dc = ''
@@ -575,7 +631,7 @@ class ControllerDocumento:
                 elif variable == "fecha_cierre_cuenta_dc":
                     if i < len(datos_dc["fecha_cierre_cuenta_dc"]) and len(str(valor)) > 0:
                         valor = str(datos_dc["fecha_cierre_cuenta_dc"][i])
-                        fecha_cierre_cuenta = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_cierre_cuenta = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_cierre_cuenta = ''
@@ -585,7 +641,7 @@ class ControllerDocumento:
                 elif variable == "fecha_corte_dc":
                     if i < len(datos_dc["fecha_corte_dc"]) and len(str(valor)) > 0:
                         valor = str(datos_dc["fecha_corte_dc"][i])
-                        fecha_corte_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_corte_dc = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_corte_dc = ''
@@ -605,8 +661,6 @@ class ControllerDocumento:
                         valor = str(valor)[:9]
                         if valor:
                             hoja.write(fila, 69, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 69, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 69, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -625,8 +679,6 @@ class ControllerDocumento:
                         valor = str(valor)[:9]
                         if valor:
                             hoja.write(fila, 71, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 71, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 71, '', ce.agregarEstiloAzulFuerteInfo(libro))
                         
@@ -635,8 +687,6 @@ class ControllerDocumento:
                         valor = str(valor)[:9]
                         if valor:
                             hoja.write(fila, 72, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 72, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 72, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -645,8 +695,6 @@ class ControllerDocumento:
                         valor = str(valor)[:4]
                         if valor:
                             hoja.write(fila, 73, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 73, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 73, '', ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -673,8 +721,6 @@ class ControllerDocumento:
                         valor = str(valor)[:3]
                         if valor:
                             hoja.write(fila, 77, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 77, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 77, '', ce.agregarEstiloAzulCieloInfo(libro))
 
@@ -683,8 +729,6 @@ class ControllerDocumento:
                         valor = str(valor)[:10]
                         if valor:
                             hoja.write(fila, 78, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 78, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 78, '', ce.agregarEstiloAzulCieloInfo(libro))
                 #----------------ALERTA DUDA-------------------------------------------
@@ -699,8 +743,6 @@ class ControllerDocumento:
                         valor = str(valor)[:10]
                         if valor:
                             hoja.write(fila, 80, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 80, valor, ce.agregarEstiloAzulCieloInfo(libro))
                     else:
                         hoja.write(fila, 80, '', ce.agregarEstiloAzulCieloInfo(libro)) 
 
@@ -708,7 +750,7 @@ class ControllerDocumento:
                 elif variable == "fecha_primer_incump_dc":
                     if i < len(datos_dc["fecha_primer_incump_dc"]) and len(str(valor)) > 0:
                         valor = str(datos_dc["fecha_primer_incump_dc"][i])
-                        fecha_primer_incump_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_primer_incump_dc = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_primer_incump_dc = ''
@@ -730,8 +772,6 @@ class ControllerDocumento:
                         valor = str(valor)[:10]
                         if valor:
                             hoja.write(fila, 83, int(valor), ce.agregarEstiloAmarilloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 83, valor, ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 83, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -739,7 +779,7 @@ class ControllerDocumento:
                 elif variable == "fecha_ingreso_carterav_dc":
                     if i < len(datos_dc["fecha_ingreso_carterav_dc"]) and len(str(valor)) > 0:
                         valor = str(datos_dc["fecha_ingreso_carterav_dc"][i])
-                        fecha_ingreso_carterav_dc = int(valor[:2] + valor[3:5] + valor[6:10])
+                        fecha_ingreso_carterav_dc = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
                         valor = ''
                         fecha_ingreso_carterav_dc = ''
@@ -751,8 +791,6 @@ class ControllerDocumento:
                         valor = str(valor)[:9]
                         if valor:
                             hoja.write(fila, 85, int(valor), ce.agregarEstiloAmarilloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 85, valor, ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 85, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -761,8 +799,6 @@ class ControllerDocumento:
                         valor = str(valor)[:2]
                         if valor:
                             hoja.write(fila, 86, int(valor), ce.agregarEstiloAmarilloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 86, valor, ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 86, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -771,8 +807,6 @@ class ControllerDocumento:
                         valor = str(valor)[:3]
                         if valor:
                             hoja.write(fila, 87, int(valor), ce.agregarEstiloAmarilloInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 87, valor, ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 87, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -781,8 +815,6 @@ class ControllerDocumento:
                         valor = str(valor)[:3]
                         if valor:
                             hoja.write(fila, 88, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 88, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 88, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -791,8 +823,6 @@ class ControllerDocumento:
                         valor = str(valor)[:10]
                         if valor:
                             hoja.write(fila, 89, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        # else:
-                        #     hoja.write(fila, 88, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 89, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -804,11 +834,19 @@ class ControllerDocumento:
             fila += 1
         return hoja
     
-    def llenarCeldasCifrasControl(self, datos_cc, libro, hoja):
+    #-------------------------------Crear función del encabezado Empleo--------------------------------------------
+    def llenarCeldasCifrasControl(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja):
         ce = ClaseEstilos()
-        valorMaximo = max([len(valor) for valor in datos_cc.values()])
         variables = ["total_saldos_act_cc", "total_saldos_venc_cc", "total_elementosNR_cc", "total_elementosDR_cc",
                      "total_elementosER_cc", "total_elementosCR_cc", "nombre_otorgante_cc", "domicilio_devolucion"]
+        
+
+        valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc)
+        for variable, valores in datos_cc.items():
+            cantidad_actual = len(valores)
+            if cantidad_actual > valorMaximo:
+                valorMaximo = cantidad_actual
+
                     
         # Recorrer los valores y escribir en las celdas correspondientes
         fila = 2
@@ -881,11 +919,11 @@ class ControllerDocumento:
                     if i < len(datos_cc["domicilio_devolucion"]) and len(str(valor)) > 160:
                         valor = valor[:160]
                     # Dividir el texto en líneas de máximo 30 caracteres
-                    lineas = textwrap.wrap(valor, width=30)
+                    lineas = textwrap.wrap(valor, width=20)
                     # Escribir las líneas en la misma celda con saltos de línea
-                    hoja.write(fila, 98, "\n".join(lineas), ce.agregarEstiloAzulCieloInfo(libro))    
+                    hoja.write(fila, 98, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))    
 
             fila += 1
         return hoja
 
-                
+    

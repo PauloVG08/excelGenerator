@@ -16,8 +16,7 @@ ce.agregarEncabezadoDetalleCuenta(libro, hoja)
 ce.agregarEncabezadoCifrasControl(libro, hoja)
 ce.agregarColumnasEncabezado(libro, hoja)
 
-#----------------------------Recibiendo datos y llamando funciones del controlador-------------------------------------------
-#----------------------------Recibiendo datos y llamando funcion Encabezado--------------------------------------------------S
+#----------------------------Recibiendo datos-------------------------------------------
 datos_encabezado = {
     "clave_otorgante": [13,2,3],
     "nombre_otorgante": ['hola', 'si'],
@@ -27,10 +26,8 @@ datos_encabezado = {
     "version": [13, 4]
 }
 
-cd.llenarCeldasEncabezado(datos_encabezado, libro, hoja)
-#-------------------------Recibiendo datos y llamando función Datos Personales------------------------------------------------
 datos_dp = {
-    "apellido_paterno_dp": ['1234567890111', 'si', 'a veces'],
+    "apellido_paterno_dp": ['Valadez', 'si', 'a veces'],
     "apellido_materno_dp": ['niña', 'corona'],
     "apellido_adicional_dp": ['adicional'],
     "nombres_dp": ['Luz', 'Juan'],
@@ -50,9 +47,6 @@ datos_dp = {
     "tipo_person_dp": ['ME', 'MX', 'LA'],
 }
 
-cd.llenarCeldasDatosPersonales(datos_dp, libro, hoja)
-
-#-------------------------Recibiendo datos y llamando función Domicilio------------------------------------------------
 datos_dom = {
     "direccion_dom": ['direccion1', 'direccion2'],
     "colonia_poblacion_dom": [],
@@ -67,9 +61,6 @@ datos_dom = {
     "origen_dom": ['em', 'QL'],
 }
 
-cd.llenarCeldasDomicilio(datos_dom, libro, hoja)
-
-#-------------------------Recibiendo datos y llamando función Empleo------------------------------------------------
 datos_emp = {
     "nombre_empresa_emp": ['name 1', 'name2', 'hola'],
     "direccion_emp": ['dic1'],
@@ -90,9 +81,6 @@ datos_emp = {
     "origen_razon_social_emp": ['dos', 'tres'],
 }
 
-cd.llenarCeldasEmpleo(datos_emp, libro, hoja)
-
-#-------------------------Recibiendo datos y llamando función Datos cuenta---------------------------------------------
 datos_dc = {
     "clave_actual_dc": [12345678901111, 123],
     "nombre_otorgante_dc": ['name1', 'name2', "name3"],
@@ -135,9 +123,6 @@ datos_dc = {
     "correo_consumidor_dc": ["correo@gmail.com"],
 }
 
-cd.llenarCeldasDC(datos_dc, libro, hoja)
-
-#-------------------------Recibiendo datos y llamando función Cifras Control---------------------------------------------
 datos_cc = {
     "total_saldos_act_cc": [8465498615, 6545254312065120],
     "total_saldos_venc_cc": [123456789123456666],
@@ -148,8 +133,21 @@ datos_cc = {
     "nombre_otorgante_cc": ["Arturo", "Arturito"],
     "domicilio_devolucion": ["Mi domicilio muy largo para comprobar el salto de linea"],
 }
-cd.llenarCeldasCifrasControl(datos_cc, libro, hoja)
-#-----------------------------------------------------------------------------------------------------------------------
+
+#----------------------------Llamando funciones del controlador-------------------------------------------
+cd.llenarCeldasEncabezado(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
+
+cd.llenarCeldasDatosPersonales(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
+
+cd.llenarCeldasDomicilio(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
+
+cd.llenarCeldasEmpleo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
+
+cd.llenarCeldasDC(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
+
+cd.llenarCeldasCifrasControl(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
+
+
 #Se le da un tamaño automático a cada celda con este método
 hoja.autofit()
 #Se cierra el libro

@@ -20,7 +20,7 @@ class ClaseEstilos:
      #Se agrega un fondo blanco a todo el documento de excel
     def agregarEstiloFondo(self, libro, hoja):
         formatoBlanco = libro.add_format({'bg_color': '#FFFFFF'})
-        hoja.set_column(0, 98, None, formatoBlanco)
+        hoja.set_column(0, 105, None, formatoBlanco)
         hoja.set_row(0, None, formatoBlanco)
 
     #Estilo para generar el encabezado llamado ENCABEZADO del archivo
