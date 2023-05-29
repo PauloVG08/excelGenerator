@@ -266,5 +266,3 @@ class ClaseEstilos:
         hoja.write(1, 80, "Fecha Ingreso Cartera Vencida", self.agregarEstiloGris(libro))
 
         return hoja
-
-

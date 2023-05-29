@@ -1,8 +1,7 @@
-import xlsxwriter
-from datetime import datetime
 from estilos_documentoPM import ClaseEstilos
 from controller_documentopm import ControllerDocumento
 
+#Instanciamos las diferentes funciones que usaremos
 ce = ClaseEstilos()
 libro = ce.crearLibro()
 hoja = ce.crearHoja(libro)
@@ -41,22 +40,22 @@ datos_empresa = {
     "nacionalidad_empresa": ['mexico'],
     "cal_cartera_empresa": ['un'],
     "clave_banxico1": [12345678901222],
-    "clave_banxico2": [],
-    "clave_banxico3": [],
+    "clave_banxico2": [1234],
+    "clave_banxico3": [67843],
     "direccion1_empresa": ['asdfghj'],
     "direccion2_empresa": [],
-    "colonia_empresa": [], 
+    "colonia_empresa": ['Leon 1'], 
     "deleg_mun_empresa": ['Leon', 'Toluca', 'Tijuana'],
-    "ciudad_empresa": [],
-    "estado_empresa": [],
+    "ciudad_empresa": ['Monterrey'],
+    "estado_empresa": ['Nuevo Leon'],
     "cp_empresa": ['37006', '76215'],
-    "telefono_empresa": [],
-    "extension_empresa": [],
-    "fax_empresa": [],
+   "telefono_empresa": ['4231023847', '21307982'],
+    "extension_empresa": ['54132'],
+    "fax_empresa": ['9864531'],
     "tipo_cliente_empresa": [1, 2],
-    "edo_extranjero_empresa": [],
-    "pais_empresa": [],
-    "tel_movil_empresa": [],
+    "edo_extranjero_empresa": ['Si', 'No'],
+    "pais_empresa": ['Filipinas', 'España'],
+    "tel_movil_empresa": ['12378921'],
     "correo_empresa": ['correo@gmail.com']
 }
 
@@ -69,18 +68,18 @@ datos_accionista = {
     "apellido_paterno_accionista": ['ap1', 'ap2', 'ap3'],
     "apellido_materno_accionista": ['ap1', 'ap2'],
     "porcentaje_accionista": [10, 156],
-    "direccion1_accionista": [],
-    "direccion2_accionista": [],
-    "colonia_accionista": [], 
+    "direccion1_accionista": ['direccion 1'],
+    "direccion2_accionista": [' direccion 2'],
+    "colonia_accionista": ['Valle de León'], 
     "deleg_mun_accionista": ['Leon', 'Toluca', 'Tijuana'],
-    "ciudad_accionista": [],
-    "estado_accionista": [],
+    "ciudad_accionista": ['Ciudad Victoria'],
+    "estado_accionista": ['GRO'],
     "cp_accionista": ['3700', '76215'],
-    "telefono_accionista": [],
+    "telefono_accionista": ['46548645'],
     "extension_accionista": ['123', '456'],
-    "fax_accionista": [],
-    "tipo_cliente_accionista": [1],
-    "edo_extranjero_accionista": [],
+    "fax_accionista": ['789452'],
+    "tipo_cliente_accionista": [1, 456],
+    "edo_extranjero_accionista": ['Edo extranjero 1', 'Edo extranjero 2'],
     "pais_accionista": ['PO', 'Brasil']
 }
 
@@ -96,51 +95,51 @@ datos_credito = {
     "moneda": ['MXN', 'EUR', 'USD'],
     "num_pagos": [7, 10],
     "frecuencia_pagos": [7],
-    "importe_pagos": [],
+    "importe_pagos": [875],
     "fecha_ultimo_pago": ['08/10/2002'],
     "fecha_reestructura": ['05/11/2013'],
     "pago_efectivo": [],
     "fecha_liquidacion": ['23/11/2023'],
-    "quita": [],
-    "dacion": [],
+    "quita": [123, 4645],
+    "dacion": [76547, 98651],
     "quebranto_castigo": [1234, 4567],
-    "clave_observacion": [],
+    "clave_observacion": ['Hola', 'Ejemplo'],
     "especiales": ['F'],
     "fecha_primer_cumplimiento": ['22/02/2000'],
-    "saldo_insoluto": [],
-    "credito_maximo_utilizado": [],
+    "saldo_insoluto": [200000],
+    "credito_maximo_utilizado": [123098],
     "fecha_ingreso_cv": ['23/05/2023']
 }
 
 datos_detalle_credito = {
     "rfc_detalle_credito": ['asdf'],
-    "num_contrato_detalle_credito": [2, 3, 4],
+    "num_contrato_detalle_credito": ["2", "3", "4"],
     "dias_vencidos_detalle_credito": [34, 45, 68],
     "cantidad_detalle_credito": [1, 2],
-    "intereses_detalle_credito": []
+    "intereses_detalle_credito": [123456]
 }
 
 datos_aval = {
     "rfc_aval": ['asv', 'asd', '123'],
     "curp_aval": ['asdfghjklñzxcvbnml'],
     "compania_aval": ['uno'],
-    "nombre1_aval": [],
+    "nombre1_aval": ['nombre1', 'nombre2', 'nombre3', 'nombre4', 'nombre5'],
     "nombre2_aval": ['nombre21'],
     "apellido_paterno_aval": ['as', 'rea'],
     "apellido_materno_aval": ['gomez', 'lira'],
     "direccion1_aval": ['asfghjklñzxcvbnmasdqwertyuiopasdfghjklñzx'],
-    "direccion2_aval": [],
-    "colonia_aval": [],
+    "direccion2_aval": ['dire2'],
+    "colonia_aval": ['La india'],
     "deleg_mun_aval": ['Leon', 'CDMX', 'Tijuana'],
-    "ciudad_aval": [],
-    "estado_aval": [],
+    "ciudad_aval": ['city1', 'city2'],
+    "estado_aval": ['CHIHUAHUA'],
     "cp_aval": ['37100', '123456'],
     "telefono_aval": ['4776009669', '4778263456'],
-    "extension_aval": [],
-    "fax_aval": [],
+    "extension_aval": ['123'],
+    "fax_aval": ['123908'],
     "tipo_cliente_aval": [2, 3, 1],
-    "edo_extranjero_aval": [],
-    "pais_aval": ['Brasil']
+    "edo_extranjero_aval": ['texto tan grande que supera los 40 caracteres'],
+    "pais_aval": ['Brasil', 'Alemania']
 }
 
 #-----------------------Llamado de funciones----------------------------------------------------------------
@@ -148,13 +147,13 @@ cd.llenarDatosEncabezado(datos_encabezado, datos_empresa, datos_accionista, dato
 
 cd.llenarDatosEmpresa(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja)
 
-cd.llenarDatosAccionista(datos_accionista, libro, hoja)
+cd.llenarDatosAccionista(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja)
 
-cd.llenarDatosCredito(datos_credito, libro, hoja)
+cd.llenarDatosCredito(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja)
 
-cd.llenarDatosDetalleCredito(datos_detalle_credito, libro, hoja)
+cd.llenarDatosDetalleCredito(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja)
 
-cd.llenarDatosAval(datos_aval, libro, hoja)
+cd.llenarDatosAval(datos_encabezado, datos_empresa, datos_accionista, datos_credito, datos_detalle_credito, datos_aval, libro, hoja)
 
 #Se le da un tamaño automático a cada celda con este método
 hoja.autofit()
