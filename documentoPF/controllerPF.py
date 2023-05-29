@@ -71,10 +71,14 @@ class ControllerDocumento:
                 except IndexError:
                     valor = '' 
 
+                #Comparación de valores---------------------------------------
                 if variable == "clave_otorgante":
-                    if i < len(datos_encabezado["clave_otorgante"]) and len(str(valor)) > 10:
-                        valor = int(valor[:10])
-                    hoja.write(fila, 0, valor, ce.agregarEstiloNaranjaInfo(libro))
+                        if i < len(datos_encabezado["clave_otorgante"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:10]
+                            if valor:
+                                hoja.write(fila, 0, int(valor), ce.agregarEstiloNaranjaInfo(libro))
+                        else:
+                            hoja.write(fila, 0, '', ce.agregarEstiloNaranjaInfo(libro))
 
                 elif variable == "nombre_otorgante":
                     if i < len(datos_encabezado["nombre_otorgante"]) and len(valor) > 40:
@@ -84,7 +88,7 @@ class ControllerDocumento:
                 elif variable == "identificador_medio":
                     if i < len(datos_encabezado["identificador_medio"]) and len(valor) > 10:
                         valor = valor[:10]
-                    hoja.write(fila, 2, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 2, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "fecha_extraccion":
@@ -100,16 +104,15 @@ class ControllerDocumento:
                 elif variable == "nota_otorgante":
                     if i < len(datos_encabezado["nota_otorgante"]) and len(valor) > 100:
                         valor = valor[:100]
-                    hoja.write(fila, 4, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 4, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
-                if variable == "version":
-                    if i < len(datos_encabezado["version"]) and len(str(valor)) >= 1:
-                        valor_str = str(valor)
-                        primer_digito = valor_str[0]
-                        valor = int(primer_digito)
-                    else:
-                        valor = ''
-                    hoja.write(fila, 5, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                elif variable == "version":
+                        if i < len(datos_encabezado["version"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:1]
+                            if valor:
+                                hoja.write(fila, 5, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        else:
+                            hoja.write(fila, 5, '', ce.agregarEstiloAzulFuerteInfo(libro))
             fila += 1
         return hoja
 
@@ -159,7 +162,7 @@ class ControllerDocumento:
                 elif variable == "apellido_adicional_dp":
                     if i < len(datos_dp["apellido_adicional_dp"]) and len(valor) > 30:
                         valor = valor[:10]
-                    hoja.write(fila, 8, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 8, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "nombres_dp":
                     if i < len(datos_dp["nombres_dp"]) and len(valor) > 50:
@@ -185,12 +188,15 @@ class ControllerDocumento:
                 elif variable == "curp_dp":
                     if i < len(datos_dp["curp_dp"]) and len(valor) > 18:
                         valor = valor[:18]
-                    hoja.write(fila, 12, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 12, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "numero_seguridad_social_dp":
                     if i < len(datos_dp["numero_seguridad_social_dp"]) and len(str(valor)) > 0:
-                        valor = int(valor[:11])
-                    hoja.write(fila, 13, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                        valor = str(valor)[:11]
+                        if valor:
+                            hoja.write(fila, 13, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                    else:
+                        hoja.write(fila, 13, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "nacionalidad":
                     if i < len(datos_dp["nacionalidad"]) and len(valor) > 2:
@@ -198,34 +204,40 @@ class ControllerDocumento:
                     hoja.write(fila, 14, valor, ce.agregarEstiloAmarilloInfo(libro))
 
                 elif variable == "residencia":
-                    if i < len(datos_dp["residencia"]) and len(str(valor)) > 1:
-                        valor = int(valor[:1])
-                    hoja.write(fila, 15, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                        if i < len(datos_dp["residencia"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:1]
+                            if valor:
+                                hoja.write(fila, 15, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                        else:
+                            hoja.write(fila, 15, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "numero_licencia_conducir_dp":
                     if i < len(datos_dp["numero_licencia_conducir_dp"]) and len(valor) > 20:
                         valor = valor[:20]
-                    hoja.write(fila, 16, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 16, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "estado_civil_dp":
                     if i < len(datos_dp["estado_civil_dp"]) and len(valor) > 1:
                         valor = valor[:1]
-                    hoja.write(fila, 17, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 17, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "sexo_dp":
                     if i < len(datos_dp["sexo_dp"]) and len(valor) > 1:
                         valor = valor[:1]
-                    hoja.write(fila, 18, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 18, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "clave_elector_ife_dp":
                     if i < len(datos_dp["clave_elector_ife_dp"]) and len(valor) > 20:
                         valor = valor[:20]
-                    hoja.write(fila, 19, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 19, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "numero_dependientes_dp":
-                    if i < len(datos_dp["numero_dependientes_dp"]) and len(str(valor)) > 0:
-                        valor = int(valor[:2])
-                    hoja.write(fila, 20, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                        if i < len(datos_dp["numero_dependientes_dp"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:1]
+                            if valor:
+                                hoja.write(fila, 20, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                        else:
+                            hoja.write(fila, 20, '', ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "fecha_defuncion_dp":
@@ -235,18 +247,18 @@ class ControllerDocumento:
                     else:
                         valor = ''
                         fecha_defuncion_dp = ''
-                    hoja.write(fila, 21, fecha_defuncion_dp, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 21, fecha_defuncion_dp, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "indicador_defuncion_dp":
                     if i < len(datos_dp["indicador_defuncion_dp"]) and len(valor) > 1:
                         valor = valor[:1]
-                    hoja.write(fila, 22, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 22, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "tipo_person_dp":
                     if i < len(datos_dp["tipo_person_dp"]) and len(valor) > 2:
                         valor = valor[:1]
-                    hoja.write(fila, 23, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 23, valor, ce.agregarEstiloAzulClaroInfo(libro))
             fila += 1
 
         return hoja
@@ -307,14 +319,12 @@ class ControllerDocumento:
                     hoja.write(fila, 28, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "cp_dom":
-                    if i < len(datos_dom["cp_dom"]) and len(str(valor)) >= 5:
-                        valor = str(valor)[:5]
-                        if valor:
-                            hoja.write(fila, 29, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                        if i < len(datos_dom["cp_dom"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:5]
+                            if valor:
+                                hoja.write(fila, 29, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                         else:
-                            hoja.write(fila, 29, valor, ce.agregarEstiloAzulFuerteInfo(libro))
-                    else:
-                        hoja.write(fila, 29, '', ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 29, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "fecha_residencia_dom":
                     if i < len(datos_dom["fecha_residencia_dom"]) and len(str(valor)) > 0:
@@ -323,31 +333,34 @@ class ControllerDocumento:
                     else:
                         valor = ''
                         fecha_residencia_dom = ''
-                    hoja.write(fila, 30, fecha_residencia_dom, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 30, fecha_residencia_dom, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "telefono_dom":
-                    if i < len(datos_dom["telefono_dom"]) and len(str(valor)) >= 20:
-                        valor = int(valor[:20])
-                    hoja.write(fila, 31, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                        if i < len(datos_dom["telefono_dom"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:20]
+                            if valor:
+                                hoja.write(fila, 31, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                        else:
+                            hoja.write(fila, 31, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "tipo_dom":
                     if i < len(datos_dom["tipo_dom"]) and len(str(valor)) >= 1:
                         valor = valor[:1]
-                    hoja.write(fila, 32, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 32, valor, ce.agregarEstiloAzulClaroInfo(libro))
                 
                 elif variable == "tipo_asentamiento":
-                    if i < len(datos_dom["tipo_asentamiento"]) and len(str(valor)) > 0:
-                        valor = str(valor)[:5]
-                        if valor:
-                            hoja.write(fila, 33, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
-                    else:
-                        hoja.write(fila, 33, '', ce.agregarEstiloAzulCieloInfo(libro))
+                        if i < len(datos_dom["tipo_asentamiento"]) and len(str(valor)) > 0:
+                            valor = str(valor)[:2]
+                            if valor:
+                                hoja.write(fila, 33, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                        else:
+                            hoja.write(fila, 33, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "origen_dom":
                     if i < len(datos_dom["origen_dom"]) and len(str(valor)) >= 2:
                         valor = valor[:2]
-                    hoja.write(fila, 34, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 34, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
             fila += 1
         return hoja
@@ -421,27 +434,33 @@ class ControllerDocumento:
                         hoja.write(fila, 41, '', ce.agregarEstiloAmarilloInfo(libro))
 
                 elif variable == "num_telefono_emp":
-                    if i < len(datos_emp["num_telefono_emp"]) and len(str(valor)) > 20:
-                        valor = int(valor[:20])
-                    hoja.write(fila, 42, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    if i < len(datos_emp["num_telefono_emp"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:20]
+                        if valor:
+                            hoja.write(fila, 42, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                    else:
+                        hoja.write(fila, 42, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "extension_emp":
-                    if i < len(datos_emp["extension_emp"]) and len(str(valor)) > 8:
-                        valor = int(valor[:8])
-                    hoja.write(fila, 43, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    if i < len(datos_emp["extension_emp"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:8]
+                        if valor:
+                            hoja.write(fila, 43, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                    else:
+                        hoja.write(fila, 43, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "fax_emp":
-                    if i < len(datos_emp["fax_emp"]) and len(str(valor)) > 20:
-                        valor = int(valor[:20])
-                    hoja.write(fila, 44, valor, ce.agregarEstiloAzulCieloInfo(libro))
-
-
-
+                    if i < len(datos_emp["fax_emp"]) and len(str(valor)) > 0:
+                        valor = str(valor)[:20]
+                        if valor:
+                            hoja.write(fila, 44, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                    else:
+                        hoja.write(fila, 44, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "puesto_emp":
                     if i < len(datos_emp["puesto_emp"]) and len(str(valor)) > 30:
                         valor = valor[:30]
-                    hoja.write(fila, 45, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 45, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "fecha_contratacion_emp":
@@ -451,21 +470,21 @@ class ControllerDocumento:
                     else:
                         valor = ''
                         fecha_contratacion_emp = ''
-                    hoja.write(fila, 46, fecha_contratacion_emp, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 46, fecha_contratacion_emp, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "clave_moneda_emp":
                     if i < len(datos_emp["clave_moneda_emp"]) and len(str(valor)) == 2:
                         valor = valor[:2]
-                    hoja.write(fila, 47, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 47, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "salario_mensual_emp":
                     if i < len(datos_emp["salario_mensual_emp"]) and len(str(valor)) > 0:
-                        valor = str(valor)[:5]
+                        valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 48, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                            hoja.write(fila, 48, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
-                        hoja.write(fila, 48, '', ce.agregarEstiloAzulCieloInfo(libro))
+                        hoja.write(fila, 48, '', ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "fecha_ultimo_dia_emp":
@@ -475,7 +494,7 @@ class ControllerDocumento:
                     else:
                         valor = ''
                         fecha_ultimo_dia_emp = ''
-                    hoja.write(fila, 49, fecha_ultimo_dia_emp, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 49, fecha_ultimo_dia_emp, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "fecha_verificacion_emp":
@@ -485,13 +504,13 @@ class ControllerDocumento:
                     else:
                         valor = ''
                         fecha_verificacion_emp = ''
-                    hoja.write(fila, 50, fecha_verificacion_emp, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 50, fecha_verificacion_emp, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "origen_razon_social_emp":
                     if i < len(datos_emp["origen_razon_social_emp"]) and len(str(valor)) == 2:
                         valor = valor[:2]
-                    hoja.write(fila, 51, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 51, valor, ce.agregarEstiloAzulClaroInfo(libro))
             fila += 1
         return hoja
 
@@ -572,9 +591,9 @@ class ControllerDocumento:
                     if i < len(datos_dc["valor_activo_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 59, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                            hoja.write(fila, 59, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
-                        hoja.write(fila, 59, '', ce.agregarEstiloAzulCieloInfo(libro))
+                        hoja.write(fila, 59, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 if variable == "num_pagos_dc":
                     if i < len(datos_dc["num_pagos_dc"]) and len(str(valor)) > 0:
@@ -635,7 +654,7 @@ class ControllerDocumento:
                     else:
                         valor = ''
                         fecha_cierre_cuenta = ''
-                    hoja.write(fila, 66, fecha_cierre_cuenta, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 66, fecha_cierre_cuenta, ce.agregarEstiloAzulClaroInfo(libro))
 
 
                 elif variable == "fecha_corte_dc":
@@ -654,7 +673,7 @@ class ControllerDocumento:
                     # Dividir el texto en líneas de máximo 30 caracteres
                     lineas = textwrap.wrap(valor, width=30)
                     # Escribir las líneas en la misma celda con saltos de línea
-                    hoja.write(fila, 68, "\n".join(lineas), ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 68, "\n".join(lineas), ce.agregarEstiloAzulClaroInfo(libro))
 
                 if variable == "credito_maximo_dc":
                     if i < len(datos_dc["credito_maximo_dc"]) and len(str(valor)) > 0:
@@ -694,9 +713,9 @@ class ControllerDocumento:
                     if i < len(datos_dc["num_pagos_vencidos_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:4]
                         if valor:
-                            hoja.write(fila, 73, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                            hoja.write(fila, 73, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
-                        hoja.write(fila, 73, '', ce.agregarEstiloAzulCieloInfo(libro))
+                        hoja.write(fila, 73, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "pago_actual_dc":
                     if i < len(datos_dc["pago_actual_dc"]) and len(str(valor)) > 2:
@@ -706,45 +725,43 @@ class ControllerDocumento:
                 elif variable == "historico_pagos_dc":
                     if i < len(datos_dc["historico_pagos_dc"]) and len(str(valor)) > 168:
                         valor = valor[:168]
-                    # Dividir el texto en líneas de máximo 30 caracteres
                     lineas = textwrap.wrap(valor, width=30)
-                    # Escribir las líneas en la misma celda con saltos de línea
-                    hoja.write(fila, 75, "\n".join(lineas), ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 75, "\n".join(lineas), ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "clave_prevencion_dc":
                     if i < len(datos_dc["clave_prevencion_dc"]) and len(str(valor)) > 2:
                         valor = valor[:2]
-                    hoja.write(fila, 76, valor, ce.agregarEstiloAzulCieloInfo(libro))
+                    hoja.write(fila, 76, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 if variable == "total_pagos_rep_dc":
                     if i < len(datos_dc["total_pagos_rep_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:3]
                         if valor:
-                            hoja.write(fila, 77, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                            hoja.write(fila, 77, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
-                        hoja.write(fila, 77, '', ce.agregarEstiloAzulCieloInfo(libro))
+                        hoja.write(fila, 77, '', ce.agregarEstiloAzulClaroInfo(libro))
 
                 if variable == "clave_anterior_otor_dc":
                     if i < len(datos_dc["clave_anterior_otor_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:10]
                         if valor:
-                            hoja.write(fila, 78, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                            hoja.write(fila, 78, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
-                        hoja.write(fila, 78, '', ce.agregarEstiloAzulCieloInfo(libro))
+                        hoja.write(fila, 78, '', ce.agregarEstiloAzulClaroInfo(libro))
                 #----------------ALERTA DUDA-------------------------------------------
                 elif variable == "nombre_anterior_otor_dc":
                     if i < len(datos_dc["nombre_anterior_otor_dc"]) and len(str(valor)) > 25:
                         valor = valor[:25]
-                    hoja.write(fila, 79, valor, ce.agregarEstiloAzulCieloInfo(libro))  
+                    hoja.write(fila, 79, valor, ce.agregarEstiloAzulClaroInfo(libro))  
 
                 #----------------ALERTA DUDA-------------------------------------------
                 elif variable == "num_cuenta_anterior_dc":
                     if i < len(datos_dc["num_cuenta_anterior_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:10]
                         if valor:
-                            hoja.write(fila, 80, int(valor), ce.agregarEstiloAzulCieloInfo(libro))
+                            hoja.write(fila, 80, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
-                        hoja.write(fila, 80, '', ce.agregarEstiloAzulCieloInfo(libro)) 
+                        hoja.write(fila, 80, '', ce.agregarEstiloAzulClaroInfo(libro)) 
 
 
                 elif variable == "fecha_primer_incump_dc":
@@ -812,7 +829,7 @@ class ControllerDocumento:
 
                 elif variable == "plazo_meses_dc":
                     if i < len(datos_dc["plazo_meses_dc"]) and len(str(valor)) > 0:
-                        valor = str(valor)[:3]
+                        valor = str(valor)[:5]
                         if valor:
                             hoja.write(fila, 88, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
@@ -829,7 +846,7 @@ class ControllerDocumento:
                 elif variable == "correo_consumidor_dc":
                     if i < len(datos_dc["correo_consumidor_dc"]) and len(str(valor)) > 40:
                         valor = valor[:40]
-                    hoja.write(fila, 90, valor, ce.agregarEstiloAzulCieloInfo(libro)) 
+                    hoja.write(fila, 90, valor, ce.agregarEstiloAzulClaroInfo(libro)) 
 
             fila += 1
         return hoja
@@ -918,12 +935,7 @@ class ControllerDocumento:
                 elif variable == "domicilio_devolucion":
                     if i < len(datos_cc["domicilio_devolucion"]) and len(str(valor)) > 160:
                         valor = valor[:160]
-                    # Dividir el texto en líneas de máximo 30 caracteres
                     lineas = textwrap.wrap(valor, width=20)
-                    # Escribir las líneas en la misma celda con saltos de línea
                     hoja.write(fila, 98, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))    
-
             fila += 1
         return hoja
-
-    

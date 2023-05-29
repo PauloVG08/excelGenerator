@@ -22,7 +22,7 @@ datos_encabezado = {
     "nombre_otorgante": ['hola', 'si'],
     "identificador_medio": ['1qds'],
     "fecha_extraccion": ['28/04/200366'],
-    "nota_otorgante": [],
+    "nota_otorgante": ['Nota1'],
     "version": [13, 4]
 }
 
@@ -49,8 +49,8 @@ datos_dp = {
 
 datos_dom = {
     "direccion_dom": ['direccion1', 'direccion2'],
-    "colonia_poblacion_dom": [],
-    "deleg_muni_dom": [],
+    "colonia_poblacion_dom": ['colonia1'],
+    "deleg_muni_dom": ['deleg1'],
     "ciudad_dom": ['Leon', 'CDMX', 'Celaya'],
     "estado_dom": ['Guanajuanto', 'Edo Mex', 'Guanajuanto'],
     "cp_dom": [12341234444,4567],
