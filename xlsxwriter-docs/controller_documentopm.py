@@ -568,7 +568,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["saldo_inicial"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:20]
                                 if valor:
-                                    hoja.write(fila, 63, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                                    hoja.write(fila, 63, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                             else:
                                 hoja.write(fila, 63, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -597,7 +597,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["importe_pagos"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:20]
                                 if valor:
-                                    hoja.write(fila, 67, int(valor), ce.agregarEstiloVerdeInfo(libro))
+                                    hoja.write(fila, 67, float(valor), ce.agregarEstiloVerdeInfo(libro))
                             else:
                                 hoja.write(fila, 67, '', ce.agregarEstiloVerdeInfo(libro))
 
@@ -623,7 +623,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["pago_efectivo"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:20]
                                 if valor:
-                                    hoja.write(fila, 70, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                                    hoja.write(fila, 70, float(valor), ce.agregarEstiloAzulClaroInfo(libro))
                             else:
                                 hoja.write(fila, 70, '', ce.agregarEstiloAzulClaroInfo(libro))
 
@@ -640,7 +640,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["quita"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:20]
                                 if valor:
-                                    hoja.write(fila, 72, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                                    hoja.write(fila, 72, float(valor), ce.agregarEstiloAzulClaroInfo(libro))
                             else:
                                 hoja.write(fila, 72, '', ce.agregarEstiloAzulClaroInfo(libro))
 
@@ -648,7 +648,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["dacion"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:20]
                                 if valor:
-                                    hoja.write(fila, 73, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                                    hoja.write(fila, 73, float(valor), ce.agregarEstiloAzulClaroInfo(libro))
                             else:
                                 hoja.write(fila, 73, '', ce.agregarEstiloAzulClaroInfo(libro))
 
@@ -656,7 +656,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["quebranto_castigo"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:20]
                                 if valor:
-                                    hoja.write(fila, 74, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                                    hoja.write(fila, 74, float(valor), ce.agregarEstiloAzulClaroInfo(libro))
                             else:
                                 hoja.write(fila, 74, '', ce.agregarEstiloAzulClaroInfo(libro))
 
@@ -683,7 +683,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["saldo_insoluto"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:8]
                                 if valor:
-                                    hoja.write(fila, 78, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                                    hoja.write(fila, 78, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                             else:
                                 hoja.write(fila, 78, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -691,7 +691,7 @@ class ControllerDocumento:
                             if i < len(datos_credito["credito_maximo_utilizado"]) and len(str(valor)) > 0:
                                 valor = str(valor)[:20]
                                 if valor:
-                                    hoja.write(fila, 79, int(valor), ce.agregarEstiloVerdeInfo(libro))
+                                    hoja.write(fila, 79, float(valor), ce.agregarEstiloVerdeInfo(libro))
                             else:
                                 hoja.write(fila, 79, '', ce.agregarEstiloVerdeInfo(libro))
 
@@ -758,7 +758,7 @@ class ControllerDocumento:
                         if i < len(datos_detalle_credito["cantidad_detalle_credito"]) and len(str(valor)) > 0:
                             valor = str(valor)[:20]
                             if valor:
-                                hoja.write(fila, 84, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                                hoja.write(fila, 84, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                         else:
                             hoja.write(fila, 84, '', ce.agregarEstiloAzulFuerteInfo(libro))
                 

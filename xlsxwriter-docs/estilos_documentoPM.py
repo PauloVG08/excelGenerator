@@ -52,7 +52,7 @@ class ClaseEstilos:
     def agregarEncabezadoEncabezado(self, libro, hoja):
         merge_range = 'A1:H1'
 
-        formato = libro.add_format({'bg_color': "#FAEBD7", 'border': 1, 'align' : 'center', 'bold' : True})
+        formato = libro.add_format({'bg_color': "#EFBC87", 'border': 1, 'align' : 'center', 'bold' : True})
         formato.set_font_name('Arial')
         formato.set_font_size(14)
         hoja.merge_range(merge_range, 'ENCABEZADO', formato)

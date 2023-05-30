@@ -488,7 +488,7 @@ class ControllerDocumento:
                     if i < len(datos_emp["salario_mensual_emp"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 48, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                            hoja.write(fila, 48, float(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
                         hoja.write(fila, 48, '', ce.agregarEstiloAzulClaroInfo(libro))
 
@@ -594,15 +594,15 @@ class ControllerDocumento:
                         valor = valor[:2]
                     hoja.write(fila, 58, valor, ce.agregarEstiloAzulFuerteInfo(libro))
                 
-                if variable == "valor_activo_dc":
+                elif variable == "valor_activo_dc":
                     if i < len(datos_dc["valor_activo_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 59, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
+                            hoja.write(fila, 59, float(valor), ce.agregarEstiloAzulClaroInfo(libro))
                     else:
                         hoja.write(fila, 59, '', ce.agregarEstiloAzulClaroInfo(libro))
 
-                if variable == "num_pagos_dc":
+                elif variable == "num_pagos_dc":
                     if i < len(datos_dc["num_pagos_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:4]
                         if valor:
@@ -615,11 +615,11 @@ class ControllerDocumento:
                         valor = valor[:1]
                     hoja.write(fila, 61, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
-                if variable == "monto_pagar_dc":
+                elif variable == "monto_pagar_dc":
                     if i < len(datos_dc["monto_pagar_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 62, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 62, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 62, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -682,41 +682,39 @@ class ControllerDocumento:
                     # Escribir las líneas en la misma celda con saltos de línea
                     hoja.write(fila, 68, "\n".join(lineas), ce.agregarEstiloAzulClaroInfo(libro))
 
-                if variable == "credito_maximo_dc":
+                elif variable == "credito_maximo_dc":
                     if i < len(datos_dc["credito_maximo_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 69, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 69, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 69, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
-                if variable == "saldo_actual_dc":
-                    if i < len(datos_dc["saldo_actual_dc"]) and len(str(valor)) > 10:
+                elif variable == "saldo_actual_dc":
+                    if i < len(datos_dc["saldo_actual_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:10]
                         if valor:
-                            hoja.write(fila, 70, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        else:
-                            hoja.write(fila, 70, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 70, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 70, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
-                if variable == "limite_credito_dc":
+                elif variable == "limite_credito_dc":
                     if i < len(datos_dc["limite_credito_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 71, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 71, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 71, '', ce.agregarEstiloAzulFuerteInfo(libro))
                         
-                if variable == "saldo_vencido_dc":
+                elif variable == "saldo_vencido_dc":
                     if i < len(datos_dc["saldo_vencido_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 72, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 72, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 72, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
-                if variable == "num_pagos_vencidos_dc":
+                elif variable == "num_pagos_vencidos_dc":
                     if i < len(datos_dc["num_pagos_vencidos_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:4]
                         if valor:
@@ -740,7 +738,7 @@ class ControllerDocumento:
                         valor = valor[:2]
                     hoja.write(fila, 76, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
-                if variable == "total_pagos_rep_dc":
+                elif variable == "total_pagos_rep_dc":
                     if i < len(datos_dc["total_pagos_rep_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:3]
                         if valor:
@@ -748,7 +746,7 @@ class ControllerDocumento:
                     else:
                         hoja.write(fila, 77, '', ce.agregarEstiloAzulClaroInfo(libro))
 
-                if variable == "clave_anterior_otor_dc":
+                elif variable == "clave_anterior_otor_dc":
                     if i < len(datos_dc["clave_anterior_otor_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:10]
                         if valor:
@@ -785,9 +783,7 @@ class ControllerDocumento:
                     if i < len(datos_dc["saldo_insoluto_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:10]
                         if valor:
-                            hoja.write(fila, 82, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
-                        else:
-                            hoja.write(fila, 82, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 82, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 82, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
@@ -795,7 +791,7 @@ class ControllerDocumento:
                     if i < len(datos_dc["monto_ultimo_pago"]) and len(str(valor)) > 0:
                         valor = str(valor)[:10]
                         if valor:
-                            hoja.write(fila, 83, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                            hoja.write(fila, 83, float(valor), ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 83, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -814,7 +810,7 @@ class ControllerDocumento:
                     if i < len(datos_dc["monto_intereses_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:9]
                         if valor:
-                            hoja.write(fila, 85, int(valor), ce.agregarEstiloAmarilloInfo(libro))
+                            hoja.write(fila, 85, float(valor), ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 85, '', ce.agregarEstiloAmarilloInfo(libro))
 
@@ -846,7 +842,7 @@ class ControllerDocumento:
                     if i < len(datos_dc["monto_creditoOri_dc"]) and len(str(valor)) > 0:
                         valor = str(valor)[:10]
                         if valor:
-                            hoja.write(fila, 89, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                            hoja.write(fila, 89, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                     else:
                         hoja.write(fila, 89, '', ce.agregarEstiloAzulFuerteInfo(libro))
 

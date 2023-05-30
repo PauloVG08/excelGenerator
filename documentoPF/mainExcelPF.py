@@ -75,7 +75,7 @@ datos_emp = {
     "puesto_emp": ['Si', 'Guardia'],
     "fecha_contratacion_emp": ['25/12/2018', '11/06/2017'],
     "clave_moneda_emp": ["MX", "Brasil"],
-    "salario_mensual_emp": [12345, 1234567890],
+    "salario_mensual_emp": [12345.22, 123456.8],
     "fecha_ultimo_dia_emp": ['20/11/2005'],
     "fecha_verificacion_emp": ['20/11/2005'],
     "origen_razon_social_emp": ['dos', 'tres'],
@@ -92,17 +92,17 @@ datos_dc = {
     "valor_activo_dc": [123456789000, 1234],
     "num_pagos_dc": [12345, 123],
     "frecuencia_pagos_dc": ['ABC', "DEF"],
-    "monto_pagar_dc": [1234, 567, 8910],
+    "monto_pagar_dc": [1234.5, 567.66, 8910.55],
     "fecha_apertura_dc": ["05/11/2023"],
     "fecha_ultimo_pago_dc": ["18/03/2024"],
     "fecha_utlima_compra_dc": ["29/09/2022", "22/11/2022"],
     "fecha_cierre_cuenta_dc": ["07/08/2023", "03/07/2023"],
     "fecha_corte_dc": ["05/11/2023"],
     "garantia_dc": ["ABCDEFG12345kkkkkkkkkkkkkkkkkkkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaa"],
-    "credito_maximo_dc": [1234, 5678, 123456789000],
-    "saldo_actual_dc": [1234567890111],
-    "limite_credito_dc": [123456789000],
-    "saldo_vencido_dc": [123456789000],
+    "credito_maximo_dc": [1234.7, 5678.78, 123456789000],
+    "saldo_actual_dc": [1234567.4],
+    "limite_credito_dc": [12345.24],
+    "saldo_vencido_dc": [123456789000, 75.2],
     "num_pagos_vencidos_dc": [12345555, 98765444],
     "pago_actual_dc": ["ABC", "DEF"],
     "historico_pagos_dc": ["AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"],
@@ -112,14 +112,14 @@ datos_dc = {
     "nombre_anterior_otor_dc": ["nombre1", "nombre2", "nombre3"],
     "num_cuenta_anterior_dc": [1234567890111],
     "fecha_primer_incump_dc": ['27/04/2006'],
-    "saldo_insoluto_dc": [1234567890111, 123],
-    "monto_ultimo_pago": [123456789011, 12345],
+    "saldo_insoluto_dc": [1234567890111, 123.2],
+    "monto_ultimo_pago": [123456789011, 12345.7],
     "fecha_ingreso_carterav_dc": ['20/12/2009', '16/01/2025'],
-    "monto_intereses_dc": [123456789000],
+    "monto_intereses_dc": [12345.3],
     "forma_pago_ac_int_dc": [987],
     "dias_vencimiento_dc": [123, 456, 8],
-    "plazo_meses_dc": [12345666, ''],
-    "monto_creditoOri_dc": [12345678990111],
+    "plazo_meses_dc": [12345666],
+    "monto_creditoOri_dc": [1234567.7],
     "correo_consumidor_dc": ["correo@gmail.com"],
 }
 
@@ -146,7 +146,6 @@ cd.llenarCeldasEmpleo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc
 cd.llenarCeldasDC(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
 
 cd.llenarCeldasCifrasControl(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja)
-
 
 #Se le da un tamaño automático a cada celda con este método
 hoja.autofit()
