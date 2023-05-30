@@ -100,11 +100,13 @@ class ControllerDocumento:
                         fecha_extraccion = ''
                     hoja.write(fila, 3, fecha_extraccion, ce.agregarEstiloAzulFuerteInfo(libro))
 
-
                 elif variable == "nota_otorgante":
-                    if i < len(datos_encabezado["nota_otorgante"]) and len(valor) > 100:
+                    if i < len(datos_encabezado["nota_otorgante"]) and len(str(valor)) > 100:
                         valor = valor[:100]
-                    hoja.write(fila, 4, valor, ce.agregarEstiloAzulClaroInfo(libro))
+                    # Dividir el texto en líneas de máximo 20 caracteres
+                    lineas = textwrap.wrap(valor, width=20)
+                    # Escribir las líneas en la misma celda con saltos de línea
+                    hoja.write(fila, 4, "\n".join(lineas), ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "version":
                         if i < len(datos_encabezado["version"]) and len(str(valor)) > 0:
@@ -118,15 +120,11 @@ class ControllerDocumento:
 
     #-------------------------------Crear función del encabezado Datos Personales-------------------------------------
     def llenarCeldasDatosPersonales(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja):
-
         ce = ClaseEstilos()
 
-        # Recorrer los valores y escribir en las celdas correspondientes
-        fila = 2
         variables = ["apellido_paterno_dp", "apellido_materno_dp", "apellido_adicional_dp", "nombres_dp", "fecha_nacimiento_dp", "rfc_dp",
                      "curp_dp", "numero_seguridad_social_dp", "nacionalidad", "residencia", "numero_licencia_conducir_dp", "estado_civil_dp",
                      "sexo_dp", "clave_elector_ife_dp", "numero_dependientes_dp", "fecha_defuncion_dp", "indicador_defuncion_dp", "tipo_person_dp"]
-
 
         valorMaximo = self.obtenerValorMaximo(datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc)
         for variable, valores in datos_dp.items():
@@ -134,8 +132,8 @@ class ControllerDocumento:
             if cantidad_actual > valorMaximo:
                 valorMaximo = cantidad_actual
 
-
-        # Agregar el bucle externo para iterar sobre el rango de valorMaximo
+        # Recorrer los valores y escribir en las celdas correspondientes
+        fila = 2
         for i in range(valorMaximo): 
             for variable in variables:
                 try:
@@ -156,12 +154,12 @@ class ControllerDocumento:
 
                 elif variable == "apellido_materno_dp":
                     if i < len(datos_dp["apellido_materno_dp"]) and len(valor) > 30:
-                        valor = valor[:10]
+                        valor = valor[:30]
                     hoja.write(fila, 7, valor, ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "apellido_adicional_dp":
                     if i < len(datos_dp["apellido_adicional_dp"]) and len(valor) > 30:
-                        valor = valor[:10]
+                        valor = valor[:30]
                     hoja.write(fila, 8, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
                 elif variable == "nombres_dp":
@@ -233,7 +231,7 @@ class ControllerDocumento:
 
                 elif variable == "numero_dependientes_dp":
                         if i < len(datos_dp["numero_dependientes_dp"]) and len(str(valor)) > 0:
-                            valor = str(valor)[:1]
+                            valor = str(valor)[:2]
                             if valor:
                                 hoja.write(fila, 20, int(valor), ce.agregarEstiloAzulClaroInfo(libro))
                         else:
@@ -257,7 +255,7 @@ class ControllerDocumento:
 
                 elif variable == "tipo_person_dp":
                     if i < len(datos_dp["tipo_person_dp"]) and len(valor) > 2:
-                        valor = valor[:1]
+                        valor = valor[:2]
                     hoja.write(fila, 23, valor, ce.agregarEstiloAzulClaroInfo(libro))
             fila += 1
 
@@ -294,24 +292,28 @@ class ControllerDocumento:
                     valor = '' 
 
                 if variable == "direccion_dom":
-                    if i < len(datos_dom["direccion_dom"]) and len(str(valor)) >= 80:
+                    if i < len(datos_dom["direccion_dom"]) and len(str(valor)) > 80:
                         valor = valor[:80]
-                    hoja.write(fila, 24, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 24, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "colonia_poblacion_dom":
-                    if i < len(datos_dom["colonia_poblacion_dom"]) and len(str(valor)) >= 65:
+                    if i < len(datos_dom["colonia_poblacion_dom"]) and len(str(valor)) > 65:
                         valor = valor[:65]
-                    hoja.write(fila, 25, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 25, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "deleg_muni_dom":
-                    if i < len(datos_dom["deleg_muni_dom"]) and len(str(valor)) >= 65:
+                    if i < len(datos_dom["deleg_muni_dom"]) and len(str(valor)) > 65:
                         valor = valor[:65]
-                    hoja.write(fila, 26, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 26, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "ciudad_dom":
-                    if i < len(datos_dom["ciudad_dom"]) and len(str(valor)) >= 65:
+                    if i < len(datos_dom["ciudad_dom"]) and len(str(valor)) > 65:
                         valor = valor[:65]
-                    hoja.write(fila, 27, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 27, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "estado_dom":
                     if i < len(datos_dom["estado_dom"]) and len(str(valor)) >= 4:
@@ -394,31 +396,36 @@ class ControllerDocumento:
                 except IndexError:
                     valor = '' 
 
-
+                
                 if variable == "nombre_empresa_emp":
-                    if i < len(datos_emp["nombre_empresa_emp"]) and len(str(valor)) >= 40:
+                    if i < len(datos_emp["nombre_empresa_emp"]) and len(str(valor)) > 40:
                         valor = valor[:40]
-                    hoja.write(fila, 35, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 35, "\n".join(lineas), ce.agregarEstiloAmarilloInfo(libro))
 
                 elif variable == "direccion_emp":
-                    if i < len(datos_emp["direccion_emp"]) and len(str(valor)) >= 80:
+                    if i < len(datos_emp["direccion_emp"]) and len(str(valor)) > 80:
                         valor = valor[:80]
-                    hoja.write(fila, 36, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 36, "\n".join(lineas), ce.agregarEstiloAmarilloInfo(libro))
 
                 elif variable == "colonia_poblacional_emp":
-                    if i < len(datos_emp["colonia_poblacional_emp"]) and len(str(valor)) >= 65:
+                    if i < len(datos_emp["colonia_poblacional_emp"]) and len(str(valor)) > 65:
                         valor = valor[:65]
-                    hoja.write(fila, 37, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 37, "\n".join(lineas), ce.agregarEstiloAmarilloInfo(libro))
 
                 elif variable == "deleg_mun":
-                    if i < len(datos_emp["deleg_mun"]) and len(str(valor)) >= 65:
+                    if i < len(datos_emp["deleg_mun"]) and len(str(valor)) > 65:
                         valor = valor[:65]
-                    hoja.write(fila, 38, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 38, "\n".join(lineas), ce.agregarEstiloAmarilloInfo(libro))
 
-                elif variable == "ciudad_emp":
-                    if i < len(datos_emp["ciudad_emp"]) and len(str(valor)) >= 65:
+                if variable == "ciudad_emp":
+                    if i < len(datos_emp["ciudad_emp"]) and len(str(valor)) > 65:
                         valor = valor[:65]
-                    hoja.write(fila, 39, valor, ce.agregarEstiloAmarilloInfo(libro))
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 39, "\n".join(lineas), ce.agregarEstiloAmarilloInfo(libro))
 
                 elif variable == "estado_emp":
                     if i < len(datos_emp["estado_emp"]) and len(str(valor)) >= 4:
@@ -462,9 +469,8 @@ class ControllerDocumento:
                         valor = valor[:30]
                     hoja.write(fila, 45, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
-
                 elif variable == "fecha_contratacion_emp":
-                    if i < len(datos_emp["fecha_contratacion_emp"]) and len(str(valor)) > 1:
+                    if i < len(datos_emp["fecha_contratacion_emp"]) and len(str(valor)) > 0:
                         valor = str(datos_emp["fecha_contratacion_emp"][i])
                         fecha_contratacion_emp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
@@ -488,7 +494,7 @@ class ControllerDocumento:
 
 
                 elif variable == "fecha_ultimo_dia_emp":
-                    if i < len(datos_emp["fecha_ultimo_dia_emp"]) and len(str(valor)) > 1:
+                    if i < len(datos_emp["fecha_ultimo_dia_emp"]) and len(str(valor)) > 0:
                         valor = str(datos_emp["fecha_ultimo_dia_emp"][i])
                         fecha_ultimo_dia_emp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
@@ -498,7 +504,7 @@ class ControllerDocumento:
 
 
                 elif variable == "fecha_verificacion_emp":
-                    if i < len(datos_emp["fecha_verificacion_emp"]) and len(str(valor)) > 1:
+                    if i < len(datos_emp["fecha_verificacion_emp"]) and len(str(valor)) > 0:
                         valor = str(datos_emp["fecha_verificacion_emp"][i])
                         fecha_verificacion_emp = str(valor[:2] + valor[3:5] + valor[6:10])
                     else:
@@ -508,7 +514,7 @@ class ControllerDocumento:
 
 
                 elif variable == "origen_razon_social_emp":
-                    if i < len(datos_emp["origen_razon_social_emp"]) and len(str(valor)) == 2:
+                    if i < len(datos_emp["origen_razon_social_emp"]) and len(str(valor)) > 2:
                         valor = valor[:2]
                     hoja.write(fila, 51, valor, ce.agregarEstiloAzulClaroInfo(libro))
             fila += 1
@@ -556,12 +562,13 @@ class ControllerDocumento:
                             hoja.write(fila, 52, int(valor), ce.agregarEstiloAmarilloInfo(libro))
                     else:
                         hoja.write(fila, 52, '', ce.agregarEstiloAmarilloInfo(libro))
-                    
+                
                 elif variable == "nombre_otorgante_dc":
                     if i < len(datos_dc["nombre_otorgante_dc"]) and len(str(valor)) > 40:
                         valor = valor[:40]
-                    hoja.write(fila, 53, valor, ce.agregarEstiloAmarilloInfo(libro))
-                
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 53, "\n".join(lineas), ce.agregarEstiloAmarilloInfo(libro))
+
                 elif variable == "cuenta_actual_dc":
                     if i < len(datos_dc["cuenta_actual_dc"]) and len(str(valor)) > 25:
                         valor = valor[:25]
@@ -928,14 +935,18 @@ class ControllerDocumento:
                         hoja.write(fila, 96, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "nombre_otorgante_cc":
-                    if i < len(datos_cc["nombre_otorgante_cc"]) and len(str(valor)) > 40:
-                        valor = valor[:40]
-                    hoja.write(fila, 97, valor, ce.agregarEstiloAzulFuerteInfo(libro))
+                    if i < len(datos_cc["nombre_otorgante_cc"]) and len(str(valor)) > 160:
+                        valor = valor[:160]
+                    lineas = textwrap.wrap(valor, width=20)
+                    hoja.write(fila, 97, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "domicilio_devolucion":
                     if i < len(datos_cc["domicilio_devolucion"]) and len(str(valor)) > 160:
                         valor = valor[:160]
                     lineas = textwrap.wrap(valor, width=20)
-                    hoja.write(fila, 98, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))    
+                    hoja.write(fila, 98, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
+
+                hoja.write(fila, 99, " ", ce.agregarEstiloBlancoCelda(libro))
+                
             fila += 1
         return hoja

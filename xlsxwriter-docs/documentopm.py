@@ -24,7 +24,7 @@ datos_encabezado = {
     "nombre_otorgante": ['Nombre otorgante 1'],
     "institucion": ['Institucion 1'],
     "formato": ['A', 'BCD'],
-    "fecha": ['24/05/2023555'],
+    "fecha": ['05/05/2023555'],
     "periodo_reporta": ['10/04/2022555'],
     "version": [123, 879]
 }
@@ -32,7 +32,7 @@ datos_encabezado = {
 datos_empresa = {
     "rfc_empresa": ['wwwwwwwwwwwwjkl'],
     "curp_empresa": ['saddddddsssssdhssskkk'],
-    "compania_empresa": [],
+    "compania_empresa": ['compañia 1'],
     "nombre1_empresa": ['nombre 1'],
     "nombre2_empresa": ['nombre 2', 'nombre21', 'nombre22'],
     "apellido_paterno_empresa": ['eg34567890123456789012345yyyy'],
@@ -88,7 +88,7 @@ datos_credito = {
     "experiencias_crediticias": [1, 2, 3],
     "num_contrato": [1, 2],
     "num_contrato_anterior": [5],
-    "fecha_apertura": ['20/10/2012'],
+    "fecha_apertura": ['06/10/2012'],
     "plazo_meses": [67],
     "tipo_credito": [1],
     "saldo_inicial": [54000],

@@ -1,3 +1,4 @@
+import os
 import xlsxwriter
 from datetime import datetime
 
@@ -6,12 +7,36 @@ class ClaseEstilos:
     def crearLibro(self):
         #Fecha para nombrar cada archivo diferente y no sobre escriba datos, activar al final.
         fechaActual = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-        nombreArchivo = f"FormatoPM{fechaActual}.xlsx"
+        #nombreArchivo = f"FormatoPM{fechaActual}.xlsx"
 
         #Creamos el libro de excel y le añadimos una hoja
         libro = xlsxwriter.Workbook("FormatoPM.xlsx")
+        #libro = xlsxwriter.Workbook(nombreArchivo)
+        # ruta_descargas = os.path.join(os.path.expanduser("~"), "Downloads", "FormatoPM.xlsx")
+        #ruta_descargas = os.path.join(os.path.expanduser("~"), "Downloads", nombreArchivo)
+        #libro = xlsxwriter.Workbook(ruta_descargas)
+        #print(f"El archivo se ha guardado en: {ruta_descargas}")
         return libro
-    
+
+    # def crearLibro(self):
+    #     fechaActual = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    #     nombreArchivo = f"FormatoPM{fechaActual}.xlsx"
+
+    #     ruta_guardado = input("Ingrese la ubicación donde desea guardar el archivo: ")
+
+    #     if not os.path.exists(ruta_guardado):
+    #         print("La ubicación especificada no existe. El archivo se guardará en la ubicación predeterminada.")
+    #         ruta_guardado = os.path.join(os.path.expanduser("~"), "Downloads")
+
+    #     ruta_archivo = os.path.join(ruta_guardado, nombreArchivo)
+
+    #     libro = xlsxwriter.Workbook(ruta_archivo)
+
+    #     print(f"El archivo se ha guardado en: {ruta_archivo}")
+
+    #     return libro
+
+
     def crearHoja(self, libro):
         hoja = libro.add_worksheet("Formato PM")
         return hoja
@@ -20,7 +45,7 @@ class ClaseEstilos:
     #Se agrega un fondo blanco a todo el documento de excel
     def agregarEstiloFondo(self, libro, hoja):
         formatoBlanco = libro.add_format({'bg_color': '#FFFFFF'})
-        hoja.set_column(0, 105, None, formatoBlanco)
+        hoja.set_column(0, 120, None, formatoBlanco)
         hoja.set_row(0, None, formatoBlanco)
 
     #Estilo para generar el encabezado llamado ENCABEZADO del archivo

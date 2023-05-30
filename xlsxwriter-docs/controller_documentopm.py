@@ -121,7 +121,9 @@ class ControllerDocumento:
                 elif variable == "periodo_reporta":
                         if i < len(datos_encabezado["periodo_reporta"]) and len(str(valor)) > 0:
                             valor = str(datos_encabezado["periodo_reporta"][i])
-                            periodo_reporta = str(valor[:2] + valor[3:5] + valor[6:10])
+                            # periodo_reporta = str(valor[3:5] + valor[6:10])
+                            periodo_reporta = str(valor[3:10])
+                            #print(periodo_reporta)
                         else:
                             valor = ''
                             periodo_reporta = ''
@@ -540,7 +542,7 @@ class ControllerDocumento:
                 elif variable == "fecha_apertura":
                             if i < len(datos_credito["fecha_apertura"]) and len(str(valor)) > 0:
                                 valor = str(datos_credito["fecha_apertura"][i])
-                                fecha_apertura = str(valor[:2] + valor[3:5] + valor[6:10])
+                                fecha_apertura = int(valor[:2] + valor[3:5] + valor[6:10])
                             else:
                                 valor = ''
                                 fecha_apertura = ''
@@ -762,7 +764,7 @@ class ControllerDocumento:
                 
                 elif variable == "intereses_detalle_credito":
                         if i < len(datos_detalle_credito["intereses_detalle_credito"]) and len(str(valor)) > 0:
-                            valor = str(valor)[:25]
+                            valor = str(valor)[:20]
                             if valor:
                                 hoja.write(fila, 85, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                         else:

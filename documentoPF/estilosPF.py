@@ -1,3 +1,4 @@
+import os
 import xlsxwriter
 from datetime import datetime
 
@@ -6,11 +7,34 @@ class ClaseEstilos:
     def crearLibro(self):
         #Fecha para nombrar cada archivo diferente y no sobre escriba datos, activar al final.
         fechaActual = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
-        nombreArchivo = f"FormatoPF{fechaActual}.xlsx"
+        #nombreArchivo = f"FormatoPF{fechaActual}.xlsx"
 
         #Creamos el libro de excel y le añadimos una hoja
         libro = xlsxwriter.Workbook("FormatoPF.xlsx")
+        #libro = xlsxwriter.Workbook(nombreArchivo)
+        #ruta_descargas = os.path.join(os.path.expanduser("~"), "Downloads", "FormatoPM.xlsx")
+        #ruta_descargas = os.path.join(os.path.expanduser("~"), "Downloads", nombreArchivo)
+        #libro = xlsxwriter.Workbook(ruta_descargas)
+        #print(f"El archivo se ha guardado en: {ruta_descargas}")
         return libro
+    
+    # def crearLibro(self):
+    #     fechaActual = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    #     nombreArchivo = f"FormatoPF{fechaActual}.xlsx"
+
+    #     ruta_guardado = input("Ingrese la ubicación donde desea guardar el archivo: ")
+
+    #     if not os.path.exists(ruta_guardado):
+    #         print("La ubicación especificada no existe. El archivo se guardará en la ubicación predeterminada.")
+    #         ruta_guardado = os.path.join(os.path.expanduser("~"), "Downloads")
+
+    #     ruta_archivo = os.path.join(ruta_guardado, nombreArchivo)
+
+    #     libro = xlsxwriter.Workbook(ruta_archivo)
+
+    #     print(f"El archivo se ha guardado en: {ruta_archivo}")
+
+    #     return libro
     
     def crearHoja(self, libro):
         hoja = libro.add_worksheet("Formato PF")
@@ -132,6 +156,10 @@ class ClaseEstilos:
         formato.set_font_name('Arial')
         formato.set_font_size(10)
         return formato
+    
+    def agregarEstiloBlancoCelda(self, libro):
+        formato = libro.add_format({'bg_color': "#FFFFFF"})
+        return formato
 
     #Se añaden los subtitulos
     def agregarColumnasEncabezado(self, libro, hoja):
@@ -241,6 +269,8 @@ class ClaseEstilos:
         hoja.write(1, 85, "Monto correspondiente intereses", self.agregarEstiloAmarillo(libro))
         hoja.write(1, 86, "Forma pago actual intereses", self.agregarEstiloAmarillo(libro))
         hoja.write(1, 87, "Dias vencimiento", self.agregarEstiloAmarillo(libro))
+        #hoja.write(2, 99, " ", self.agregarEstiloBlancoCelda(libro))
+        
 
         return hoja
         
