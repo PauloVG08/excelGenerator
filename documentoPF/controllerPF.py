@@ -13,7 +13,7 @@ class ControllerDocumento:
 
         for valores in datos_encabezado.values():
             cantidad_actual = len(valores)
-            if cantidad_actual > maximo_datos_encabezado:
+            if cantidad_actual > maximo_datos_encabezado: 
                 maximo_datos_encabezado = cantidad_actual
 
         for valores in datos_dp.values():
@@ -480,7 +480,7 @@ class ControllerDocumento:
 
 
                 elif variable == "clave_moneda_emp":
-                    if i < len(datos_emp["clave_moneda_emp"]) and len(str(valor)) == 2:
+                    if i < len(datos_emp["clave_moneda_emp"]) and len(str(valor)) > 2:
                         valor = valor[:2]
                     hoja.write(fila, 47, valor, ce.agregarEstiloAzulClaroInfo(libro))
 
@@ -854,7 +854,7 @@ class ControllerDocumento:
             fila += 1
         return hoja
     
-    #-------------------------------Crear función del encabezado Empleo--------------------------------------------
+    #-------------------------------Crear función del encabezado Cifras de Control--------------------------------------------
     def llenarCeldasCifrasControl(self, datos_encabezado, datos_dp, datos_dom, datos_emp, datos_dc, datos_cc, libro, hoja):
         ce = ClaseEstilos()
         variables = ["total_saldos_act_cc", "total_saldos_venc_cc", "total_elementosNR_cc", "total_elementosDR_cc",
@@ -931,8 +931,8 @@ class ControllerDocumento:
                         hoja.write(fila, 96, '', ce.agregarEstiloAzulFuerteInfo(libro))
 
                 elif variable == "nombre_otorgante_cc":
-                    if i < len(datos_cc["nombre_otorgante_cc"]) and len(str(valor)) > 160:
-                        valor = valor[:160]
+                    if i < len(datos_cc["nombre_otorgante_cc"]) and len(str(valor)) > 40:
+                        valor = valor[:40]
                     lineas = textwrap.wrap(valor, width=20)
                     hoja.write(fila, 97, "\n".join(lineas), ce.agregarEstiloAzulFuerteInfo(libro))
 

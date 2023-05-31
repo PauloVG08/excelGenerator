@@ -16,7 +16,7 @@ ce.agregarEncabezadoDetalleCuenta(libro, hoja)
 ce.agregarEncabezadoCifrasControl(libro, hoja)
 ce.agregarColumnasEncabezado(libro, hoja)
 
-#----------------------------Recibiendo datos-------------------------------------------
+#----------------------------Recibiendo datos---------------------------------------------------------------------------
 datos_encabezado = {
     "clave_otorgante": [13,2,3, 4],
     "nombre_otorgante": ['hola', 'si'],

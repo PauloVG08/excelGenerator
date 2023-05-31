@@ -172,13 +172,13 @@ class ClaseEstilos:
         hoja.write(1, 4, "Nota otorgante", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 8, "Apellido adicional", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 12, "CURP", self.agregarEstiloAzulClaro(libro))
-        hoja.write(1, 13, "Numero Seguridad Social", self.agregarEstiloAzulClaro(libro))
+        hoja.write(1, 13, "Número Seguridad Social", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 15, "Residencia", self.agregarEstiloAzulClaro(libro))
-        hoja.write(1, 16, "Numero Licencia Conducir", self.agregarEstiloAzulClaro(libro))
+        hoja.write(1, 16, "Número Licencia Conducir", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 17, "Estado civil", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 18, "Sexo", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 19, "Clave Electoral IFE", self.agregarEstiloAzulClaro(libro))
-        hoja.write(1, 20, "Numero dependientes", self.agregarEstiloAzulClaro(libro))
+        hoja.write(1, 20, "Número dependientes", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 21, "Fecha de función", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 22, "Indicador de función", self.agregarEstiloAzulClaro(libro))
         hoja.write(1, 23, "Tipo persona", self.agregarEstiloAzulClaro(libro))
@@ -244,7 +244,7 @@ class ClaseEstilos:
         hoja.write(1, 91, "Total saldos actuales", self.agregarEstiloAzulFuerte(libro))
         hoja.write(1, 92, "Total saldos vencidos", self.agregarEstiloAzulFuerte(libro))
         hoja.write(1, 93, "Total elementos nombre reportados", self.agregarEstiloAzulFuerte(libro))
-        hoja.write(1, 94, "Total elementos direccion reportados", self.agregarEstiloAzulFuerte(libro))
+        hoja.write(1, 94, "Total elementos dirección reportados", self.agregarEstiloAzulFuerte(libro))
         hoja.write(1, 95, "Total elementos empleo reportados", self.agregarEstiloAzulFuerte(libro))
         hoja.write(1, 96, "Total elementos cuenta reportados", self.agregarEstiloAzulFuerte(libro))
         hoja.write(1, 97, "Nombre otorgante", self.agregarEstiloAzulFuerte(libro))
@@ -268,9 +268,7 @@ class ClaseEstilos:
         hoja.write(1, 84, "Fecha ingreso cartera vencida", self.agregarEstiloAmarillo(libro))
         hoja.write(1, 85, "Monto correspondiente intereses", self.agregarEstiloAmarillo(libro))
         hoja.write(1, 86, "Forma pago actual intereses", self.agregarEstiloAmarillo(libro))
-        hoja.write(1, 87, "Dias vencimiento", self.agregarEstiloAmarillo(libro))
-        #hoja.write(2, 99, " ", self.agregarEstiloBlancoCelda(libro))
-        
+        hoja.write(1, 87, "Días vencimiento", self.agregarEstiloAmarillo(libro))
 
         return hoja
         

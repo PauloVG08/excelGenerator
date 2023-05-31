@@ -748,7 +748,7 @@ class ControllerDocumento:
 
                 elif variable == "dias_vencidos_detalle_credito":
                         if i < len(datos_detalle_credito["dias_vencidos_detalle_credito"]) and len(str(valor)) > 0:
-                            valor = str(valor)[:2]
+                            valor = str(valor)[:3]
                             if valor:
                                 hoja.write(fila, 83, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                         else:
@@ -766,7 +766,7 @@ class ControllerDocumento:
                         if i < len(datos_detalle_credito["intereses_detalle_credito"]) and len(str(valor)) > 0:
                             valor = str(valor)[:20]
                             if valor:
-                                hoja.write(fila, 85, int(valor), ce.agregarEstiloAzulFuerteInfo(libro))
+                                hoja.write(fila, 85, float(valor), ce.agregarEstiloAzulFuerteInfo(libro))
                         else:
                             hoja.write(fila, 85, '', ce.agregarEstiloAzulFuerteInfo(libro))
             fila += 1
